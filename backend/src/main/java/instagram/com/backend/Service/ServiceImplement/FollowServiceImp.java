@@ -98,7 +98,7 @@ public class FollowServiceImp implements FollowService {
         throw new EntityNotFountException("the user not found");
     }
     private UserResponse mapUserToUserResponse(Users user) {
-        UserResponse userresResponse = new UserResponse(user.getId(), user.getUsername(), user.getUsername(), user.getRole(), user.getActive(), user.getIntroduction(), user.getFollowersCount(), user.getFollowingsCount(), user.getAvatarUrl());
+        UserResponse userresResponse = new UserResponse(user.getId(), user.getUsername(), user.getUsername(), user.getRole(), user.getActive(), user.getIntroduction(), user.getFollowersCount(), user.getFollowingsCount(), user.getAvatarUrl(), user.getPostCounts());
 
         return userresResponse;
 

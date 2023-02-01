@@ -68,6 +68,9 @@ public class Users {
     @Column(name = "followings_count")
     private long followingsCount = 0L;
 
+    @Column(name = "post_count")
+    private long postCounts = 0L;
+
     @JsonIgnore
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Post> posts = new ArrayList<>();
@@ -91,6 +94,25 @@ public class Users {
     @JsonIgnore
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PostNotification> postNotificationsReceiver = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<CommentNotification> commentNotificationsCreator = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<CommentNotification> commentNotificationsReceiver = new ArrayList<>();
+
+    
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Comment> comments = new ArrayList<>();
+
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<CommentLike> commentLikes = new ArrayList<>();
 
     public Users(String username, String email, String password, String avatarUrl, String introduction) {
         this.username = username;

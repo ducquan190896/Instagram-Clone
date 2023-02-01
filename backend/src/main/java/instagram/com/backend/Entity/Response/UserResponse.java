@@ -20,8 +20,10 @@ public class UserResponse {
     private Long followersCount;
     private Long followingsCount;
     private String avatarUrl;
+    private Long postCounts;
+
     public UserResponse(Long id, String username, String email, Role role, boolean active, String introduction,
-            Long followersCount, Long followingsCount) {
+            Long followersCount, Long followingsCount, Long postCounts) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -30,6 +32,7 @@ public class UserResponse {
         this.introduction = introduction;
         this.followersCount = followersCount;
         this.followingsCount = followingsCount;
+        this.postCounts = postCounts;
     }
 
     public boolean getActive() {

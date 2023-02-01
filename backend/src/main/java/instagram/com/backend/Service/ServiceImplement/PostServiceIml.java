@@ -108,6 +108,10 @@ public class PostServiceIml implements PostService {
         Optional<Post> entity = postRepos.findById(id);
         Post post = isCheckPost(entity);
         if(authUser.getRole().equals(Role.ADMIN) || authUser.getId() == post.getOwner().getId()) {
+            Users user = post.getOwner();
+            user.getPosts().remove(post);
+            user.setPostCounts(user.getPostCounts() - 1);
+            usersRepos.save(user);
             postRepos.delete(post);
         } else {
             throw new BadResultException("unauthorized to delete post");
@@ -119,6 +123,9 @@ public class PostServiceIml implements PostService {
         Users authUser = getAuthUser();
         Post post = new Post(postRequest.getContent(), postRequest.getImageUrls(), authUser);
         postRepos.save(post);
+        authUser.getPosts().add(post);
+        authUser.setPostCounts(authUser.getPostCounts() + 1);
+        usersRepos.save(authUser);
         return mapPostToResponse(post);
 
     }
@@ -129,7 +136,7 @@ public class PostServiceIml implements PostService {
     }
 
     private UserResponse mapUserToUserResponse(Users user) {
-        UserResponse userresResponse = new UserResponse(user.getId(), user.getUsername(), user.getUsername(), user.getRole(), user.getActive(), user.getIntroduction(), user.getFollowersCount(), user.getFollowingsCount(), user.getAvatarUrl());
+        UserResponse userresResponse = new UserResponse(user.getId(), user.getUsername(), user.getUsername(), user.getRole(), user.getActive(), user.getIntroduction(), user.getFollowersCount(), user.getFollowingsCount(), user.getAvatarUrl(), user.getPostCounts());
 
         return userresResponse;
 

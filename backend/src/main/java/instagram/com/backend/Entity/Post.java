@@ -63,7 +63,6 @@ public class Post {
 
     @Column(name = "post_like_count")
     private Long likeCount = 0L;
-
     
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -73,6 +72,22 @@ public class Post {
     @JsonIgnore
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PostLike> postLikes = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Comment> comments = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<CommentNotification> commentNotifications = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<PostNotification> postNotifications = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<CommentLike> commentLikes = new ArrayList<>();
 
     public Post( String content, List<String> imageUrls, Users owner) {
         this.content = content;
@@ -84,6 +99,7 @@ public class Post {
         this.owner = owner;
     }
 
+    
     
 
 }

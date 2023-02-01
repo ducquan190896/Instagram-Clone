@@ -52,6 +52,7 @@ public class SecurityConfig {
         .antMatchers(HttpMethod.POST, "/api/users/register").permitAll()
         .antMatchers(HttpMethod.GET, "/api/follow/**").permitAll()
         .antMatchers(HttpMethod.GET, "/api/posts/user/allPostOfActiveUser/**").permitAll()
+        .antMatchers(HttpMethod.GET, "/api/postlikes/getAllByPost/**").permitAll()
         .anyRequest().authenticated()
         .and()
         .addFilterBefore(filterException, filterAuthentication.getClass())

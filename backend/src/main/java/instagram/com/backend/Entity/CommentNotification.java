@@ -1,40 +1,44 @@
 package instagram.com.backend.Entity;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.JsonMappingException.Reference;
 
-import instagram.com.backend.Entity.Enum.PostNotificationType;
-import instagram.com.backend.Validation.IsFollow;
+import instagram.com.backend.Entity.Enum.CommentNotificationType;
 import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "post_notification")
-@Entity(name = "Post_notification")
-public class PostNotification {
+@Table(name = "comment_notification")
+@Entity(name = "Comment_notification")
+public class CommentNotification {
     @Id
     @SequenceGenerator(
-        name = "post_notification_sequence",
-        sequenceName = "post_notification_sequence",
+        name = "comment_notification_sequence",
+        sequenceName = "comment_notification_sequence",
         allocationSize = 1
     )
     @GeneratedValue(
         strategy = GenerationType.SEQUENCE,
-        generator = "post_notification_sequence"
+        generator = "comment_notification_sequence"
     )
     @Column(name = "id", updatable = false)
     private Long id;
 
-    
     @Enumerated(EnumType.STRING)
-    @Column(name = "type", nullable = false)
-    private PostNotificationType type;
+    @Column(name = "type")
+    private CommentNotificationType type;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(
@@ -57,18 +61,26 @@ public class PostNotification {
     )
     private Post post;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(
+        name = "parent_comment_id",
+        referencedColumnName = "id"
+    )
+    private Comment parentComment;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     @CreationTimestamp
     @Column(name = "date_created")
     private LocalDateTime dateCreated;
 
-    public PostNotification(PostNotificationType type, Users creator, Users receiver, Post post) {
+    public CommentNotification(CommentNotificationType type, Users creator, Users receiver, Post post,
+            Comment parentComment) {
         this.type = type;
         this.creator = creator;
         this.receiver = receiver;
         this.post = post;
+        this.parentComment = parentComment;
     }
 
-    
     
 }

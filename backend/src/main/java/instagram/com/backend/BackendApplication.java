@@ -32,10 +32,11 @@ public class BackendApplication {
 			Users admin = new Users("admin", "admin@gmail.com", new BCryptPasswordEncoder().encode("123456"), "admin manages the application", Role.ADMIN);
 			Users quan = new Users("quan", "quan@gmail.com",  new BCryptPasswordEncoder().encode("123456"), "quan manages the application", Role.USER);
 			Users quan2 = new Users("quan2", "quan2@gmail.com",  new BCryptPasswordEncoder().encode("123456"), "quan2 manages the application", Role.USER);
+			Users quan3 = new Users("quan3", "quan3@gmail.com",  new BCryptPasswordEncoder().encode("123456"), "quan2 manages the application", Role.USER);
 			usersRepos.save(admin);
 			usersRepos.save(quan);
 			usersRepos.save(quan2);
-
+			usersRepos.save(quan3);
 			// followService.followUser(quan, quan2);
 
 			Post post1 = new Post("hello instagram", quan);

@@ -72,11 +72,13 @@ public class FilterAuthentication extends UsernamePasswordAuthenticationFilter {
         response.setHeader("Authorization", SecurityConstant.authorization + token);
         Gson gson = new Gson();
         Users user = userserviceImp.getUserByUsername(username);
-        UserResponse userResponse = new UserResponse(user.getId(), user.getUsername(), user.getEmail(), user.getRole(), user.getActive(), user.getIntroduction(), user.getFollowersCount(), user.getFollowingsCount());
+
+        UserResponse userresResponse = new UserResponse(user.getId(), user.getUsername(), user.getUsername(), user.getRole(), user.getActive(), user.getIntroduction(), user.getFollowersCount(), user.getFollowingsCount(), user.getAvatarUrl(), user.getPostCounts());
+
         if(user.getAvatarUrl() != null) {
-            userResponse.setAvatarUrl(user.getAvatarUrl());
+            userresResponse.setAvatarUrl(user.getAvatarUrl());
         }
-        response.getWriter().write(gson.toJson(userResponse));
+        response.getWriter().write(gson.toJson(userresResponse));
         response.getWriter().flush();
         response.setStatus(HttpServletResponse.SC_OK);
     }
