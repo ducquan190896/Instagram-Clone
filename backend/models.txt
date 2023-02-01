@@ -1,0 +1,25 @@
+users
+post
+postlike
+postNotification
+comment
+textTag
+userTag
+follow
+followNotification
+commentNotification(for nested comment and commentlike)
+tagNotification
+commentlike
+storylike
+poll
+vote
+pollChoice
+choiceVoteCount
+imageEntity
+storyList
+story
+storyLike
+storyNotification
+chat
+chatparticipant
+message
