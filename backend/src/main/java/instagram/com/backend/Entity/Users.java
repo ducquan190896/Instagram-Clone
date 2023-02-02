@@ -103,7 +103,22 @@ public class Users {
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<CommentNotification> commentNotificationsReceiver = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<FollowNotification> followNotificationsCreator = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<FollowNotification> followNotificationsReceiver = new ArrayList<>();
     
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<StoryNotification> storyNotificationsCreator = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<StoryNotification> storyNotificationsReceiver = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -113,6 +128,14 @@ public class Users {
     @JsonIgnore
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<CommentLike> commentLikes = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Story> stories = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<StoryLike> storieLikes = new ArrayList<>();
 
     public Users(String username, String email, String password, String avatarUrl, String introduction) {
         this.username = username;

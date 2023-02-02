@@ -20,7 +20,8 @@ import instagram.com.backend.Service.CommentLikeService;
 public class CommentLikeController {
     @Autowired
     CommentLikeService commentLikeService;
-
+    
+    // can be accessed by anyone without authentication
     @GetMapping("/allByComment/{commentId}")
     public ResponseEntity<List<CommentLikeResponse>> getAllByComment(@PathVariable Long commentId) {
         return new ResponseEntity<List<CommentLikeResponse>>(commentLikeService.getCommentLikesByComment(commentId), HttpStatus.OK);

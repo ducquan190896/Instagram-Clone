@@ -34,11 +34,12 @@ public class CommentController {
         return new ResponseEntity<>(commentService.addCommentToParentComment(commentRequest), HttpStatus.CREATED);
     }
 
+    // can be accessed by anyone without authentication
     @GetMapping("/post/{postId}")
     public ResponseEntity<List<CommentResponse>> getCommentsByPost(@PathVariable Long postId) {
         return new ResponseEntity<List<CommentResponse>>(commentService.getCommentsByPost(postId), HttpStatus.OK);
     }
-    
+    // can be accessed by anyone without authentication
     @GetMapping("/parentComment/{parentCommentId}")
     public ResponseEntity<List<CommentResponse>> getCommentsByParentComment(@PathVariable Long parentCommentId) {
         return new ResponseEntity<List<CommentResponse>>(commentService.getCommentsByParentComment(parentCommentId), HttpStatus.OK);

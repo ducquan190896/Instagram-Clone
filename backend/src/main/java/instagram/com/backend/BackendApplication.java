@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import instagram.com.backend.Entity.Post;
 import instagram.com.backend.Entity.PostLike;
 import instagram.com.backend.Entity.PostNotification;
+import instagram.com.backend.Entity.Tag;
 import instagram.com.backend.Entity.Users;
 import instagram.com.backend.Entity.Enum.PostNotificationType;
 import instagram.com.backend.Entity.Enum.Role;
@@ -16,6 +17,7 @@ import instagram.com.backend.Repository.FollowRepos;
 import instagram.com.backend.Repository.PostLikeRepos;
 import instagram.com.backend.Repository.PostNotificationRepos;
 import instagram.com.backend.Repository.PostRepos;
+import instagram.com.backend.Repository.TagRepos;
 import instagram.com.backend.Repository.UsersRepos;
 import instagram.com.backend.Service.FollowService;
 
@@ -27,7 +29,7 @@ public class BackendApplication {
 	}
 
 	@Bean
-	CommandLineRunner commandLineRunner(UsersRepos usersRepos, FollowRepos followRepos, FollowService followService, PostRepos postRepos, PostLikeRepos postLikeRepos, PostNotificationRepos postNotificationRepos) {
+	CommandLineRunner commandLineRunner(UsersRepos usersRepos, FollowRepos followRepos, FollowService followService, PostRepos postRepos, PostLikeRepos postLikeRepos, PostNotificationRepos postNotificationRepos, TagRepos tagRepos) {
 		return args -> {
 			Users admin = new Users("admin", "admin@gmail.com", new BCryptPasswordEncoder().encode("123456"), "admin manages the application", Role.ADMIN);
 			Users quan = new Users("quan", "quan@gmail.com",  new BCryptPasswordEncoder().encode("123456"), "quan manages the application", Role.USER);
@@ -39,8 +41,23 @@ public class BackendApplication {
 			usersRepos.save(quan3);
 			// followService.followUser(quan, quan2);
 
+			Tag tag1 = new Tag("helsinki");
+			tagRepos.save(tag1);
+
 			Post post1 = new Post("hello instagram", quan);
 			postRepos.save(post1);
+
+			Post post2 = new Post("hello instagram 2", quan2);
+			tag1.addTagToPost(post2);
+			
+			postRepos.save(post2);
+			tagRepos.save(tag1);
+
+			Post post3 = new Post("hello instagram 2", quan3);
+			postRepos.save(post3);
+
+			quan3.setActive(false);
+			usersRepos.save(quan3);
 			
 			// PostLike like1 = new PostLike(quan2, post1);
 			// postLikeRepos.save(like1);

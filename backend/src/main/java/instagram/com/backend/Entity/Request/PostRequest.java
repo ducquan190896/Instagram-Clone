@@ -14,5 +14,12 @@ import lombok.Setter;
 public class PostRequest {
     private String content;
     private List<String> imageUrls;
+    private List<String> tags;
+    
+    public PostRequest(String content, List<String> imageUrls) {
+        this.content = content;
+        this.imageUrls = imageUrls;
+    }
 
+    
 }

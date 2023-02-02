@@ -42,6 +42,15 @@ public class PostController {
         return new ResponseEntity<List<PostResponse>>(postService.getPostByActiveOwner(activeOwnerId), HttpStatus.OK);
     }
 
+    @GetMapping("/user/allPostBySearchContent/{content}")
+    public ResponseEntity<List<PostResponse>> getPostsByContentSearch(@PathVariable String content) {
+        return new ResponseEntity<List<PostResponse>>(postService.getPostsBySearchContent(content), HttpStatus.OK);
+    }
+    @GetMapping("/user/allPostBytag/{tag}")
+    public ResponseEntity<List<PostResponse>> getPostsByTag(@PathVariable String tag) {
+        return new ResponseEntity<List<PostResponse>>(postService.getPostsByTag(tag), HttpStatus.OK);
+    }
+
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin/allPostOfUser/{ownerId}")
     public ResponseEntity<List<PostResponse>> getPostByOwnerForAdminAccess(@PathVariable Long ownerId) {

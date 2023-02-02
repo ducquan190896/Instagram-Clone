@@ -26,6 +26,7 @@ public class PostResponse {
     private Long commentCount;
     private Long likeCount;
     private UserResponse userResponse;
+    private List<String> tags;
 
     public PostResponse(Long id, String content, LocalDateTime dateCreated, LocalDateTime dateUpdated,
             Long commentCount, Long likeCount, UserResponse userResponse) {
@@ -37,5 +38,18 @@ public class PostResponse {
         this.likeCount = likeCount;
         this.userResponse = userResponse;
     }
+
+    public PostResponse(Long id, String content, List<String> imageUrls, LocalDateTime dateCreated,
+            LocalDateTime dateUpdated, Long commentCount, Long likeCount, UserResponse userResponse) {
+        this.id = id;
+        this.content = content;
+        this.imageUrls = imageUrls;
+        this.dateCreated = dateCreated;
+        this.dateUpdated = dateUpdated;
+        this.commentCount = commentCount;
+        this.likeCount = likeCount;
+        this.userResponse = userResponse;
+    }
+    
 
 }

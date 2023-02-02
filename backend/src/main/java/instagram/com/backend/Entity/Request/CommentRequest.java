@@ -11,12 +11,12 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CommentRequest {
     private String content;
-    private Long PostId;
+    private Long postId;
     private Long parentCommentId;
     
     public CommentRequest(String content, Long postId) {
         this.content = content;
-        PostId = postId;
+        this.postId = postId;
     }
     
 }

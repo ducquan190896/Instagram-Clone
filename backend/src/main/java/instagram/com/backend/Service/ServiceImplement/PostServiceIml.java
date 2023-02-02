@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import instagram.com.backend.Entity.Follow;
 import instagram.com.backend.Entity.Post;
+import instagram.com.backend.Entity.Tag;
 import instagram.com.backend.Entity.Users;
 import instagram.com.backend.Entity.Enum.Role;
 import instagram.com.backend.Entity.Request.PostRequest;
@@ -22,6 +23,7 @@ import instagram.com.backend.Exception.BadResultException;
 import instagram.com.backend.Exception.EntityNotFountException;
 import instagram.com.backend.Repository.FollowRepos;
 import instagram.com.backend.Repository.PostRepos;
+import instagram.com.backend.Repository.TagRepos;
 import instagram.com.backend.Repository.UsersRepos;
 import instagram.com.backend.Service.PostService;
 
@@ -33,6 +35,9 @@ public class PostServiceIml implements PostService {
     UsersRepos usersRepos;
     @Autowired
     FollowRepos followRepos;
+    @Autowired
+    TagRepos tagRepos;
+
     @Override
     public List<PostResponse> getAllPost() {
         List<Post> posts = postRepos.findAll();
@@ -72,7 +77,35 @@ public class PostServiceIml implements PostService {
        return responses; 
 
     }
+
+ //fix it   
+
+    @Override
+    public List<PostResponse> getPostsByTag(String tagName) {
+        Optional<Tag> entity = tagRepos.findByContent(tagName);
+        if(!entity.isPresent()) {
+            throw new EntityNotFoundException("the tag not found");
+        }
+        Tag tag = entity.get();
+        List<Post> posts = postRepos.findByTags(tagName);
+        
+        List<PostResponse> responses = posts.stream().map(pos -> mapPostToResponse(pos)).collect(Collectors.toList());
+        responses.sort((a, b) -> a.getDateUpdated().compareTo(b.getDateUpdated()));
+        return responses;
+    }
+
     
+
+
+    @Override
+    public List<PostResponse> getPostsBySearchContent(String content) {
+        List<Post> posts = postRepos.findByContentContainingAndActiveUser(content, true);
+        
+        List<PostResponse> responses = posts.stream().map(pos -> mapPostToResponse(pos)).collect(Collectors.toList());
+        responses.sort((a, b) -> a.getDateUpdated().compareTo(b.getDateUpdated()));
+        return responses;
+    }
+
 
     @Override
     public List<PostResponse> getPostByOwnerForAdminAccess(Long activeOwnerId) {
@@ -111,8 +144,17 @@ public class PostServiceIml implements PostService {
             Users user = post.getOwner();
             user.getPosts().remove(post);
             user.setPostCounts(user.getPostCounts() - 1);
-            usersRepos.save(user);
+           
+
+            if(post.getTags() != null && post.getTags().size() > 0) {
+                post.getTags().stream().forEach(tag -> {
+                    tag.removeTagFromPost(post);
+                    tagRepos.save(tag);
+                });
+            }
+
             postRepos.delete(post);
+            usersRepos.save(user);
         } else {
             throw new BadResultException("unauthorized to delete post");
         }
@@ -123,6 +165,13 @@ public class PostServiceIml implements PostService {
         Users authUser = getAuthUser();
         Post post = new Post(postRequest.getContent(), postRequest.getImageUrls(), authUser);
         postRepos.save(post);
+        if(postRequest.getTags() != null && postRequest.getTags().size() > 0) {
+            // List<Tag> tags = mapRequestToTag(postRequest.getTags(), post);
+             mapRequestToTag(postRequest.getTags(), post);
+            
+        }
+        
+        postRepos.save(post);
         authUser.getPosts().add(post);
         authUser.setPostCounts(authUser.getPostCounts() + 1);
         usersRepos.save(authUser);
@@ -131,6 +180,10 @@ public class PostServiceIml implements PostService {
     }
     private PostResponse mapPostToResponse(Post post) {
         PostResponse postResponse = new PostResponse(post.getId(), post.getContent(), post.getImageUrls(), post.getDateCreated(), post.getDateUpdated(), post.getCommentCount(), post.getLikeCount(), mapUserToUserResponse(post.getOwner()));
+        if(post.getTags() != null && post.getTags().size() > 0) {
+            List<String> tagResponses = post.getTags().stream().map(tag -> tag.getContent()).collect(Collectors.toList());
+            postResponse.setTags(tagResponses);
+        }
         return postResponse;
         
     }
@@ -161,4 +214,27 @@ public class PostServiceIml implements PostService {
         }
         throw new EntityNotFoundException("the post not found");
     }
+    private void mapRequestToTag(List<String> tagRequests, Post post) {
+        // List<Tag> tags = new ArrayList<>();
+        tagRequests.stream().forEach(request -> {
+            Optional<Tag> entity = tagRepos.findByContent(request);
+            if(entity.isPresent()) {
+              Tag tag = entity.get();         
+              tag.addTagToPost(post);
+            //   tags.add(tag);
+              tagRepos.save(tag);
+
+            } else {
+                Tag tag = new Tag(request);                
+                tag.addTagToPost(post);
+                // tags.add(tag);
+                tagRepos.save(tag);
+
+            }
+            
+        });
+        // return tags;
+    }
+
+    
 }

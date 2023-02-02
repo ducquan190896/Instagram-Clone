@@ -89,6 +89,9 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<CommentLike> commentLikes = new ArrayList<>();
 
+    @ManyToMany(mappedBy = "posts", fetch = FetchType.LAZY)
+    private List<Tag> tags = new ArrayList<>();
+
     public Post( String content, List<String> imageUrls, Users owner) {
         this.content = content;
         this.imageUrls = imageUrls;

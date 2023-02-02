@@ -77,14 +77,20 @@ public class PostNotificationServiceIml implements PostNotificationService {
     }
 
 
-    private PostResponse mapPostToResponse(Post post) {
-        PostResponse postResponse = new PostResponse(post.getId(), post.getContent(), post.getImageUrls(), post.getDateCreated(), post.getDateUpdated(), post.getCommentCount(), post.getLikeCount(), mapUserToUserResponse(post.getOwner()));
-        return postResponse;
-        
-    }
+  
 
     private PostNotificationResponse mapPostNotificationToResponse(PostNotification postNotification) {
         PostNotificationResponse response = new PostNotificationResponse(postNotification.getId(), postNotification.getType(), mapUserToUserResponse(postNotification.getCreator()), mapUserToUserResponse(postNotification.getReceiver()), mapPostToResponse(postNotification.getPost()), postNotification.getDateCreated());
         return response;
+    }
+
+    private PostResponse mapPostToResponse(Post post) {
+        PostResponse postResponse = new PostResponse(post.getId(), post.getContent(), post.getImageUrls(), post.getDateCreated(), post.getDateUpdated(), post.getCommentCount(), post.getLikeCount(), mapUserToUserResponse(post.getOwner()));
+        if(post.getTags() != null && post.getTags().size() > 0) {
+            List<String> tagResponses = post.getTags().stream().map(tag -> tag.getContent()).collect(Collectors.toList());
+            postResponse.setTags(tagResponses);
+        }
+        return postResponse;
+        
     }
 }
