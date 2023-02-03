@@ -13,6 +13,7 @@ import instagram.com.backend.Entity.FollowNotification;
 import instagram.com.backend.Entity.Users;
 import instagram.com.backend.Entity.Response.FollowResponse;
 import instagram.com.backend.Entity.Response.UserResponse;
+import instagram.com.backend.Exception.BadResultException;
 import instagram.com.backend.Exception.EntityNotFountException;
 import instagram.com.backend.Repository.FollowNotificationRepos;
 import instagram.com.backend.Repository.FollowRepos;
@@ -35,6 +36,9 @@ public class FollowServiceImp implements FollowService {
         Users follower = isCheckUser(entity);
         //authUser is notification creator
         Users authUser = getAuthUser();
+        if(authUser.getId() == follower.getId()) {
+            throw new BadResultException("the follwer and authUser are the same, cannot follow");
+        }
        Follow follow = new Follow(follower, authUser);
        followRepos.save(follow);
        authUser.getFollowings().add(follow);

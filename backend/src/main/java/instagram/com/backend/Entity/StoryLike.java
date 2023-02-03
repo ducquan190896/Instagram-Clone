@@ -18,7 +18,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "story_like")
+@Table(name = "story_like", uniqueConstraints = {@UniqueConstraint(columnNames = {"owner_id", "story_id"})})
 @Entity(name = "Story_like")
 public class StoryLike {
     @Id

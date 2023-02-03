@@ -58,6 +58,8 @@ public class SecurityConfig {
         .antMatchers(HttpMethod.GET, "/api/comments/**").permitAll()
         .antMatchers(HttpMethod.GET, "/api/commentLike/**").permitAll()
         .antMatchers(HttpMethod.GET, "/api/tags/**").permitAll()
+        .antMatchers(HttpMethod.GET, "/api/stories/public/**").permitAll()
+        .antMatchers(HttpMethod.GET, "/api/storyLikes/**").permitAll()
         .anyRequest().authenticated()
         .and()
         .addFilterBefore(filterException, filterAuthentication.getClass())

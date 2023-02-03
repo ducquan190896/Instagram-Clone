@@ -1,5 +1,8 @@
 package instagram.com.backend;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import instagram.com.backend.Entity.Post;
 import instagram.com.backend.Entity.PostLike;
 import instagram.com.backend.Entity.PostNotification;
+import instagram.com.backend.Entity.Story;
 import instagram.com.backend.Entity.Tag;
 import instagram.com.backend.Entity.Users;
 import instagram.com.backend.Entity.Enum.PostNotificationType;
@@ -17,6 +21,7 @@ import instagram.com.backend.Repository.FollowRepos;
 import instagram.com.backend.Repository.PostLikeRepos;
 import instagram.com.backend.Repository.PostNotificationRepos;
 import instagram.com.backend.Repository.PostRepos;
+import instagram.com.backend.Repository.StoryRepos;
 import instagram.com.backend.Repository.TagRepos;
 import instagram.com.backend.Repository.UsersRepos;
 import instagram.com.backend.Service.FollowService;
@@ -29,7 +34,7 @@ public class BackendApplication {
 	}
 
 	@Bean
-	CommandLineRunner commandLineRunner(UsersRepos usersRepos, FollowRepos followRepos, FollowService followService, PostRepos postRepos, PostLikeRepos postLikeRepos, PostNotificationRepos postNotificationRepos, TagRepos tagRepos) {
+	CommandLineRunner commandLineRunner(UsersRepos usersRepos, FollowRepos followRepos, FollowService followService, PostRepos postRepos, PostLikeRepos postLikeRepos, PostNotificationRepos postNotificationRepos, TagRepos tagRepos, StoryRepos storyRepost) {
 		return args -> {
 			Users admin = new Users("admin", "admin@gmail.com", new BCryptPasswordEncoder().encode("123456"), "admin manages the application", Role.ADMIN);
 			Users quan = new Users("quan", "quan@gmail.com",  new BCryptPasswordEncoder().encode("123456"), "quan manages the application", Role.USER);
@@ -58,7 +63,16 @@ public class BackendApplication {
 
 			quan3.setActive(false);
 			usersRepos.save(quan3);
+
+			List<String> listImages = Arrays.asList("lkajsdf.png", "dlkajfdlklkjlk.png" );
+			List<String> listImages2 = Arrays.asList("lkajsdfasdf.png", "dlkajfdlklkjlfsadffffffk.png" );
+
+			Story story1 = new Story(listImages, quan);
+			storyRepost.save(story1);
 			
+			Story story2 = new Story(listImages2, quan);
+			storyRepost.save(story2);
+
 			// PostLike like1 = new PostLike(quan2, post1);
 			// postLikeRepos.save(like1);
 			// quan2.getPostLikes().add(like1);

@@ -34,15 +34,14 @@ public class Story {
     @Column(name = "id", updatable = false)
     private Long id;
 
+    @Column(name = "like_count")
+    private Long likeCount = 0L;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM--dd HH:mm")
     @CreationTimestamp
     @Column(name = "date_created")
     private LocalDateTime dateCreated;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
-    @UpdateTimestamp
-    @Column(name = "date_updated")
-    private LocalDateTime dateUpdated;
 
 
     @ElementCollection(targetClass = String.class)
