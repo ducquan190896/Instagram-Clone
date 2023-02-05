@@ -10,17 +10,17 @@
 //Tag
 
 
-poll
-vote
-pollChoice
-choiceVoteCount
+//poll
+//vote
+//pollChoice
+//choiceVoteCount
 
 imageEntity
 
 
-story
-storyLike
-storyNotification
+//story
+//storyLike
+//storyNotification
 
 chat
 chatparticipant

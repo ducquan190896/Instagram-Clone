@@ -24,7 +24,10 @@ public interface PostService {
     // for authenticated user
     List<PostResponse> getPostByAuthUser();
     PostResponse getPostById(Long id);
+    //with images
     PostResponse savePost(PostRequest postreRequest);
+    //with poll
+    PostResponse savePostWithPoll(PostRequest postRequest);
     @Transactional
     void deletePost(Long id);
     

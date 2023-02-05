@@ -27,6 +27,7 @@ public class PostResponse {
     private Long likeCount;
     private UserResponse userResponse;
     private List<String> tags;
+    private PollResponse poll;
 
     public PostResponse(Long id, String content, LocalDateTime dateCreated, LocalDateTime dateUpdated,
             Long commentCount, Long likeCount, UserResponse userResponse) {
@@ -49,6 +50,31 @@ public class PostResponse {
         this.commentCount = commentCount;
         this.likeCount = likeCount;
         this.userResponse = userResponse;
+    }
+
+    public PostResponse(Long id, String content, LocalDateTime dateCreated, LocalDateTime dateUpdated,
+            Long commentCount, Long likeCount, UserResponse userResponse, List<String> tags, PollResponse poll) {
+        this.id = id;
+        this.content = content;
+        this.dateCreated = dateCreated;
+        this.dateUpdated = dateUpdated;
+        this.commentCount = commentCount;
+        this.likeCount = likeCount;
+        this.userResponse = userResponse;
+        this.tags = tags;
+        this.poll = poll;
+    }
+
+    public PostResponse(Long id, String content, LocalDateTime dateCreated, LocalDateTime dateUpdated,
+            Long commentCount, Long likeCount, UserResponse userResponse, PollResponse poll) {
+        this.id = id;
+        this.content = content;
+        this.dateCreated = dateCreated;
+        this.dateUpdated = dateUpdated;
+        this.commentCount = commentCount;
+        this.likeCount = likeCount;
+        this.userResponse = userResponse;
+        this.poll = poll;
     }
     
 

@@ -10,11 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import instagram.com.backend.Entity.Choice;
+import instagram.com.backend.Entity.Poll;
 import instagram.com.backend.Entity.Post;
 import instagram.com.backend.Entity.PostLike;
 import instagram.com.backend.Entity.PostNotification;
 import instagram.com.backend.Entity.Users;
 import instagram.com.backend.Entity.Enum.PostNotificationType;
+import instagram.com.backend.Entity.Response.ChoiceResponse;
+import instagram.com.backend.Entity.Response.PollResponse;
 import instagram.com.backend.Entity.Response.PostLikeResponse;
 import instagram.com.backend.Entity.Response.PostResponse;
 import instagram.com.backend.Entity.Response.UserResponse;
@@ -129,12 +133,29 @@ public class PostLikeServiceIml implements PostLikeService {
 
 
     private PostResponse mapPostToResponse(Post post) {
-        PostResponse postResponse = new PostResponse(post.getId(), post.getContent(), post.getImageUrls(), post.getDateCreated(), post.getDateUpdated(), post.getCommentCount(), post.getLikeCount(), mapUserToUserResponse(post.getOwner()));
+        PostResponse postResponse = new PostResponse(post.getId(), post.getContent(), post.getDateCreated(), post.getDateUpdated(), post.getCommentCount(), post.getLikeCount(), mapUserToUserResponse(post.getOwner()));
+        if( post.getImageUrls() != null && post.getImageUrls().size() > 0) {
+            postResponse.getImageUrls().addAll(post.getImageUrls());
+        }
+
         if(post.getTags() != null && post.getTags().size() > 0) {
             List<String> tagResponses = post.getTags().stream().map(tag -> tag.getContent()).collect(Collectors.toList());
             postResponse.setTags(tagResponses);
         }
+
+        if(post.getPoll() != null) {
+            Poll poll = post.getPoll();
+            PollResponse pollResponse = new PollResponse(poll.getId(), poll.getQuestion(), poll.getExpireDays(), poll.getPost().getId());
+            List<ChoiceResponse> choiceResponses = poll.getChoices().stream().map(choice -> mapChoiceToResponse(choice)).collect(Collectors.toList());
+            pollResponse.setChoices(choiceResponses);
+            postResponse.setPoll(pollResponse);
+        }
         return postResponse;
         
+    }
+
+    private ChoiceResponse mapChoiceToResponse(Choice choice) {
+        ChoiceResponse response = new ChoiceResponse(choice.getId(), choice.getAnswer(), choice.getVoteCount(), choice.getPoll().getId());
+        return response;
     }
 }

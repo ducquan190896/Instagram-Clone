@@ -11,12 +11,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import instagram.com.backend.Entity.Choice;
 import instagram.com.backend.Entity.Follow;
+import instagram.com.backend.Entity.Poll;
 import instagram.com.backend.Entity.Post;
 import instagram.com.backend.Entity.Tag;
 import instagram.com.backend.Entity.Users;
 import instagram.com.backend.Entity.Enum.Role;
 import instagram.com.backend.Entity.Request.PostRequest;
+import instagram.com.backend.Entity.Response.ChoiceResponse;
+import instagram.com.backend.Entity.Response.PollResponse;
 import instagram.com.backend.Entity.Response.PostResponse;
 import instagram.com.backend.Entity.Response.UserResponse;
 import instagram.com.backend.Exception.BadResultException;
@@ -178,16 +182,69 @@ public class PostServiceIml implements PostService {
         return mapPostToResponse(post);
 
     }
+
+
+    
+    @Override
+    public PostResponse savePostWithPoll(PostRequest postRequest) {
+        if(postRequest.getPoll() == null) {
+            throw new BadResultException("the post has not poll, fail to create a post with polling feature");
+        }
+        Users authUser = getAuthUser();
+
+        // creating poll
+        Poll poll = new Poll(postRequest.getPoll().getQuestion(), postRequest.getPoll().getExpireDays());
+        postRequest.getPoll().getChoices().stream().forEach(choiceReq -> {
+            Choice choice = new Choice(choiceReq);
+            poll.addChoiceToPost(choice);
+        });
+
+
+        Post post = new Post(postRequest.getContent(), authUser, poll);
+        poll.setPost(post);
+        postRepos.save(post);
+        if(postRequest.getTags() != null && postRequest.getTags().size() > 0) {
+            // List<Tag> tags = mapRequestToTag(postRequest.getTags(), post);
+             mapRequestToTag(postRequest.getTags(), post);
+            
+        }
+        
+        postRepos.save(post);
+        authUser.getPosts().add(post);
+        authUser.setPostCounts(authUser.getPostCounts() + 1);
+        usersRepos.save(authUser);
+        PostResponse response = mapPostToResponse(post);
+        return response;
+    }
+
+
     private PostResponse mapPostToResponse(Post post) {
-        PostResponse postResponse = new PostResponse(post.getId(), post.getContent(), post.getImageUrls(), post.getDateCreated(), post.getDateUpdated(), post.getCommentCount(), post.getLikeCount(), mapUserToUserResponse(post.getOwner()));
+        PostResponse postResponse = new PostResponse(post.getId(), post.getContent(), post.getDateCreated(), post.getDateUpdated(), post.getCommentCount(), post.getLikeCount(), mapUserToUserResponse(post.getOwner()));
+        if( post.getImageUrls() != null && post.getImageUrls().size() > 0) {
+            postResponse.getImageUrls().addAll(post.getImageUrls());
+        }
+
         if(post.getTags() != null && post.getTags().size() > 0) {
             List<String> tagResponses = post.getTags().stream().map(tag -> tag.getContent()).collect(Collectors.toList());
             postResponse.setTags(tagResponses);
+        }
+
+        if(post.getPoll() != null) {
+            Poll poll = post.getPoll();
+            PollResponse pollResponse = new PollResponse(poll.getId(), poll.getQuestion(), poll.getExpireDays(), poll.getPost().getId());
+            List<ChoiceResponse> choiceResponses = poll.getChoices().stream().map(choice -> mapChoiceToResponse(choice)).collect(Collectors.toList());
+            pollResponse.setChoices(choiceResponses);
+            postResponse.setPoll(pollResponse);
         }
         return postResponse;
         
     }
 
+    private ChoiceResponse mapChoiceToResponse(Choice choice) {
+        ChoiceResponse response = new ChoiceResponse(choice.getId(), choice.getAnswer(), choice.getVoteCount(), choice.getPoll().getId());
+        return response;
+    }
+ 
     private UserResponse mapUserToUserResponse(Users user) {
         UserResponse userresResponse = new UserResponse(user.getId(), user.getUsername(), user.getUsername(), user.getRole(), user.getActive(), user.getIntroduction(), user.getFollowersCount(), user.getFollowingsCount(), user.getAvatarUrl(), user.getPostCounts());
 

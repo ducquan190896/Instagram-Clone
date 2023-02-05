@@ -70,6 +70,12 @@ public class PostController {
     public ResponseEntity<PostResponse> savePost(@Valid @RequestBody PostRequest postRequest) {
         return new ResponseEntity<PostResponse>(postService.savePost(postRequest), HttpStatus.CREATED);
     }
+
+    @PostMapping("/poll/savePost")
+    public ResponseEntity<PostResponse> savePostWithPoll(@Valid @RequestBody PostRequest postRequest) {
+        return new ResponseEntity<PostResponse>(postService.savePostWithPoll(postRequest), HttpStatus.CREATED);
+    }
+
     @DeleteMapping("/deletePost/{id}")
     public ResponseEntity<HttpStatus> deletePost(@PathVariable Long id) {
         postService.deletePost(id);

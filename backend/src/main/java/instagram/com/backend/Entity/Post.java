@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.*;
+import net.bytebuddy.agent.builder.AgentBuilder.PoolStrategy.Eager;
 
 @Getter
 @Setter
@@ -92,6 +93,9 @@ public class Post {
     @ManyToMany(mappedBy = "posts", fetch = FetchType.LAZY)
     private List<Tag> tags = new ArrayList<>();
 
+    @OneToOne(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Poll poll;
+
     public Post( String content, List<String> imageUrls, Users owner) {
         this.content = content;
         this.imageUrls = imageUrls;
@@ -101,6 +105,18 @@ public class Post {
         this.content = content;
         this.owner = owner;
     }
+    public Post( String content, Users owner, Poll poll) {
+        this.content = content;
+        this.owner = owner;
+        this.poll = poll;
+    }
+    @Override
+    public String toString() {
+        return "Post [id=" + id + ", content=" + content + ", imageUrls=" + imageUrls + ", dateCreated=" + dateCreated
+                + ", dateUpdated=" + dateUpdated + "]";
+    }
+
+    
 
     
     

@@ -137,6 +137,15 @@ public class Users {
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<StoryLike> storieLikes = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Vote> votes = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ChatParticipant> participants = new ArrayList<>();
+
+
     public Users(String username, String email, String password, String avatarUrl, String introduction) {
         this.username = username;
         this.email = email;
