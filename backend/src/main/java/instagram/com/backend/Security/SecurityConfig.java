@@ -60,6 +60,7 @@ public class SecurityConfig {
         .antMatchers(HttpMethod.GET, "/api/tags/**").permitAll()
         .antMatchers(HttpMethod.GET, "/api/stories/public/**").permitAll()
         .antMatchers(HttpMethod.GET, "/api/storyLikes/**").permitAll()
+        .antMatchers("/api/images/**").permitAll()
         .anyRequest().authenticated()
         .and()
         .addFilterBefore(filterException, filterAuthentication.getClass())

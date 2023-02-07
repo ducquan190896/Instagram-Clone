@@ -1,0 +1,2020 @@
+{
+	"info": {
+		"_postman_id": "78bee115-ecbf-41b0-a342-a5db074b3374",
+		"name": "Instagram",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19366908"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuIiwiY2xhaW1zIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE2NzUyMTMyNTN9._0SA_BiPg6p9mPp-u2jMYnicz-rbZD0AG5-p7IGRTcnPbV4fCgsnZ7lYTCdhLXoSPOVcRI_aaqwj_NzxIvwXJg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"quan\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all users",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"quan\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user by search name for user role",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"quan\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/searchByActiveName/qua",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"searchByActiveName",
+								"qua"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user by search name for Admin",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"quan\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/searchByName/qua",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"searchByName",
+								"qua"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user by id by user access",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"quan\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/id/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"id",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user by id by admin access",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"quan\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/id/adminAccess/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"id",
+								"adminAccess",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user by id Copy",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"quan\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/id/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"id",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user by username",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"quan\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/username/quan",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"username",
+								"quan"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"quan3\",\r\n    \"email\": \"quan3@gmail.com\",\r\n    \"introduction\": \"hello instagram 3\",\r\n    \"avatarUrl\": \"lksjdlfak.png\",\r\n    \"password\": \"123456\",\r\n    \"confirmPassword\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuIiwiY2xhaW1zIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE2NzUyMDExMTJ9.TRcLW9ZRNPMF-oLfAPnen9kX36ZUWZRYt6NqwRNUn8lkmCu9w0F02zHSlTMapjwpDnvZm_ti_Ltw7cq3BwoWMw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n    \"currentPassword\": \"123456\",\r\n    \"newPassword\": \"1234567\",\r\n    \"confirmPassword\": \"1234567\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/changePassword",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"changePassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deactivate user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuIiwiY2xhaW1zIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE2NzUyMDEyNDF9.zGHbqtOTmGEPqYIANCqXP7OeqnuEBBHa4QpaBQWBL92Q6rti7nxl7GXVYoEuooNSEvzyh23UYz6QTMiHy3TPig",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n    \"currentPassword\": \"123456\",\r\n    \"newPassword\": \"1234567\",\r\n    \"confirmPassword\": \"1234567\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/deactivateUser",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"deactivateUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "re-activate user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuIiwiY2xhaW1zIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE2NzUyMDExMTJ9.TRcLW9ZRNPMF-oLfAPnen9kX36ZUWZRYt6NqwRNUn8lkmCu9w0F02zHSlTMapjwpDnvZm_ti_Ltw7cq3BwoWMw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n    \"currentPassword\": \"123456\",\r\n    \"newPassword\": \"1234567\",\r\n    \"confirmPassword\": \"1234567\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/reactivateUser",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"reactivateUser"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Follow",
+			"item": [
+				{
+					"name": "follow user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuIiwiY2xhaW1zIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE2NzUzNDM2NzB9.q6Dgat_XUH-baJtI1fDy2q7F0ArLMLGEuSkLPa7y1Jb3wGdYk-9PVZoPpX7FZvdSmH8-WSwAFu0C2xTDc-AOkA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/follow/followUser/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"follow",
+								"followUser",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get followings of user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuIiwiY2xhaW1zIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE2NzUzNDM2NzB9.q6Dgat_XUH-baJtI1fDy2q7F0ArLMLGEuSkLPa7y1Jb3wGdYk-9PVZoPpX7FZvdSmH8-WSwAFu0C2xTDc-AOkA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/follow/getFollowings/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"follow",
+								"getFollowings",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get followers of user",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/follow/getFollowers/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"follow",
+								"getFollowers",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "unfollow",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuIiwiY2xhaW1zIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE2NzUyMDYwOTB9.quVAvQmSsvwVH4LMdRNsRT3x15fZY-m6y1HpfPHlP2h9pYkhFj8ZtK0XwECV5p5hfHMu3CSRYLXh25o96Vl5uw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/follow/unfollowUser/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"follow",
+								"unfollowUser",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Post",
+			"item": [
+				{
+					"name": "get all post for admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNsYWltcyI6WyJST0xFX0FETUlOIl0sImV4cCI6MTY3NTI1NDMzN30.cqrwRpNb3AIBQeBUIqI84uVxEDPiXVtCd_hmbuHcrQ40IUPkZd9Hbu85mIi6MEpNCrRrOwSk7KYQORNRNanuQQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/posts/admin/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"posts",
+								"admin",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all post of followings for auth user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuIiwiY2xhaW1zIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE2NzUyNTQwNzh9.lO9YvA0ayETAqeFYjtSGsc8XyUpayKDgqtNveEuJthOwYbWGOaw8_EzJLAidm0eETa8sVaWRuTzOLkwhuvrr-A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/posts/user/allPostOfFollowings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"posts",
+								"user",
+								"allPostOfFollowings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all post of an active user for user accessiblity",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/posts/user/allPostOfActiveUser/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"posts",
+								"user",
+								"allPostOfActiveUser",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all post of active posts by searching content",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/posts/user/allPostBySearchContent/he",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"posts",
+								"user",
+								"allPostBySearchContent",
+								"he"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all active posts by tag",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/posts/user/allPostBytag/helsinki",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"posts",
+								"user",
+								"allPostBytag",
+								"helsinki"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all post of  user for admin accessibility even though the user is active or not",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImNsYWltcyI6WyJST0xFX0FETUlOIl0sImV4cCI6MTY3NTI1NDMzN30.cqrwRpNb3AIBQeBUIqI84uVxEDPiXVtCd_hmbuHcrQ40IUPkZd9Hbu85mIi6MEpNCrRrOwSk7KYQORNRNanuQQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/posts/admin/allPostOfUser/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"posts",
+								"admin",
+								"allPostOfUser",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get post by postId for user access",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/posts/user/post/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"posts",
+								"user",
+								"post",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "save post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuMiIsImNsYWltcyI6WyJST0xFX1VTRVIiXSwiZXhwIjoxNjc1MzgwMzYwfQ.eEsCvGSEzNQYTiksmykxMYeZLS05Jx3lsxxN_nY6DRnBBqdGbp_XT3o-ky9GhqS4dOPcNiWflBaa4tLrVtOf-w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"welcome to instgram\",\r\n    \"imageUrls\": [\"lkdjsalfkj.png\", \"lkajldksfjlak.png\"],\r\n    \"tags\": [\"helsinki2\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/posts/savePost",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"posts",
+								"savePost"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "save post with poll",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuMiIsImNsYWltcyI6WyJST0xFX1VTRVIiXSwiZXhwIjoxNjc1NTM3MzQ5fQ.UfS9SHRXp4zl-MH5QQMhg6wlLDmlYAPZ2ODl1fYagNXvSjtwaGgK5sfnJG_2svcEk1xs5XujV4jyAwq5AbW3AQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"welcome to instgram\",\r\n    \"tags\": [\"helsinki2\"],\r\n    \"poll\": {\r\n        \"question\": \"which place should i visit\",\r\n        \"expireDays\": 3,\r\n        \"choices\": [\"railwayCenter\", \"chinese town\"]\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/posts/poll/savePost",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"posts",
+								"poll",
+								"savePost"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete post by auth  user or admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuMiIsImNsYWltcyI6WyJST0xFX1VTRVIiXSwiZXhwIjoxNjc1MzgwMzYwfQ.eEsCvGSEzNQYTiksmykxMYeZLS05Jx3lsxxN_nY6DRnBBqdGbp_XT3o-ky9GhqS4dOPcNiWflBaa4tLrVtOf-w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"welcome to instgram\",\r\n    \"imageUrls\": [\"lkdjsalfkj.png\", \"lkajldksfjlak.png\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/posts/deletePost/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"posts",
+								"deletePost",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PostLike",
+			"item": [
+				{
+					"name": "get all post like by post id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/postlikes/getAllByPost/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"postlikes",
+								"getAllByPost",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "like post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuIiwiY2xhaW1zIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE2NzUyNTQwNzh9.lO9YvA0ayETAqeFYjtSGsc8XyUpayKDgqtNveEuJthOwYbWGOaw8_EzJLAidm0eETa8sVaWRuTzOLkwhuvrr-A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/postlikes/likePost/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"postlikes",
+								"likePost",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove post like from post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuIiwiY2xhaW1zIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE2NzUyNTQwNzh9.lO9YvA0ayETAqeFYjtSGsc8XyUpayKDgqtNveEuJthOwYbWGOaw8_EzJLAidm0eETa8sVaWRuTzOLkwhuvrr-A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/postlikes/removeLikeFromPost/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"postlikes",
+								"removeLikeFromPost",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Post Notification",
+			"item": [
+				{
+					"name": "get all post notification by auth user as a receiver",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuIiwiY2xhaW1zIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE2NzUzMzc0MTN9.K-NF9poI5dlmfRpilK9Ok0GJbxe65uQF-1GJcWJmDGevb8WM6AuNQH4aAY0mYapfhKA8hL2LtDs6hw1MGS5tyQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/postNotifications/allForAuthUser",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"postNotifications",
+								"allForAuthUser"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "comment notification",
+			"item": [
+				{
+					"name": "get all comment notification by auth user as a receiver",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuIiwiY2xhaW1zIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE2NzUzMzc0MTN9.K-NF9poI5dlmfRpilK9Ok0GJbxe65uQF-1GJcWJmDGevb8WM6AuNQH4aAY0mYapfhKA8hL2LtDs6hw1MGS5tyQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/commentNotifications/allForAuthUser",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"commentNotifications",
+								"allForAuthUser"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Comment",
+			"item": [
+				{
+					"name": "add comment to post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuIiwiY2xhaW1zIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE2NzUzMzc0MTN9.K-NF9poI5dlmfRpilK9Ok0GJbxe65uQF-1GJcWJmDGevb8WM6AuNQH4aAY0mYapfhKA8hL2LtDs6hw1MGS5tyQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"hello there\",\r\n    \"postId\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/comments/addCommentToPost",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"comments",
+								"addCommentToPost"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add comment to parent comment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuIiwiY2xhaW1zIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE2NzUzMzc0MTN9.K-NF9poI5dlmfRpilK9Ok0GJbxe65uQF-1GJcWJmDGevb8WM6AuNQH4aAY0mYapfhKA8hL2LtDs6hw1MGS5tyQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"hello there\",\r\n    \"postId\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/comments/addCommentToParentComment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"comments",
+								"addCommentToParentComment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get comments by post",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuIiwiY2xhaW1zIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE2NzUzMzc0MTN9.K-NF9poI5dlmfRpilK9Ok0GJbxe65uQF-1GJcWJmDGevb8WM6AuNQH4aAY0mYapfhKA8hL2LtDs6hw1MGS5tyQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"hello there\",\r\n    \"postId\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/comments/post/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"comments",
+								"post",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get comments by parent comment ID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuIiwiY2xhaW1zIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE2NzUzMzc0MTN9.K-NF9poI5dlmfRpilK9Ok0GJbxe65uQF-1GJcWJmDGevb8WM6AuNQH4aAY0mYapfhKA8hL2LtDs6hw1MGS5tyQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"hello there\",\r\n    \"postId\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/comments/parentComment/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"comments",
+								"parentComment",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Comment Like",
+			"item": [
+				{
+					"name": "get all by comment ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuIiwiY2xhaW1zIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE2NzUzMzc0MTN9.K-NF9poI5dlmfRpilK9Ok0GJbxe65uQF-1GJcWJmDGevb8WM6AuNQH4aAY0mYapfhKA8hL2LtDs6hw1MGS5tyQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/commentLike/allByComment/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"commentLike",
+								"allByComment",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "like comment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuIiwiY2xhaW1zIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE2NzUzMzc0MTN9.K-NF9poI5dlmfRpilK9Ok0GJbxe65uQF-1GJcWJmDGevb8WM6AuNQH4aAY0mYapfhKA8hL2LtDs6hw1MGS5tyQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/commentLike/likeComment/comment/2/post/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"commentLike",
+								"likeComment",
+								"comment",
+								"2",
+								"post",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove like from comment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuIiwiY2xhaW1zIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE2NzUzMzc0MTN9.K-NF9poI5dlmfRpilK9Ok0GJbxe65uQF-1GJcWJmDGevb8WM6AuNQH4aAY0mYapfhKA8hL2LtDs6hw1MGS5tyQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/commentLike/removeLikeFromComment/comment/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"commentLike",
+								"removeLikeFromComment",
+								"comment",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "follow notification",
+			"item": [
+				{
+					"name": "get follow notifications by auth user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuMiIsImNsYWltcyI6WyJST0xFX1VTRVIiXSwiZXhwIjoxNjc1MzQzNzQ2fQ.rxGSG6L9GMsIN1ePZB1i-gtgJGt46CpR8W3ipsonwbX2T76kcCBytXmzpIiXCaF4ExBayIGqJIijaJw2heyjTA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/followNotification/allByAuthUser",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"followNotification",
+								"allByAuthUser"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tags",
+			"item": [
+				{
+					"name": "get all tags",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/tags/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"tags",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all tags by searching its content",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/tags/searchingContent/a",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"tags",
+								"searchingContent",
+								"a"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Story",
+			"item": [
+				{
+					"name": "get all stories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/stories/public/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"stories",
+								"public",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all story by active user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/stories/public/ActiveUser/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"stories",
+								"public",
+								"ActiveUser",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all story from followings of auth User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuMyIsImNsYWltcyI6WyJST0xFX1VTRVIiXSwiZXhwIjoxNjc1NDQ0NTc3fQ.ofEvFPk00EogXp9UTDDUYaSoIoQLZuIOwMEbWliK2LjHai41EnaWQ_rIYwKtT6p6HB99sxineiQbKvMAJYTdtQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/stories/authUser/allByFollowings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"stories",
+								"authUser",
+								"allByFollowings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create story",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuMyIsImNsYWltcyI6WyJST0xFX1VTRVIiXSwiZXhwIjoxNjc1NDQ0NTc3fQ.ofEvFPk00EogXp9UTDDUYaSoIoQLZuIOwMEbWliK2LjHai41EnaWQ_rIYwKtT6p6HB99sxineiQbKvMAJYTdtQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"imageUrls\": [\"lskjdlkjf.png\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/stories/authUser/createStory",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"stories",
+								"authUser",
+								"createStory"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "StoryLike",
+			"item": [
+				{
+					"name": "get all storylike by story",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/storyLikes/story/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"storyLikes",
+								"story",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "like story",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuIiwiY2xhaW1zIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE2NzU0NTcyNDN9.FPxBvWl0OEjFfJQVObLpEcODPtrC9a-lMjgB2dd0_wTeHtsrUPVcjIzUlGhgtmZprABXb3RdivG6dJ1w_GN7XQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/storyLikes/story/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"storyLikes",
+								"story",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove like from story",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuIiwiY2xhaW1zIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE2NzU0NTcyNDN9.FPxBvWl0OEjFfJQVObLpEcODPtrC9a-lMjgB2dd0_wTeHtsrUPVcjIzUlGhgtmZprABXb3RdivG6dJ1w_GN7XQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/storyLikes/story/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"storyLikes",
+								"story",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Story Notification",
+			"item": [
+				{
+					"name": "get all notifications for auth Receiver",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuIiwiY2xhaW1zIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE2NzU0NTkxMjF9.Uvmxsn1Fj8Y015SOO6ZNkWss3FIn3B7MmeGtzLEmnkYIOTmxPXsV5EjBkwukXhMAvZ5A0zrIzOx_MBgffXJHgA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/storyNotifications/authReceiver/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"storyNotifications",
+								"authReceiver",
+								"all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Vote",
+			"item": [
+				{
+					"name": "add vote",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuMiIsImNsYWltcyI6WyJST0xFX1VTRVIiXSwiZXhwIjoxNjc1NTQyMzgyfQ.igDNGGV9VuSbnlYo4MGDG_qkNNqlC2GzpIPIq4n0k5QwsIayq507O_wtdQxaF3yg5vW-gjGUOLnv4QkTRA1SRQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/votes/addVote/poll/2/choice/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"votes",
+								"addVote",
+								"poll",
+								"2",
+								"choice",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get votes by poll ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuMiIsImNsYWltcyI6WyJST0xFX1VTRVIiXSwiZXhwIjoxNjc1NTQyMzgyfQ.igDNGGV9VuSbnlYo4MGDG_qkNNqlC2GzpIPIq4n0k5QwsIayq507O_wtdQxaF3yg5vW-gjGUOLnv4QkTRA1SRQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/votes/poll/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"votes",
+								"poll",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Chat",
+			"item": [
+				{
+					"name": "add chat or get chat",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuIiwiY2xhaW1zIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE2NzU2MzA2MTR9.aD3MhvXZeWAi4VSNe2mvY4OZIZDnsDG3b1MYnPgLjf-Zugrre_fYUHPuLxdhbRAMoYZgx-0HHKfyzMqsfXbP0g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/chats/receiver/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"chats",
+								"receiver",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all chats by admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuIiwiY2xhaW1zIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE2NzU2MzA2MTR9.aD3MhvXZeWAi4VSNe2mvY4OZIZDnsDG3b1MYnPgLjf-Zugrre_fYUHPuLxdhbRAMoYZgx-0HHKfyzMqsfXbP0g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/chats/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"chats",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all chats of Auth User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuMyIsImNsYWltcyI6WyJST0xFX1VTRVIiXSwiZXhwIjoxNjc1NjMwOTEyfQ.VpkYMP8HatYoVbImUE64666tsWW9Ue9gJSPyfTqGgE56Y8KPol_UaG9Y-zD5oV3gZyWj-l6BhPR96bCznBhrQg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/chats/byAuthUser",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"chats",
+								"byAuthUser"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Message",
+			"item": [
+				{
+					"name": "get messages of Chat",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuIiwiY2xhaW1zIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE2NzU2MzUxNjF9.OSaQj6eyek5US8HZUlzx9fMorvrD8nAxA2xujoV76vVFqhYuXtFrol445mxccOPG1970V8mkmYE7LWtOKDnyjA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/messages/chat/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"messages",
+								"chat",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add message",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuMiIsImNsYWltcyI6WyJST0xFX1VTRVIiXSwiZXhwIjoxNjc1NjM1NDY4fQ.5zuy_U1TMSDFvkQ2YBiairCXPU4NcBGWh1utbD13a4nmxyX_ZQ-CVpvYvJDxKM2xRE3yUgTgMTZheIC9Dze0Og",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"text\": \"what's up man\",\r\n    \"chatId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/messages/addMessage",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"messages",
+								"addMessage"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete message",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJxdWFuIiwiY2xhaW1zIjpbIlJPTEVfVVNFUiJdLCJleHAiOjE2NzU2MzUxNjF9.OSaQj6eyek5US8HZUlzx9fMorvrD8nAxA2xujoV76vVFqhYuXtFrol445mxccOPG1970V8mkmYE7LWtOKDnyjA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/messages/removeMessage/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"messages",
+								"removeMessage",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Images",
+			"item": [
+				{
+					"name": "upload images",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/Quan Doan/Desktop/java springboot/fullstack-react-and-springboot-main/source-code/01-starter-files/Images/BooksImages/book-luv2code-1000.png"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/Quan Doan/Desktop/java springboot/fullstack-react-and-springboot-main/source-code/01-starter-files/Images/BooksImages/new-book-1.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/images/uploadImages",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"images",
+								"uploadImages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get image",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/Quan Doan/Desktop/java springboot/fullstack-react-and-springboot-main/source-code/01-starter-files/Images/BooksImages/book-luv2code-1000.png"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/Quan Doan/Desktop/java springboot/fullstack-react-and-springboot-main/source-code/01-starter-files/Images/BooksImages/new-book-1.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/images/image/book-luv2code-1000.png",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"images",
+								"image",
+								"book-luv2code-1000.png"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
