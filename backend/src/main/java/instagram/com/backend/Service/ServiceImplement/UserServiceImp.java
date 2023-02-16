@@ -1,9 +1,12 @@
 package instagram.com.backend.Service.ServiceImplement;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -16,6 +19,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+
 import instagram.com.backend.Entity.Users;
 import instagram.com.backend.Entity.Enum.Role;
 import instagram.com.backend.Entity.Request.ChangePasswordRequest;
@@ -25,12 +31,15 @@ import instagram.com.backend.Exception.BadResultException;
 import instagram.com.backend.Exception.EntityNotFountException;
 import instagram.com.backend.Exception.EntityexistingException;
 import instagram.com.backend.Repository.UsersRepos;
+import instagram.com.backend.Security.SecurityConstant;
 import instagram.com.backend.Service.UserService;
 
 @Service
 public class UserServiceImp implements UserService, UserDetailsService {
     @Autowired
     UsersRepos usersRepos;
+    @Autowired
+    HttpServletResponse response;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -140,6 +149,17 @@ public class UserServiceImp implements UserService, UserDetailsService {
        }
        user.setRole(Role.USER);
        usersRepos.save(user);
+       List<String> claims = new ArrayList<>();
+       claims.add(user.getRole().getName());
+       
+       String token = JWT.create()
+       .withSubject(user.getUsername())
+       .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstant.expire_time))
+       .withClaim("claims", claims)
+       .sign(Algorithm.HMAC512(SecurityConstant.private_key));
+       
+        response.setHeader("Authorization", SecurityConstant.authorization + token);
+
        UserResponse userResponse = mapUserToUserResponse(user);
        return userResponse;
     }
@@ -155,6 +175,17 @@ public class UserServiceImp implements UserService, UserDetailsService {
         }
         user.setPassword(new BCryptPasswordEncoder().encode(changePasswordRequest.getNewPassword()));
         usersRepos.save(user);
+        List<String> claims = new ArrayList<>();
+        claims.add(user.getRole().getName());
+        
+        String token = JWT.create()
+        .withSubject(user.getUsername())
+        .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstant.expire_time))
+        .withClaim("claims", claims)
+        .sign(Algorithm.HMAC512(SecurityConstant.private_key));
+        
+         response.setHeader("Authorization", SecurityConstant.authorization + token);
+ 
         return mapUserToUserResponse(user);
 
     }

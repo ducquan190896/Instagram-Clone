@@ -7,6 +7,17 @@ import utilities from './tailwind.json';
 import { Provider } from 'react-redux';
 import store from './Store/Store';
 import RegisterScreen from './Screens/RegisterScreen';
+import ChangePasswordScreen from './Screens/ChangePasswordScreen';
+import HomeScreen from './Screens/HomeScreen';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
+import MainStack from './Navigators/MainStack';
+
+
+
+
+
+
 
 export default function App() {
  
@@ -15,8 +26,14 @@ export default function App() {
     <TailwindProvider utilities={utilities}>
       <Provider store={store}>
         <StatusBar style="auto" />
+
 		  {/* <LoginScreen></LoginScreen> */}
-      <RegisterScreen></RegisterScreen>
+      {/* <RegisterScreen></RegisterScreen> */}
+      {/* <ChangePasswordScreen></ChangePasswordScreen> */}
+     
+      <NavigationContainer>
+        <MainStack></MainStack>
+      </NavigationContainer>
       </Provider>
      
 	</TailwindProvider>

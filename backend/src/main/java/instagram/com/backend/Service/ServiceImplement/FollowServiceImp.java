@@ -98,6 +98,18 @@ public class FollowServiceImp implements FollowService {
         return followingsResponse;
     }
 
+    @Override
+    public boolean isFollowByAuthUser(Long userId) {
+       Users authUser = getAuthUser();
+       Optional<Users> userEntity = usersRepos.findById(userId);
+       Users followerUser = isCheckUser(userEntity);
+       Optional<Follow> followEntity = followRepos.findByFollowerAndFollowing(followerUser, authUser);
+       if(followEntity.isPresent()) {
+        return true;
+       }
+       return false;
+    }
+
 
     private Users getAuthUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -124,6 +136,9 @@ public class FollowServiceImp implements FollowService {
         FollowResponse followResponse = new FollowResponse(follow.getId(), mapUserToUserResponse(follow.getFollower()), mapUserToUserResponse(follow.getFollowing()));
         return followResponse;
     }
+
+
+  
 
 
     

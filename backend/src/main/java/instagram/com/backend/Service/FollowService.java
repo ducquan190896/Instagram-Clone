@@ -13,4 +13,5 @@ public interface FollowService {
     List<FollowResponse> getFollowingsOfUser(Long followingId);
     // get list of people who are following the user, so the user is a follower
     List<FollowResponse> getFollowersOfUser(Long followerId);
+    boolean isFollowByAuthUser(Long userId);
 }

@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "userResponse": {
+            "id": 4,
+            "username": "quan3",
+            "email": "quan3",
+            "role": "USER",
+            "active": true,
+            "introduction": "quan2 manages the application",
+            "followersCount": 0,
+            "followingsCount": 1,
+            "avatarUrl": null,
+            "postCounts": 0
+        },
+        "postId": 1
+    }
+]

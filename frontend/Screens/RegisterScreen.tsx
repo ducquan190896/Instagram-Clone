@@ -6,7 +6,8 @@ import { Button } from '@rneui/themed';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../Store/Store';
 import { login, Register, ResetUser } from '../Store/Actions/UserAction';
-import {} from 'expo-image-picker';
+import * as ImagePicker from 'expo-image-picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const RegisterScreen = () => {
     const [username, setUsername] = useState<string>("")
@@ -36,15 +37,69 @@ const RegisterScreen = () => {
         }
     }, [dispatch, Register, userSuccess, userError])
 
-    const submitFunction = async () => {
-        // if(username && username.length > 0 && password && password.length > 0) {
-        //    await  dispatch(login({username, password}) as any)
-        //    setUsername("")
-        //    setPassword("")
 
-        // } else {
-        //     Alert.alert("please fill all required information")
-        // }
+    const uploadImageFunction = async () => {
+        const images: ImagePicker.ImagePickerResult = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: false,
+            aspect: [4, 3],
+            quality: 1
+        })
+
+        // const token = await AsyncStorage.getItem("item")
+        const formdata = new FormData();
+        
+
+        if(!images.canceled) {
+                
+                const split = images.assets[0].uri.split('/')
+                const fileNameDot = split[split.length - 1].split(".")
+                const fileName = fileNameDot[0]
+                const imageFile = {
+                    uri: images.assets[0].uri,
+                    type: images.assets[0].type + "/" + fileNameDot[1],
+                    name: fileName
+                }
+
+                console.log("fileName : " + fileName)
+                console.log(images.assets[0])
+                
+
+               formdata.append("file",  JSON.parse(JSON.stringify(imageFile)))
+           
+        }
+        console.log(formdata)
+
+        const res = await fetch("http://10.0.2.2:8080/api/images/uploadImages", {
+            method: "POST",
+            headers: {
+                "Content-Type": "multipart/form-data"
+            },
+            body: formdata
+        })
+
+        const imageUrl = await res.json()
+
+        console.log(imageUrl)
+        setAvatarUrl(imageUrl[0])
+
+    }
+
+    
+
+    const submitFunction = async () => {
+        if(username && username.length > 0 && password && password.length > 0 && confirmPassword && confirmPassword.length > 0 && introduction && introduction.length > 0 && email && email.length > 0 && avatarUrl && avatarUrl.length > 0) {
+           await  dispatch(Register({username, email, introduction, password, confirmPassword, avatarUrl}) as any)
+           setUsername("")
+           setPassword("")
+           setAvatarUrl(null)
+           setConfirmPassword("")
+           setEmail("")
+           setIntroduction("")
+
+        } else {
+            Alert.alert("please fill all required information")
+        }
         
     }
 
@@ -65,6 +120,9 @@ const RegisterScreen = () => {
 
       <TextInput secureTextEntry={true} value={confirmPassword}  placeholder="confirm your Password" onChangeText={(text: string) => setConfirmPassword(text)} style={tw('w-full border border-gray-400 py-2 px-4 rounded-lg text-lg mb-6')} onSubmitEditing={submitFunction}></TextInput>
 
+      <TouchableOpacity  style={[tw('w-full rounded-lg mb-6 py-2 font-bold px-6'), {backgroundColor: "rgb(65,147,239)"}]}  onPress={uploadImageFunction}>
+        <Text style={tw('text-base text-white')}>Your Avartar</Text>
+      </TouchableOpacity>
 
       <Button  color="rgb(65,147,239)" containerStyle={tw('w-full rounded-lg mb-6')} size='lg' title='Sign Up' onPress={submitFunction}></Button>
       <View style={tw('flex flex-row')}>

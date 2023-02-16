@@ -65,6 +65,7 @@ public class BackendApplication {
 			Post post1 = new Post("hello instagram", quan);
 			postRepos.save(post1);
 
+
 			Post post2 = new Post("hello instagram 2", quan2);
 			tag1.addTagToPost(post2);
 			
@@ -74,8 +75,11 @@ public class BackendApplication {
 			Post post3 = new Post("hello instagram 2", quan3);
 			postRepos.save(post3);
 
-			quan3.setActive(false);
-			usersRepos.save(quan3);
+			Post post5 = new Post("hello instagram 5", quan);
+			postRepos.save(post5);
+
+			// quan3.setActive(false);
+			// usersRepos.save(quan3);
 
 			List<String> listImages = Arrays.asList("lkajsdf.png", "dlkajfdlklkjlk.png" );
 			List<String> listImages2 = Arrays.asList("lkajsdfasdf.png", "dlkajfdlklkjlfsadffffffk.png" );
@@ -97,6 +101,18 @@ public class BackendApplication {
 			poll1.addChoiceToPost(choice2);
 			poll1.addChoiceToPost(choice3);
 			postRepos.save(post4);
+
+
+			Poll poll2 = new Poll("which framework is better", 2);
+			Post post6 = new Post("polling for language", quan, poll2);
+			poll2.setPost(post6);
+			Choice choice4 = new Choice("spring");
+			Choice choice5 = new Choice("asp.net");
+			Choice choice6 = new Choice("dijango");
+			poll2.addChoiceToPost(choice4);
+			poll2.addChoiceToPost(choice5);
+			poll2.addChoiceToPost(choice6);
+			postRepos.save(post6);
 
 			System.out.println(poll1);
 

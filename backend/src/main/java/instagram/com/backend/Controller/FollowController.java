@@ -38,4 +38,9 @@ public class FollowController {
         followService.unFollowUser(followerId);
         return new ResponseEntity<HttpStatus>( HttpStatus.CREATED);
     }
+
+    @GetMapping("/isFollowByAuthUser/{userId}")
+    public ResponseEntity<Boolean> isFollow(@PathVariable Long userId) {
+        return new ResponseEntity<Boolean>(followService.isFollowByAuthUser(userId), HttpStatus.OK);
+    }
 }

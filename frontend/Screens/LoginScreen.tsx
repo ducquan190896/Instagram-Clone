@@ -6,6 +6,10 @@ import { Button } from '@rneui/themed';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../Store/Store';
 import { login, ResetUser } from '../Store/Actions/UserAction';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
+import { RootStackParamList } from '../Navigators/MainStack';
+
 const LoginScreen = () => {
     const [username, setUsername] = useState<string>("")
     const [password, setPassword] = useState<string>("")
@@ -13,22 +17,27 @@ const LoginScreen = () => {
     const text: string = "hello"
     const {users, user, userError, userSuccess, message} = useSelector((state: RootState) => state.USERS)
     const dispatch = useDispatch()
+    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>()
 
     useEffect(() => {
-        if(userSuccess || userError) {
+        if(userSuccess ) {
+            // navigation.navigate("Home")   
+            // navigation.navigate("CreatePostForm") 
+            // navigation.navigate("PersonalHome")        
+            // navigation.navigate("FollowerScreen")   
+            // navigation.navigate("OtherUserHomeScreen")
+            navigation.navigate("SearchScreen")
+
             dispatch(ResetUser() as any)
         }
+        if(userError ) {
+            Alert.alert("login failed")       
+            dispatch(ResetUser() as any)
+        }
+        
     }, [userSuccess, userError, message, dispatch])
 
-    useEffect(() => {
-        if(userSuccess) {
-            Alert.alert("login successfully")
-        }
-        if(userError) {
-            Alert.alert("login failed")
-        }
-    }, [dispatch, login, userSuccess, userError])
-
+   
     const submitFunction = async () => {
         if(username && username.length > 0 && password && password.length > 0) {
            await  dispatch(login({username, password}) as any)

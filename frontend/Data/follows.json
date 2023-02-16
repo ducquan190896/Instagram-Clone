@@ -1,0 +1,56 @@
+[
+    {
+        "id": 1,
+        "follower": {
+            "id": 2,
+            "username": "quan",
+            "email": "quan",
+            "role": "USER",
+            "active": true,
+            "introduction": "quan manages the application",
+            "followersCount": 2,
+            "followingsCount": 0,
+            "avatarUrl": null,
+            "postCounts": 0
+        },
+        "following": {
+            "id": 3,
+            "username": "quan2",
+            "email": "quan2",
+            "role": "USER",
+            "active": true,
+            "introduction": "quan2 manages the application",
+            "followersCount": 0,
+            "followingsCount": 1,
+            "avatarUrl": null,
+            "postCounts": 0
+        }
+    },
+    {
+        "id": 2,
+        "follower": {
+            "id": 2,
+            "username": "quan",
+            "email": "quan",
+            "role": "USER",
+            "active": true,
+            "introduction": "quan manages the application",
+            "followersCount": 2,
+            "followingsCount": 0,
+            "avatarUrl": null,
+            "postCounts": 0
+        },
+        "following": {
+            "id": 4,
+            "username": "quan3",
+            "email": "quan3",
+            "role": "USER",
+            "active": true,
+            "introduction": "quan2 manages the application",
+            "followersCount": 0,
+            "followingsCount": 1,
+            "avatarUrl": null,
+            "postCounts": 0
+        }
+    }
+]

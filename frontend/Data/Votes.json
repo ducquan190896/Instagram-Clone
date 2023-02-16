@@ -1,0 +1,36 @@
+[
+    {
+        "id": 1,
+        "owner": {
+            "id": 4,
+            "username": "quan3",
+            "email": "quan3",
+            "role": "USER",
+            "active": false,
+            "introduction": "quan2 manages the application",
+            "followersCount": 0,
+            "followingsCount": 0,
+            "avatarUrl": null,
+            "postCounts": 0
+        },
+        "pollId": 1,
+        "choiceId": 1
+    },
+    {
+        "id": 2,
+        "owner": {
+            "id": 3,
+            "username": "quan2",
+            "email": "quan2",
+            "role": "USER",
+            "active": true,
+            "introduction": "quan2 manages the application",
+            "followersCount": 0,
+            "followingsCount": 0,
+            "avatarUrl": null,
+            "postCounts": 0
+        },
+        "pollId": 1,
+        "choiceId": 2
+    }
+]

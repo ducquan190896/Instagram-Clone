@@ -7,11 +7,13 @@ export interface USER {
     introduction: string,
     followersCount: number,
     followingsCount: number,
-    postCounts: number
+    postCounts: number,
+    avatarUrl: string | null
 }
 
 export interface declaredState  {
     user: USER | {},
+    otherUser: USER | {},
     users: USER[] | [],
     userSuccess: boolean,
     userError: boolean,
@@ -27,6 +29,7 @@ export interface ACTION {
 
 let initialState = {
     user: {},
+    otherUser: {},
     users: [],
     userSuccess: false,
     userError: false,
@@ -44,6 +47,24 @@ export default (state: declaredState = initialState, action: ACTION) => {
                 userSuccess: true
             }
         case "REGISTER":
+            return {
+                ...state,
+                user: action.payload,
+                userSuccess: true
+            }
+        case "ReActive_User":
+            return {
+                ...state,
+                user: action.payload,
+                userSuccess: true
+            }
+        case "DeActive_User":
+            return {
+                ...state,
+                user: {},
+                userSuccess: true
+            }
+        case "Change_Password":
             return {
                 ...state,
                 user: action.payload,
@@ -70,6 +91,13 @@ export default (state: declaredState = initialState, action: ACTION) => {
                 userUpdated: {},
                 message: null
             }
+        case "get_active_user_by_id": 
+            return {
+                ...state,
+                otherUser: action.payload,
+                userSuccess: true
+            }
+        
         default:
             return state
     }

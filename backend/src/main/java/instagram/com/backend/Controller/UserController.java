@@ -59,6 +59,7 @@ public class UserController {
     }
     @PostMapping("/register")
     public ResponseEntity<UserResponse> Register(@Valid @RequestBody UserRequest userRequest) {
+    
         return new ResponseEntity<>(userService.saveUser(userRequest), HttpStatus.OK);
     }
     @PutMapping("/changePassword")
