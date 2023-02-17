@@ -1,5 +1,5 @@
 import { Dispatch } from "react";
-import { ACTION } from "../Reducers/UserReducer";
+import { ACTION, USER } from "../Reducers/UserReducer";
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { Alert } from "react-native";
 
@@ -224,6 +224,28 @@ export const Register = (registerForm: RegisterForm) => async (dispatch: Dispatc
      dispatch({
          type: "get_active_user_by_id",
          payload: data
+     })
+    } catch (err) {
+     dispatch({
+         type: "USER_ERROR",
+         payload: err
+     })
+    }
+ 
+ }
+
+ export const getActiveUserBySearchKeyword= (keyword: string) => async (dispatch: Dispatch<ACTION>, getState: any) => {
+    try {
+    
+     const res = await fetch(`http://10.0.2.2:8080/api/users/searchByActiveName/${keyword}`)
+     const data = await res.json()
+     console.log("get_active_users_by_search_keyword")
+     console.log(data)
+     const dataFilter = data.filter((user: USER) => user.role == "USER")
+
+     dispatch({
+         type: "get_active_users_by_search_keyword",
+         payload: dataFilter
      })
     } catch (err) {
      dispatch({

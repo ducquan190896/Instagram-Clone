@@ -241,6 +241,61 @@ export const getPostsOfActiveUserAction = (userId: number) => async (dispatch: D
 }
 
 
+export const getPostsBySearchKeyword = (keyword: string) => async (dispatch: Dispatch<ACTION>, getState: any) => {
+    try {
+
+        const res = await fetch(`http://10.0.2.2:8080/api/posts/user/allPostBySearchContent/${keyword}`)
+        const data = await res.json()
+        
+        data.sort((a : Post, b: Post) => new Date(a.dateCreated).getTime() - new Date(b.dateCreated).getTime())
+     
+        console.log("get_posts_by_search_keyword")
+        console.log(data)
+
+        dispatch({
+            type: "get_posts_by_search_keyword",
+            payload: data
+        })
+
+
+    } catch (err) {
+        dispatch({
+            type: "error_post",
+            payload: err
+        })
+    } 
+
+}
+
+export const getPostsByTag = (tag: string) => async (dispatch: Dispatch<ACTION>, getState: any) => {
+    try {
+
+        const res = await fetch(`http://10.0.2.2:8080/api/posts/user/allPostBytag/${tag}`)
+        const data = await res.json()
+        
+        data.sort((a : Post, b: Post) => new Date(a.dateCreated).getTime() - new Date(b.dateCreated).getTime())
+     
+        console.log("get_posts_by_tag")
+        console.log(data)
+
+        dispatch({
+            type: "get_posts_by_tag",
+            payload: data
+        })
+
+
+    } catch (err) {
+        dispatch({
+            type: "error_post",
+            payload: err
+        })
+    } 
+
+}
+
+
+
+
 export const ResetPosts = () => (dispatch : Dispatch<ACTION>, getState: any) => {
     dispatch({
         type: "reset_post"

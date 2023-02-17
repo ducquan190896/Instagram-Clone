@@ -14,6 +14,7 @@ import PollingComponent from './PollingComponent'
 import { addVoteToPoll } from '../Store/Actions/VoteAction'
 import { POSTLIKE } from '../Store/Reducers/PostLikeReducer'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { TAG } from '../Store/Reducers/TagReducer'
 
 const HomePostCard = ({post, isLoading, setIsLoading}: {post: Post, isLoading: boolean, setIsLoading: (value: boolean) => void}) => {
     const [activeIndex, setActiveIndex] = useState<number>(0)   
@@ -204,6 +205,11 @@ const HomePostCard = ({post, isLoading, setIsLoading}: {post: Post, isLoading: b
       </View>
       <Text style={tw('text-base font-bold ml-4')}>{post?.likeCount} Likes</Text>
       <Text style={tw('text-base font-bold mt-2 ml-4')}>{post?.content}</Text>
+      {post?.tags && post?.tags.length > 0 && (
+        <View style={tw('flex-row my-2')}>
+        {post?.tags && post?.tags.length > 0 && post?.tags.map((tag, index) => <Text key={index} style={tw('text-lg ml-4')}>{tag}</Text>)}
+        </View>
+      )}
       <Text style={tw('text-base ml-4')}>{timeOfPosting < 1 ? (Math.floor(timeOfPosting * 60))  + " minutes ago": timeOfPosting > 24 ? (timeOfPosting / 24).toFixed(0) + " days ago" : Math.floor(timeOfPosting) + " hours ago" }</Text>
       {post?.commentCount > 0 && (
         <Text style={tw('text-base font-bold ml-4')}>{post?.commentCount > 0 ? post?.commentCount + " comments" : null}</Text>

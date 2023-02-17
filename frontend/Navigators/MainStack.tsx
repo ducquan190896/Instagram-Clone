@@ -9,6 +9,8 @@ import FollowerScreen from '../Screens/FollowerScreen';
 import FollowingScreen from '../Screens/FollowingScreen';
 import OtherUserHomeScreen from '../Screens/OtherUserHomeScreen';
 import SearchScreen from '../Screens/SearchScreen';
+import PostsByTagScreen from '../Screens/PostsByTagScreen';
+import CommentScreen from '../Screens/CommentScreen';
 
 export type RootStackParamList = {
     // Home: undefined,
@@ -18,13 +20,17 @@ export type RootStackParamList = {
   // FollowerScreen: undefined
   // FollowingScreen: undefined
   // OtherUserHomeScreen: undefined
-  SearchScreen: undefined
+  // SearchScreen: undefined,
+  // PostsByTagScreen: {
+  //   tag: string
+  // }
+  CommentScreen: undefined
   
   };
   const stack = createNativeStackNavigator<RootStackParamList>()
 const MainStack = () => {
   return (
-    <stack.Navigator>
+    <stack.Navigator >
           <stack.Screen component={LoginScreen} options={{headerShown: false}} name="Login"></stack.Screen>
           {/* <stack.Screen component={HomeScreen} options={{headerShown: false}} name="Home"></stack.Screen> */}
           {/* <stack.Screen component={CreatePostForm}  name="CreatePostForm"></stack.Screen> */}
@@ -32,7 +38,9 @@ const MainStack = () => {
            {/* <stack.Screen component={FollowerScreen}  name="FollowerScreen"></stack.Screen> */}
            {/* <stack.Screen component={FollowingScreen}  name="FollowingScreen"></stack.Screen> */}
            {/* <stack.Screen component={OtherUserHomeScreen}  name="OtherUserHomeScreen"></stack.Screen> */}
-           <stack.Screen component={SearchScreen}  name="SearchScreen"></stack.Screen> 
+           {/* <stack.Screen component={SearchScreen}   name="SearchScreen"></stack.Screen>  */}
+           {/* <stack.Screen component={PostsByTagScreen} name="PostsByTagScreen"></stack.Screen> */}
+           <stack.Screen component={CommentScreen} name="CommentScreen"></stack.Screen>
         </stack.Navigator>
   )
 }

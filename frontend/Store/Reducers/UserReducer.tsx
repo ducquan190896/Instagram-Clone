@@ -97,7 +97,12 @@ export default (state: declaredState = initialState, action: ACTION) => {
                 otherUser: action.payload,
                 userSuccess: true
             }
-        
+        case "get_active_users_by_search_keyword":
+            return {
+                ...state,
+                users: action.payload,
+                userSuccess: true
+            }
         default:
             return state
     }

@@ -17,7 +17,8 @@ public interface PostRepos extends JpaRepository<Post, Long> {
     @Query( value = "select p from Post p LEFT JOIN p.owner owner WHERE p.content LIKE CONCAT('%', :content, '%') and owner.active = :active")
     List<Post> findByContentContainingAndActiveUser(String content, boolean active);
 
-     @Query(value= "select p from Post p LEFT JOIN p.tags tag where tag.content = :tag AND p.owner.active = true ORDER By p.dateCreated DESC")
+    //  @Query(value= "select p from Post p LEFT JOIN p.tags tag where tag.content = :tag AND p.owner.active = true ORDER By p.dateCreated DESC")
+    @Query(value= "select p from Post p LEFT JOIN p.tags tag where tag.content like CONCAT('%', :tag, '%') AND p.owner.active = true ORDER By p.dateCreated DESC")
     List<Post> findByTags(String tag);
     
     List<Post> findByContentContaining(String content);

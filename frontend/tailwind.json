@@ -29,6 +29,11 @@
 			"left": 0
 		}
 	},
+	"top-2": {
+		"style": {
+			"top": 8
+		}
+	},
 	"z-10": {
 		"style": {
 			"zIndex": 10
@@ -110,6 +115,11 @@
 	"mr-14": {
 		"style": {
 			"marginRight": 56
+		}
+	},
+	"ml-10": {
+		"style": {
+			"marginLeft": 40
 		}
 	},
 	"block": {
@@ -401,6 +411,11 @@
 	"pb-2": {
 		"style": {
 			"paddingBottom": 8
+		}
+	},
+	"pl-12": {
+		"style": {
+			"paddingLeft": 48
 		}
 	},
 	"text-center": {

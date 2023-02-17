@@ -88,6 +88,18 @@ export default (state: declareState = initialState, action: ACTION) => {
                 posts: action.payload,
                 postSuccess: true
             }
+        case "get_posts_by_search_keyword":
+             return {
+                ...state,
+                posts: action.payload,
+                postSuccess: true
+            }
+        case "get_posts_by_tag":
+            return {
+               ...state,
+               posts: action.payload,
+               postSuccess: true
+            }
         case "error_post":
             return {
                 ...state,

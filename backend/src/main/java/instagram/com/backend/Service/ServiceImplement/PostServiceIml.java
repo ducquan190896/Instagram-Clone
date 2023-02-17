@@ -86,12 +86,20 @@ public class PostServiceIml implements PostService {
 
     @Override
     public List<PostResponse> getPostsByTag(String tagName) {
-        Optional<Tag> entity = tagRepos.findByContent(tagName);
-        if(!entity.isPresent()) {
-            throw new EntityNotFoundException("the tag not found");
-        }
-        Tag tag = entity.get();
-        List<Post> posts = postRepos.findByTags(tagName);
+        // Optional<Tag> entity = tagRepos.findByContent(tagName);
+        // if(!entity.isPresent()) {
+        //     throw new EntityNotFoundException("the tag not found");
+        // }
+        // Tag tag = entity.get();
+        List<Tag> tags = tagRepos.findByContentContaining(tagName);
+       
+        // List<Post> posts = postRepos.findByTags(tagName);
+        List<Post> posts = new ArrayList<>();
+
+        tags.stream().forEach(tag -> {
+            List<Post> postTag = postRepos.findByTags(tag.getContent());
+            posts.addAll(postTag);
+        });
         
         List<PostResponse> responses = posts.stream().map(pos -> mapPostToResponse(pos)).collect(Collectors.toList());
         responses.sort((a, b) -> a.getDateUpdated().compareTo(b.getDateUpdated()));

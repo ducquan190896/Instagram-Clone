@@ -26,8 +26,8 @@ const LoginScreen = () => {
             // navigation.navigate("PersonalHome")        
             // navigation.navigate("FollowerScreen")   
             // navigation.navigate("OtherUserHomeScreen")
-            navigation.navigate("SearchScreen")
-
+            // navigation.navigate("SearchScreen")
+            navigation.navigate("CommentScreen")
             dispatch(ResetUser() as any)
         }
         if(userError ) {
