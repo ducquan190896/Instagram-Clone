@@ -27,7 +27,26 @@ export const getCommentsOfPost = (postId: number) => async(dispatch: Dispatch<AC
 
     } catch (err) {
         dispatch({
-            type: "error_tag",
+            type: "error_comment",
+            payload: err
+        })
+    }
+}
+export const getCommentByIdAction = (commentId: number) => async(dispatch: Dispatch<ACTION>, getState: any) => {
+    try {
+        const res = await fetch(`http://10.0.2.2:8080/api/comments/comment/${commentId}`)
+        const data = await res.json()
+        console.log("get_comment_by_id")
+        console.log(data)
+
+        dispatch({
+            type: "get_comment_by_id",
+            payload: data
+        })
+
+    } catch (err) {
+        dispatch({
+            type: "error_comment",
             payload: err
         })
     }
@@ -35,7 +54,9 @@ export const getCommentsOfPost = (postId: number) => async(dispatch: Dispatch<AC
 
 export const addCommentToPost = (commentFormOfPost: CommentOfPost) => async(dispatch: Dispatch<ACTION>, getState: any) => {
     try {
-        const token = await AsyncStorage.getItem("item")
+        console.log("add_comment_to_post")
+        const token = await AsyncStorage.getItem("token")
+        console.log(token)
         const res = await fetch("http://10.0.2.2:8080/api/comments/addCommentToPost", {
             method: "POST",
             headers: {
@@ -55,7 +76,7 @@ export const addCommentToPost = (commentFormOfPost: CommentOfPost) => async(disp
 
     } catch (err) {
         dispatch({
-            type: "error_tag",
+            type: "error_comment",
             payload: err
         })
     }
@@ -63,7 +84,7 @@ export const addCommentToPost = (commentFormOfPost: CommentOfPost) => async(disp
 
 export const addCommentToParentComment = (commentFormOfParentComment: CommentOfComment) => async(dispatch: Dispatch<ACTION>, getState: any) => {
     try {
-        const token = await AsyncStorage.getItem("item")
+        const token = await AsyncStorage.getItem("token")
         const res = await fetch("http://10.0.2.2:8080/api/comments/addCommentToParentComment", {
             method: "POST",
             headers: {
@@ -83,8 +104,13 @@ export const addCommentToParentComment = (commentFormOfParentComment: CommentOfC
 
     } catch (err) {
         dispatch({
-            type: "error_tag",
+            type: "error_comment",
             payload: err
         })
     }
+}
+export const resetCommentAction = () => (dispatch: Dispatch<ACTION>, getState: any) =>{
+    dispatch({
+        type: "reset_comment"
+    })
 }

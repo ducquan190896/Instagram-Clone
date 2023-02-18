@@ -10,4 +10,6 @@ public interface StoryService {
     List<StoryResponse> getStoriesByActiveOwner(Long ownerId);
     List<StoryResponse> getStoriesOfFollowings();
     StoryResponse createStory(StoryRequest storyRequest);
+    StoryResponse getStoryById(Long storyid);
+    void deleteStory(Long storyId);
 }

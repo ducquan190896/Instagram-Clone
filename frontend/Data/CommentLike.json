@@ -1,0 +1,20 @@
+[
+    {
+        "id": 3,
+        "ownerResponse": {
+            "id": 3,
+            "username": "quan2",
+            "email": "quan2",
+            "role": "USER",
+            "active": true,
+            "introduction": "quan2 manages the application",
+            "followersCount": 0,
+            "followingsCount": 0,
+            "avatarUrl": null,
+            "postCounts": 0
+        },
+        "postId": 2,
+        "commentId": 1,
+        "dateCreated": "2023-02--17 21:27"
+    }
+]

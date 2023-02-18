@@ -1,44 +1,152 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React, { useCallback, useEffect, useState } from 'react'
+import { Dimensions, FlatList, KeyboardAvoidingView, ListRenderItem, StyleSheet, Text, TouchableWithoutFeedback, View, TextInput, Image, TouchableOpacity, Alert } from 'react-native'
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../Store/Store'
 import { useTailwind } from 'tailwind-rn/dist'
-import { getCommentsOfPost } from '../Store/Actions/CommentAction'
+import { addCommentToParentComment, addCommentToPost, getCommentsOfPost, resetCommentAction } from '../Store/Actions/CommentAction'
 import { COMMENT } from '../Store/Reducers/CommentReducer'
 import LoadingComponent from '../Components/LoadingComponent'
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
+import { RootStackParamList } from '../Navigators/MainStack';
+import { SafeAreaView } from 'react-native-safe-area-context'
+import CommentItem from '../Components/CommentItem'
+import { Ionicons } from '@expo/vector-icons'; 
+import { EvilIcons } from '@expo/vector-icons';
 
 const CommentScreen = () => {
     //const {params} = useRoute()
     //const {postId} = params
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
+    const [isReply, setIsReply] = useState<boolean>(false)
+    const [parentCommentId, setParentCommentId] = useState<number | null>(null)
+    const [parent, setParent] = useState<string| null>(null)
+    const [commentInput, setCommentInput] = useState<string>("")
     const postId = 2
     const dispatch = useDispatch()
     const tw = useTailwind()
+    const height: number = Dimensions.get("window").height
+   
     const {comments, commentSuccess, commentError, comment} = useSelector((state: RootState) => state.COMMENTS);
+    const {user, userSuccess, userError} = useSelector((state: RootState) => state.USERS)
+    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>()
+    const scrollRef = useRef<FlatList>(null)
 
     const loadCommentsOfPost = useCallback(async () => {
+       if(!isRefreshing) {
+        setIsRefreshing(true)
         dispatch(getCommentsOfPost(postId) as any)
-    }, [postId, comments, commentSuccess])
+        setIsRefreshing(false)
+       }
+    }, [postId, comments, commentSuccess, isRefreshing])
+
+   
 
     useEffect(() => {
         setIsLoading(true)
         loadCommentsOfPost().then(() => setIsLoading(false))
     }, [postId])
+    useEffect(() => {
+      scrollRef.current?.scrollToEnd()
+    }, [comments])
+
+    useEffect(() => {
+      if(commentError || commentSuccess) {
+        dispatch(resetCommentAction() as any)
+      }
+    }, [commentSuccess, commentError])
+
+    useLayoutEffect(() => {
+      navigation.setOptions({
+        title: "Comments"
+      })
+    })
+
+    const renderCommentItem: ListRenderItem<any> = ({item}: {item: COMMENT}) => (
+      <CommentItem item={item} setIsReply={setIsReply} setParent={setParent} setParentCommentId={setParentCommentId}></CommentItem>
+    )
+
+    const sendMessageFunction = async () => {
+
+    
+
+      if(isReply && parent && parentCommentId) {
+        
+        const commentOfComment = {
+          content: commentInput,
+          postId: postId,
+          parentCommentId: parentCommentId
+        }
+         dispatch(addCommentToParentComment(commentOfComment) as any)
+        console.log("message: " + parent + " : id " + parentCommentId)
+        setIsReply(false)
+        setParentCommentId(null)
+        setParent(null)
+        setCommentInput("")
+      } else if(!isReply && !parent && !parentCommentId) {
+        const commentOfPost = {
+          content: commentInput,
+          postId: postId
+        }
+         dispatch(addCommentToPost(commentOfPost) as any)
+        setCommentInput("")
+      } else if(!commentInput || commentInput == "") {
+        Alert.alert("please type your comment")
+      }
+    }
+    const removeReplyComment = () => {
+      setIsReply(false)
+      setParentCommentId(null)
+      setParent(null)
+      setCommentInput("")
+      console.log("message: " + parent + " : id " + parentCommentId)
+    }
+  
 
     if(isLoading) {
         return <LoadingComponent/>
     }
   
-    if(!isLoading && comments && (comments as COMMENT[]).length <= 0) {
-        return <View style={tw('flex-1 items-center justify-center')}>
-                  <Text style={tw('text-lg font-bold text-center')}>No comments</Text>
-                </View>
-    }
+  
 
   return (
-    <View>
-      <Text>CommentScreen</Text>
-    </View>
+    <SafeAreaView style={tw('flex-1')}>
+      <KeyboardAvoidingView style={tw('flex-1')}>
+        <TouchableWithoutFeedback style={tw('flex-1')}>
+          <>
+          <FlatList
+          showsVerticalScrollIndicator={false}
+          ref={scrollRef}
+          refreshing={isRefreshing}
+          onRefresh={loadCommentsOfPost}
+          data={comments?.filter((comm: COMMENT) => comm.parentCommentId == null)}
+          keyExtractor={(item) => item.id}
+          renderItem={renderCommentItem}
+          scrollEventThrottle={30}
+          style={{height: height - 50}}
+          >
+          </FlatList>
+          {isReply && parent && parentCommentId && (
+            <View style={tw('w-full z-10 bg-gray-200 py-2 px-4 flex-row items-center justify-center')}>
+              <Text style={tw('text-zinc-500 text-base  flex-1')}>Replying to {parent}</Text>
+              <TouchableOpacity onPress={removeReplyComment} style={tw('mx-2')}>
+                <EvilIcons name="close" size={24} color="black" />
+              </TouchableOpacity>
+            </View>
+          )}
+          <View style={tw('w-full py-2 flex-row items-center justify-center')}>
+            {user && <Image style={[tw('w-8 h-8 rounded-full bg-white ml-2 mr-2'), {resizeMode: 'contain'}]} source={user.avatarUrl ? {uri: user.avatarUrl}: require("../assets/download.png")}></Image>}
+            <TextInput placeholder='your comment'  style={tw('flex-1  text-base bg-gray-300 rounded-full py-2 px-6')} value={commentInput} onChangeText={(text: string) => setCommentInput(text)}></TextInput>
+            <TouchableOpacity onPress={sendMessageFunction} style={tw('mx-2')}>
+              <Ionicons name="send-sharp" size={24} color="#3b82f6" />
+            </TouchableOpacity>
+          </View>
+          </>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    
+    </SafeAreaView>
   )
 }
 

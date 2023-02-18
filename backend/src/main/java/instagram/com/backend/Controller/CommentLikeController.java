@@ -37,4 +37,8 @@ public class CommentLikeController {
         commentLikeService.removeLikeFromComment(commentId);
         return new ResponseEntity<HttpStatus>( HttpStatus.NO_CONTENT);
     }
+    @GetMapping("/checkCommentLikeByAuthUser/{commentId}")
+    public ResponseEntity<Boolean> checkCommentLikeStatusByAuthUser(@PathVariable Long commentId) {
+       return new ResponseEntity<Boolean>(commentLikeService.checkCommentLikeStatus(commentId), HttpStatus.OK); 
+    }
 }

@@ -18,4 +18,7 @@ public interface StoryRepos extends JpaRepository<Story, Long> {
 
     @Query(value = "select story from Story story LEFT JOIN story.owner owner where owner.active = :active AND owner.id in :ids ORDER BY story.dateCreated DESC")
     List<Story> findByActiveFollowings(List<Long> ids, boolean active);
+
+    @Query(value= "select story from Story story LEFT JOIN story.owner owner where owner.id = :ownerId")
+    List<Story> findByOwnerId(Long ownerId);
 }

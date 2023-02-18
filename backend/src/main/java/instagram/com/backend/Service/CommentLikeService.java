@@ -8,4 +8,5 @@ public interface CommentLikeService {
     CommentLikeResponse likeComment(Long postId, Long commentId);
     void removeLikeFromComment(Long commentId);
     List<CommentLikeResponse> getCommentLikesByComment(Long commentId);
+    boolean checkCommentLikeStatus(long commentId);
 }

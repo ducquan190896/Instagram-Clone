@@ -135,7 +135,17 @@ public class CommentServiceIml implements CommentService {
         responses.sort((a, b) -> a.getDateCreated().compareTo(b.getDateCreated()));
         return responses;
     }
-   
+    
+
+    @Override
+    public CommentResponse getCommentById(Long commentId) {
+        Optional<Comment> entity = commentRepos.findById(commentId);
+        if(!entity.isPresent()) {
+            throw new EntityNotFoundException("the comment not found");
+        }
+        Comment comment = entity.get();
+        return mapCommentToResponse(comment);
+    }
 
     private Post isCheckPost(Long postId) {
         Optional<Post> entity = postRepos.findById(postId);

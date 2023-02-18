@@ -10,4 +10,5 @@ public interface CommentService {
     CommentResponse addCommentToParentComment(CommentRequest commentRequest);
     List<CommentResponse> getCommentsByPost(Long postId);
     List<CommentResponse> getCommentsByParentComment(Long parentCommentId);
+    CommentResponse getCommentById(Long commentId);
 }

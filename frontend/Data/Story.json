@@ -1,0 +1,44 @@
+[
+    {
+        "id": 2,
+        "likeCount": 0,
+        "dateCreated": "2023-02--17 23:08",
+        "imageUrls": [
+            "lkajsdfasdf.png",
+            "dlkajfdlklkjlfsadffffffk.png"
+        ],
+        "owner": {
+            "id": 2,
+            "username": "quan",
+            "email": "quan",
+            "role": "USER",
+            "active": true,
+            "introduction": "quan manages the application",
+            "followersCount": 0,
+            "followingsCount": 0,
+            "avatarUrl": null,
+            "postCounts": 0
+        }
+    },
+    {
+        "id": 1,
+        "likeCount": 0,
+        "dateCreated": "2023-02--17 23:08",
+        "imageUrls": [
+            "lkajsdf.png",
+            "dlkajfdlklkjlk.png"
+        ],
+        "owner": {
+            "id": 2,
+            "username": "quan",
+            "email": "quan",
+            "role": "USER",
+            "active": true,
+            "introduction": "quan manages the application",
+            "followersCount": 0,
+            "followingsCount": 0,
+            "avatarUrl": null,
+            "postCounts": 0
+        }
+    }
+]

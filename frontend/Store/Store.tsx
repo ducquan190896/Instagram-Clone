@@ -2,6 +2,7 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import thunk from 'redux-thunk';
+import CommentLikeReducer from './Reducers/CommentLikeReducer';
 import CommentReducer from './Reducers/CommentReducer';
 import FollowReducer from './Reducers/FollowReducer';
 import PostsReducer from './Reducers/PostsReducer';
@@ -18,7 +19,8 @@ const rootReducer = combineReducers({
     VOTES: VoteReducer,
     FOLLOWS: FollowReducer,
     TAGS: TagReducer,
-    COMMENTS: CommentReducer
+    COMMENTS: CommentReducer,
+    COMMENTLIKES: CommentLikeReducer
 });
 
 const middleware = [thunk];

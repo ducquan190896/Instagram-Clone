@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import instagram.com.backend.Entity.Request.CommentRequest;
 import instagram.com.backend.Entity.Response.CommentResponse;
+import instagram.com.backend.Service.CommentLikeService;
 import instagram.com.backend.Service.CommentService;
 
 @RestController
@@ -44,4 +45,10 @@ public class CommentController {
     public ResponseEntity<List<CommentResponse>> getCommentsByParentComment(@PathVariable Long parentCommentId) {
         return new ResponseEntity<List<CommentResponse>>(commentService.getCommentsByParentComment(parentCommentId), HttpStatus.OK);
     }
+
+    @GetMapping("/comment/{commentId}")
+    public ResponseEntity<CommentResponse> getCommentById(@PathVariable Long commentId) {
+        return new ResponseEntity<CommentResponse>(commentService.getCommentById(commentId), HttpStatus.OK);
+    }
+   
 }

@@ -44,7 +44,7 @@ export default (state: declaredState = initialState, action: ACTION) => {
             return {
                 ...state,
                 comment: action.payload,
-                comments: [action.payload, ...state.comments],
+                comments: [...state.comments, action.payload],
                 commentSuccess: true
             }
 
@@ -52,8 +52,28 @@ export default (state: declaredState = initialState, action: ACTION) => {
             return {
                 ...state,
                 comment: action.payload,
-                comments: [action.payload, ...state.comments],
+                comments: [...state.comments, action.payload],
                 commentSuccess: true
+            }
+        case "get_comment_by_id":
+            return {
+                ...state,
+                comment: action.payload,
+                comments: state.comments.map(com => com.id == action.payload.id ? action.payload: com),
+                commentSuccess: true
+            }
+        case "error_comment":
+            return  {
+                ...state,
+                commentError: true,
+                message: action.payload
+            }
+        case "reset_comment":
+            return {
+                ...state,
+                commentSuccess: false,
+                commentError: false,
+                message:  null
             }
         default:
             return state

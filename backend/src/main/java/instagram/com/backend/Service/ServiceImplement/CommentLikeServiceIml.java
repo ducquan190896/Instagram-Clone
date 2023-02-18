@@ -56,6 +56,20 @@ public class CommentLikeServiceIml implements CommentLikeService {
         responses.sort((a, b) -> a.getDateCreated().compareTo(b.getDateCreated()));
         return responses;
     }
+    
+
+    @Override
+    public boolean checkCommentLikeStatus(long commentId) {
+        Users authUser = getAuthUser();
+        Comment comment = isCheckComment(commentId);
+        Optional<CommentLike> entity = commentLikeRepos.findByOwnerAndComment(authUser, comment);
+        if(entity.isPresent()) {
+            return true;
+        }
+        return false;
+
+    }
+
 
     @Override
     public CommentLikeResponse likeComment(Long postId, Long commentId) {

@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,6 +44,16 @@ public class StoryController {
       // access for only authUser
     @PostMapping("/authUser/createStory")
     public ResponseEntity<StoryResponse> createStories(@Valid @RequestBody StoryRequest storyRequest) {
-          return new ResponseEntity<StoryResponse>(storyService.createStory(storyRequest), HttpStatus.OK);
+          return new ResponseEntity<StoryResponse>(storyService.createStory(storyRequest), HttpStatus.CREATED);
+      }
+    @DeleteMapping("/authUser/deleteStory/{storyId}")
+    public ResponseEntity<HttpStatus> deleteStory(@PathVariable Long storyId) {
+        storyService.deleteStory(storyId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/story/{storyId}")
+    public ResponseEntity<StoryResponse> getStory(@PathVariable Long storyId) {
+          return new ResponseEntity<StoryResponse>(storyService.getStoryById(storyId), HttpStatus.OK);
       }
 }

@@ -1,6 +1,7 @@
 package instagram.com.backend.Service.ServiceImplement;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -16,6 +17,7 @@ import instagram.com.backend.Entity.Users;
 import instagram.com.backend.Entity.Request.StoryRequest;
 import instagram.com.backend.Entity.Response.StoryResponse;
 import instagram.com.backend.Entity.Response.UserResponse;
+import instagram.com.backend.Exception.BadResultException;
 import instagram.com.backend.Exception.EntityNotFountException;
 import instagram.com.backend.Repository.FollowRepos;
 import instagram.com.backend.Repository.StoryRepos;
@@ -42,6 +44,39 @@ public class StoryServiceIml implements StoryService {
         StoryResponse response = mapStoryToResponse(story);
         return response;
     }
+    @Override
+    public void deleteStory(Long storyId) {
+        Users authUser = getAuthUser();
+        Optional<Story> entity = storyRepos.findById(storyId);
+
+        if(!entity.isPresent()) {
+            throw new EntityNotFountException("the story not found");
+        }
+
+        Story story = entity.get();
+        if(authUser.getId() != story.getOwner().getId()) {
+            throw new BadResultException("unauthorized to delete the story");
+        }
+        authUser.getStories().remove(story);
+        usersRepos.save(authUser);
+        storyRepos.delete(story);
+        
+    }
+    
+
+    @Override
+    public StoryResponse getStoryById(Long storyid) {
+        
+        Optional<Story> entity = storyRepos.findById(storyid);
+
+        if(!entity.isPresent()) {
+            throw new EntityNotFountException("the story not found");
+        }
+
+        Story story = entity.get();
+        StoryResponse response = mapStoryToResponse(story);
+        return response;
+    }
 
     @Override
     public List<StoryResponse> getStories() {
@@ -65,11 +100,25 @@ public class StoryServiceIml implements StoryService {
         List<Follow> followings = followreRepos.findByFollowing(authUser);
         List<Long> followingIds = followings.stream().map(follow -> follow.getFollower().getId()).collect(Collectors.toList());
         
+        List<Story> largeStories = new ArrayList<>();
+
         List<Story> stories = storyRepos.findByActiveFollowings(followingIds, true);
+
+        List<Story> storiesAuthUser = storyRepos.findByOwnerId(authUser.getId());
+        largeStories.addAll(storiesAuthUser);
+        largeStories.addAll(stories);
 
         //check the creation expiry of story with 24h
         LocalDateTime currentTime = LocalDateTime.now();
-        List<Story> storiesFilter = stories.stream().filter(story ->  (currentTime.getHour() - story.getDateCreated().getHour()) <= 24).collect(Collectors.toList());
+        List<Story> storiesFilter = largeStories.stream().filter(story -> {
+            
+            if(story.getDateCreated().plusDays(2).isAfter(currentTime)) {
+                return true;
+            } else {
+                return false;
+            }
+
+        }).collect(Collectors.toList());
 
         List<StoryResponse> responses = storiesFilter.stream().map(story -> mapStoryToResponse(story)).collect(Collectors.toList());
         return responses;
