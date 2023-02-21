@@ -11,4 +11,5 @@ public interface StoryLikeService {
     StoryLikeResponse likeStory(Long storyId);
     // for authUser
     void removeLikeFromStory(Long storyId);
+    boolean checkStoryLikeByAuthUser(Long storyId);
 }

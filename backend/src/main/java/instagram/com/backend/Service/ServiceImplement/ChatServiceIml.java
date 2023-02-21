@@ -92,7 +92,17 @@ public class ChatServiceIml implements ChatService {
         }
        
     }
+    
 
+
+    @Override
+    public ChatResponse getChatById(Long chatId) {
+        Optional<Chat> chatEntity = chatRepos.findById(chatId);
+        if(!chatEntity.isPresent()) {
+            throw new EntityNotFoundException("the chat not found");
+        }
+        return mapChatToResponse(chatEntity.get());
+    }
 
     @Override
     public List<ChatResponse> getChatsByAuthUser() {

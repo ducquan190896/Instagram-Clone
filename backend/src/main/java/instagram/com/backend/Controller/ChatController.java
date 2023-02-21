@@ -36,4 +36,8 @@ public class ChatController {
     public ResponseEntity<ChatResponse> getChatByAuthUserAndReceiver(@PathVariable Long receiverId) {
         return new ResponseEntity<ChatResponse>(chatService.getChatByAuthUserAndReceiver(receiverId), HttpStatus.OK);
     }
+    @GetMapping("/chat/{chatId}")
+    public ResponseEntity<ChatResponse> getChatById(@PathVariable Long chatId) {
+        return new ResponseEntity<ChatResponse>(chatService.getChatById(chatId), HttpStatus.OK);
+    }
 }

@@ -9,7 +9,7 @@ export interface STORYFORM {
 export const getStoriesOfFollowingsAction = () => async (dispatch: Dispatch<ACTION>, getState: any) => {
     try {
         const token = await AsyncStorage.getItem("token")
-        const res = await fetch("http://localhost:8080/api/stories/authUser/allByFollowings", {
+        const res = await fetch("http://10.0.2.2:8080/api/stories/authUser/allByFollowings", {
             method: "GET",
             headers: {
                 "Authorization": token ?? ""
@@ -36,7 +36,7 @@ export const getStoriesOfFollowingsAction = () => async (dispatch: Dispatch<ACTI
 export const getStoryByidAction = (storyId: number) => async (dispatch: Dispatch<ACTION>, getState: any) => {
     try {
         const token = await AsyncStorage.getItem("token")
-        const res = await fetch(`http://localhost:8080/api/stories/story/${storyId}`, {
+        const res = await fetch(`http://10.0.2.2:8080/api/stories/story/${storyId}`, {
             method: "GET",
             headers: {
                 "Authorization": token ?? ""
@@ -62,7 +62,7 @@ export const getStoryByidAction = (storyId: number) => async (dispatch: Dispatch
 export const deleteStoryAction = (storyId: number) => async (dispatch: Dispatch<ACTION>, getState: any) => {
     try {
         const token = await AsyncStorage.getItem("token")
-        await fetch(`http://localhost:8080/api/stories/authUser/deleteStory/${storyId}`, {
+        await fetch(`http://10.0.2.2:8080/api/stories/authUser/deleteStory/${storyId}`, {
             method: "DELETE",
             headers: {
                 "Authorization": token ?? ""
@@ -86,7 +86,7 @@ export const deleteStoryAction = (storyId: number) => async (dispatch: Dispatch<
 export const createStoryAction = (storyForm: STORYFORM) => async (dispatch: Dispatch<ACTION>, getState: any) => {
     try {
         const token = await AsyncStorage.getItem("token")
-        const res = await fetch("http://localhost:8080/api/stories/authUser/createStory", {
+        const res = await fetch("http://10.0.2.2:8080/api/stories/authUser/createStory", {
             method: "POST",
             headers: {
                 "Authorization": token ?? "",
@@ -109,4 +109,10 @@ export const createStoryAction = (storyForm: STORYFORM) => async (dispatch: Disp
             payload: err
         })
     }
+}
+
+export const resetStoryAction = () => async (dispatch: Dispatch<ACTION>, getState: any) => {
+    dispatch({
+        type: "reset_story"
+    })
 }

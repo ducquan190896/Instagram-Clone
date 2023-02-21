@@ -11,7 +11,7 @@ interface ACTION {
     type: string,
     payload?: any
 }
-interface declaredState  {
+export interface declaredStateStory  {
     story: STORY | {},
     stories: STORY[] | [],
     storySuccess: boolean,
@@ -27,7 +27,7 @@ const initialState = {
     message:  null
 }
 
-export default (state: declaredState = initialState, action: ACTION) => {
+export default (state: declaredStateStory = initialState, action: ACTION) => {
     switch(action.type) {
         case "get_stories_by_followings_and_authUser":
             return {
@@ -39,6 +39,7 @@ export default (state: declaredState = initialState, action: ACTION) => {
             return {
                 ...state,
                 story: action.payload,
+                stories: state.stories.map((sto: STORY) => sto.id == action.payload.id ? action.payload: sto),
                 storySuccess: true
             }
         case "create_story":

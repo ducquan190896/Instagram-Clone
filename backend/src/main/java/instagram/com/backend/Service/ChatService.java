@@ -10,4 +10,5 @@ public interface ChatService {
     //for admin
     List<ChatResponse> getAllChats();
     ChatResponse getChatByAuthUserAndReceiver(Long receiverId);
+    ChatResponse getChatById(Long chatId);
 }

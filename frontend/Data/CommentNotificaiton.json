@@ -1,0 +1,114 @@
+[
+    {
+        "id": 1,
+        "type": "ADD_COMMENT_TO_PARENT_COMMENT",
+        "creatorResponse": {
+            "id": 3,
+            "username": "quan2",
+            "email": "quan2",
+            "role": "USER",
+            "active": true,
+            "introduction": "quan2 manages the application",
+            "followersCount": 0,
+            "followingsCount": 1,
+            "avatarUrl": null,
+            "postCounts": 0
+        },
+        "receiverResponse": {
+            "id": 2,
+            "username": "quan",
+            "email": "quan",
+            "role": "USER",
+            "active": true,
+            "introduction": "quan manages the application",
+            "followersCount": 1,
+            "followingsCount": 0,
+            "avatarUrl": null,
+            "postCounts": 0
+        },
+        "postResponse": {
+            "id": 2,
+            "content": "hello instagram 2",
+            "imageUrls": [],
+            "dateCreated": "2023-02--21 11:42",
+            "dateUpdated": "2023-02--21 14:57",
+            "commentCount": 2,
+            "likeCount": 0,
+            "userResponse": {
+                "id": 3,
+                "username": "quan2",
+                "email": "quan2",
+                "role": "USER",
+                "active": true,
+                "introduction": "quan2 manages the application",
+                "followersCount": 0,
+                "followingsCount": 1,
+                "avatarUrl": null,
+                "postCounts": 0
+            },
+            "tags": [
+                "helsinki"
+            ],
+            "poll": null
+        },
+        "commentContent": "hello there",
+        "parentCommentId": 3,
+        "dateCreated": "2023-02-21 14:57"
+    },
+    {
+        "id": 2,
+        "type": "COMMENT_LIKE",
+        "creatorResponse": {
+            "id": 3,
+            "username": "quan2",
+            "email": "quan2",
+            "role": "USER",
+            "active": true,
+            "introduction": "quan2 manages the application",
+            "followersCount": 0,
+            "followingsCount": 1,
+            "avatarUrl": null,
+            "postCounts": 0
+        },
+        "receiverResponse": {
+            "id": 2,
+            "username": "quan",
+            "email": "quan",
+            "role": "USER",
+            "active": true,
+            "introduction": "quan manages the application",
+            "followersCount": 1,
+            "followingsCount": 0,
+            "avatarUrl": null,
+            "postCounts": 0
+        },
+        "postResponse": {
+            "id": 2,
+            "content": "hello instagram 2",
+            "imageUrls": [],
+            "dateCreated": "2023-02--21 11:42",
+            "dateUpdated": "2023-02--21 14:57",
+            "commentCount": 2,
+            "likeCount": 0,
+            "userResponse": {
+                "id": 3,
+                "username": "quan2",
+                "email": "quan2",
+                "role": "USER",
+                "active": true,
+                "introduction": "quan2 manages the application",
+                "followersCount": 0,
+                "followingsCount": 1,
+                "avatarUrl": null,
+                "postCounts": 0
+            },
+            "tags": [
+                "helsinki"
+            ],
+            "poll": null
+        },
+        "commentContent": "hello there",
+        "parentCommentId": 3,
+        "dateCreated": "2023-02-21 14:57"
+    }
+]

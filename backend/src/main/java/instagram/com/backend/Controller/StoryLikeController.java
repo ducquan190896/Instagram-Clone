@@ -37,4 +37,9 @@ public class StoryLikeController {
         return new ResponseEntity<HttpStatus>( HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/checkStoryLikeByAuthUser/{storyId}")
+    public ResponseEntity<Boolean> checkStoryLikeByAuthUser(@PathVariable Long storyId) {
+        return new ResponseEntity<Boolean>(storyLikeService.checkStoryLikeByAuthUser(storyId), HttpStatus.OK);
+    }
+
 }

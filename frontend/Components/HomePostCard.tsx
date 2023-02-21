@@ -160,7 +160,7 @@ const HomePostCard = ({post, isLoading, setIsLoading}: {post: Post, isLoading: b
     <View style={tw('w-full my-2')}>
       <View style={tw('w-full px-4 pb-2 flex-row items-center')}>
         <View style={tw('rounded-full border border-red-600 border-2')}>
-            <Image style={[tw('w-14 h-14 rounded-full bg-white '), {resizeMode: 'contain'}]} source={post?.userResponse?.avatarUrl ? {uri: post?.userResponse?.avatarUrl}: require("../assets/download.png")}></Image>
+            <Image style={[tw('w-10 h-10 rounded-full bg-white '), {resizeMode: 'contain'}]} source={post?.userResponse?.avatarUrl ? {uri: post?.userResponse?.avatarUrl}: require("../assets/download.png")}></Image>
         </View>
         <Text style={tw('ml-4 text-lg font-bold')}>{post?.userResponse?.username}</Text>
       </View>

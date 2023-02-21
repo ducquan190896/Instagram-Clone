@@ -11,10 +11,17 @@ import OtherUserHomeScreen from '../Screens/OtherUserHomeScreen';
 import SearchScreen from '../Screens/SearchScreen';
 import PostsByTagScreen from '../Screens/PostsByTagScreen';
 import CommentScreen from '../Screens/CommentScreen';
+import StoryCreateForm from '../Screens/StoryCreateForm';
+import StoryScreen from '../Screens/StoryScreen';
+import ChatsScreen from '../Screens/ChatsScreen';
+import ChatSearchScreen from '../Screens/ChatSearchScreen';
+import ConversationScreen from '../Screens/ConversationScreen';
+import NotificationsScreen from '../Screens/NotificationsScreen';
 
 export type RootStackParamList = {
-    // Home: undefined,
+   
    Login: undefined,
+  //  Home: undefined
   //  CreatePostForm: undefined
   // PersonalHome: undefined
   // FollowerScreen: undefined
@@ -24,8 +31,18 @@ export type RootStackParamList = {
   // PostsByTagScreen: {
   //   tag: string
   // }
-  CommentScreen: undefined
-  
+  // CommentScreen: undefined,
+  // StoryCreateForm: undefined,
+  // StoryScreen: {
+  //   storyIndex: number,
+  //   activeIndexProp?: number
+  // },
+  // ChatsScreen: undefined,
+  // ConversationScreen:{
+  //   chatId: number
+  // },
+  NotificationsScreen: undefined
+
   };
   const stack = createNativeStackNavigator<RootStackParamList>()
 const MainStack = () => {
@@ -40,7 +57,12 @@ const MainStack = () => {
            {/* <stack.Screen component={OtherUserHomeScreen}  name="OtherUserHomeScreen"></stack.Screen> */}
            {/* <stack.Screen component={SearchScreen}   name="SearchScreen"></stack.Screen>  */}
            {/* <stack.Screen component={PostsByTagScreen} name="PostsByTagScreen"></stack.Screen> */}
-           <stack.Screen component={CommentScreen} name="CommentScreen"></stack.Screen>
+           {/* <stack.Screen component={CommentScreen} name="CommentScreen"></stack.Screen> */}
+           {/* <stack.Screen component={StoryCreateForm} options={{title: "Create Story"}}  name="StoryCreateForm"></stack.Screen>
+           <stack.Screen component={StoryScreen} options={{headerShown: false}}   name="StoryScreen"></stack.Screen> */}
+            {/* <stack.Screen component={ChatsScreen} options={{title: "your chats"}}  name="ChatsScreen"></stack.Screen> */}
+            {/* <stack.Screen component={ConversationScreen} options={{headerShown: false}}  name="ConversationScreen"></stack.Screen> */}
+          <stack.Screen component={NotificationsScreen} options={{title: "Notifications"}}    name="NotificationsScreen"></stack.Screen>
         </stack.Navigator>
   )
 }

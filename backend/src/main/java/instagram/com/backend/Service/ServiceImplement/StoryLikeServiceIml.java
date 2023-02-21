@@ -97,8 +97,21 @@ public class StoryLikeServiceIml implements StoryLikeService {
 
         
     }
+    
 
-     private Users isCheck(Optional<Users> entity) {
+     @Override
+    public boolean checkStoryLikeByAuthUser(Long storyId) {
+        Users authUser = getAuthUser();
+        Story story = isCheckStory(storyId);
+        Optional<StoryLike> entity = storyLikeRepos.findByOwnerAndStory(authUser, story);
+        if(entity.isPresent()) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+    private Users isCheck(Optional<Users> entity) {
         if(entity.isPresent()) {
             return entity.get();
         }

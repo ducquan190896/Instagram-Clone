@@ -17,6 +17,8 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/ty
 
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../Navigators/MainStack'
+import StoryList from '../Components/Story/StoryList'
+import { getStoriesOfFollowingsAction } from '../Store/Actions/StoryAction'
 
 const HomeScreen = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -26,6 +28,7 @@ const HomeScreen = () => {
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>()
     // console.log(posts)
     const {posts, postSuccess, postError, message} = useSelector((state: RootState) => state.POSTS)
+    const {stories, storySuccess, storyError} = useSelector((state: RootState) => state.STORIES)
 
     const renderPostList: ListRenderItem<any> = ({item}: {item: Post}) => (
     <HomePostCard post={item} isLoading={isLoading} setIsLoading={setIsLoading}></HomePostCard>  
@@ -37,11 +40,15 @@ const HomeScreen = () => {
     
     }, [posts, postSuccess, dispatch])
 
+    const loadStoryMainPage = useCallback(async () => {
+        await dispatch(getStoriesOfFollowingsAction() as any)
+    }, [stories, dispatch, storySuccess])
+
 
     useEffect(() => {
         setIsLoading(true)
-        loadPostsMainPage().then(() => setIsLoading(false))
-    }, [postSuccess, dispatch])
+        loadPostsMainPage().then(() => loadStoryMainPage()).then(() => setIsLoading(false))
+    }, [postSuccess, dispatch, storySuccess])
 
     // useEffect(() => {
     //     if(postSuccess || postError) {
@@ -81,8 +88,8 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView style={tw('flex-1')}>
-    <View style={tw('w-full flex-row py-2 px-2 items-center justify-between')}>
-        <Image style={[tw('w-32 h-20 -z-10'), {resizeMode: 'contain'}]} source={require("../assets/logo.png")}></Image>
+    <View style={tw('w-full flex-row px-2 items-center justify-between')}>
+        <Image style={[tw('w-32 h-14 -z-10'), {resizeMode: 'contain'}]} source={require("../assets/logo.png")}></Image>
         <View style={tw('flex-row items-center')}>
             <TouchableOpacity onPress={() => navigation.navigate("Login")}  style={tw('mr-4')}>
                 <Text>Go Back</Text>
@@ -98,15 +105,19 @@ const HomeScreen = () => {
             </TouchableOpacity>
         </View>
     </View>
-
-
-        <FlatList
+    
+   <View style={tw('w-full flex-row py-2 border-b border-t border-gray-300 px-2 items-center justify-between')}>
+       
+        <StoryList navigation={navigation} stories={stories}></StoryList>
+   </View>
+    <FlatList
         data={posts}
         keyExtractor={(item: any) => item.id}
         renderItem={renderPostList}
         showsVerticalScrollIndicator={false}
         >
-        </FlatList>
+    </FlatList>
+
    
    
 

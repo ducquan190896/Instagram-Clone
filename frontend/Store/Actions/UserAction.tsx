@@ -242,7 +242,7 @@ export const Register = (registerForm: RegisterForm) => async (dispatch: Dispatc
      console.log("get_active_users_by_search_keyword")
      console.log(data)
      const dataFilter = data.filter((user: USER) => user.role == "USER")
-
+    
      dispatch({
          type: "get_active_users_by_search_keyword",
          payload: dataFilter
