@@ -17,6 +17,8 @@ import ChatsScreen from '../Screens/ChatsScreen';
 import ChatSearchScreen from '../Screens/ChatSearchScreen';
 import ConversationScreen from '../Screens/ConversationScreen';
 import NotificationsScreen from '../Screens/NotificationsScreen';
+import AdminHome from '../Screens/Admin/AdminHome';
+import AdminOtherUserHomeScreen from '../Screens/Admin/AdminOtherUserHomeScreen';
 
 export type RootStackParamList = {
    
@@ -26,8 +28,10 @@ export type RootStackParamList = {
   // PersonalHome: undefined
   // FollowerScreen: undefined
   // FollowingScreen: undefined
-  // OtherUserHomeScreen: undefined
-  // SearchScreen: undefined,
+  // OtherUserHomeScreen: {
+  //   userId: number
+  // },
+  // SearchScreen: undefine
   // PostsByTagScreen: {
   //   tag: string
   // }
@@ -41,7 +45,11 @@ export type RootStackParamList = {
   // ConversationScreen:{
   //   chatId: number
   // },
-  NotificationsScreen: undefined
+  // NotificationsScreen: undefined,
+  AdminHome: undefined,
+  AdminOtherUserHomeScreen: {
+    userId: number
+  },
 
   };
   const stack = createNativeStackNavigator<RootStackParamList>()
@@ -62,7 +70,9 @@ const MainStack = () => {
            <stack.Screen component={StoryScreen} options={{headerShown: false}}   name="StoryScreen"></stack.Screen> */}
             {/* <stack.Screen component={ChatsScreen} options={{title: "your chats"}}  name="ChatsScreen"></stack.Screen> */}
             {/* <stack.Screen component={ConversationScreen} options={{headerShown: false}}  name="ConversationScreen"></stack.Screen> */}
-          <stack.Screen component={NotificationsScreen} options={{title: "Notifications"}}    name="NotificationsScreen"></stack.Screen>
+          {/* <stack.Screen component={NotificationsScreen} options={{title: "Notifications"}}    name="NotificationsScreen"></stack.Screen> */}
+          <stack.Screen component={AdminHome} options={{title: "Admin"}}    name="AdminHome"></stack.Screen>
+          <stack.Screen component={AdminOtherUserHomeScreen} name="AdminOtherUserHomeScreen"></stack.Screen>
         </stack.Navigator>
   )
 }

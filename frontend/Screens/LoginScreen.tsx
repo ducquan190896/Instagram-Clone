@@ -20,18 +20,24 @@ const LoginScreen = () => {
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>()
 
     useEffect(() => {
-        if(userSuccess ) {
-            // navigation.navigate("Home")   
-            // navigation.navigate("CreatePostForm") 
-            // navigation.navigate("PersonalHome")        
-            // navigation.navigate("FollowerScreen")   
-            // navigation.navigate("OtherUserHomeScreen")
-            // navigation.navigate("SearchScreen")
-            // navigation.navigate("CommentScreen")
-            // navigation.navigate("ChatsScreen")
-            navigation.navigate("NotificationsScreen")
-            dispatch(ResetUser() as any)
-        }
+        // if(userSuccess && user.role == "USER" ) {
+        //     // navigation.navigate("Home")   
+        //     // navigation.navigate("CreatePostForm") 
+        //     // navigation.navigate("PersonalHome")        
+        //     // navigation.navigate("FollowerScreen")   
+        //     // navigation.navigate("OtherUserHomeScreen")
+        //     // navigation.navigate("SearchScreen")
+        //     // navigation.navigate("CommentScreen")
+        //     // navigation.navigate("ChatsScreen")
+        //     // navigation.navigate("NotificationsScreen")
+            
+        //     dispatch(ResetUser() as any)
+        // }
+        // if(userSuccess && user.role == "ADMIN" ) {
+           
+        //     navigation.navigate("AdminHome")
+        //     dispatch(ResetUser() as any)
+        // }
         if(userError ) {
             Alert.alert("login failed")       
             dispatch(ResetUser() as any)
@@ -45,7 +51,10 @@ const LoginScreen = () => {
            await  dispatch(login({username, password}) as any)
            setUsername("")
            setPassword("")
-
+           if(user && user.role == "ADMIN") {
+            navigation.navigate("AdminHome")
+           }
+          
         } else {
             Alert.alert("please fill all required information")
         }

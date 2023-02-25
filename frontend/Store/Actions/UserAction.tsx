@@ -255,6 +255,84 @@ export const Register = (registerForm: RegisterForm) => async (dispatch: Dispatc
     }
  
  }
+ export const getUsersBySearchKeywordForAdminAction= (keyword: string) => async (dispatch: Dispatch<ACTION>, getState: any) => {
+    try {
+        const token : string | null = await AsyncStorage.getItem("token");
+        const res = await fetch(`http://10.0.2.2:8080/api/users/searchByName/${keyword}`, {
+        method: "GET",
+        headers: {
+            "Authorization": token ?? ""
+        }
+    })
+     const data = await res.json()
+     const dataFilter = data.filter((user: USER) => user.role == "USER")
+     console.log("get_users_by_search_keyword_for_admin")
+     console.log(dataFilter)
+    
+     dispatch({
+         type: "get_users_by_search_keyword_for_admin",
+         payload: dataFilter
+     })
+    } catch (err) {
+     dispatch({
+         type: "USER_ERROR",
+         payload: err
+     })
+    }
+ 
+ }
+ export const getAllUsersForAdminAction= () => async (dispatch: Dispatch<ACTION>, getState: any) => {
+    try {
+        const token : string | null = await AsyncStorage.getItem("token");
+        const res = await fetch("http://10.0.2.2:8080/api/users/all", {
+        method: "GET",
+        headers: {
+            "Authorization": token ?? ""
+        }
+    })
+     const data = await res.json()
+     const dataFilter = data.filter((user: USER) => user.role == "USER")
+     console.log("get_all_users_for_admin")
+     console.log(dataFilter)
+  
+    
+     dispatch({
+         type: "get_all_users_for_admin",
+         payload: dataFilter
+     })
+    } catch (err) {
+     dispatch({
+         type: "USER_ERROR",
+         payload: err
+     })
+    }
+ 
+ }
+
+ export const deleteUserAction = (userId: number) => async (dispatch: Dispatch<ACTION>, getState: any) => {
+    try {
+    const token : string | null = await AsyncStorage.getItem("token");
+      await fetch(`http://10.0.2.2:8080/api/users/deleteUser/${userId}`, {
+         method: "DELETE",
+         headers: {
+             "Authorization": token ?? ""
+         }
+     })
+     
+     console.log("delete_active_user_by_id")
+
+     dispatch({
+         type: "delete_active_user_by_id",
+         payload: userId
+     })
+    } catch (err) {
+     dispatch({
+         type: "USER_ERROR",
+         payload: err
+     })
+    }
+ 
+ }
 
 export const ResetUser = () => (dispatch : Dispatch<ACTION>, getState: any) => {
     dispatch({

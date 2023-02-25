@@ -97,7 +97,25 @@ export default (state: declaredState = initialState, action: ACTION) => {
                 otherUser: action.payload,
                 userSuccess: true
             }
+        case "delete_active_user_by_id": 
+        return {
+            ...state,
+            users: state.users.filter(us => us.id != action.payload),
+            userSuccess: true
+        }
         case "get_active_users_by_search_keyword":
+            return {
+                ...state,
+                users: action.payload,
+                userSuccess: true
+            }
+        case "get_users_by_search_keyword_for_admin":
+            return {
+                ...state,
+                users: action.payload,
+                userSuccess: true
+            }
+        case "get_all_users_for_admin":
             return {
                 ...state,
                 users: action.payload,

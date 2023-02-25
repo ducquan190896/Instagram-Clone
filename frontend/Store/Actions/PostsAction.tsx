@@ -293,6 +293,68 @@ export const getPostsByTag = (tag: string) => async (dispatch: Dispatch<ACTION>,
 
 }
 
+export const getAllPostsforAdminAction = () => async (dispatch: Dispatch<ACTION>, getState: any) => {
+    try {
+     
+        const token: string | null = await AsyncStorage.getItem("token");
+        console.log(token)
+
+        const res = await fetch("http://10.0.2.2:8080/api/posts/admin/all", {
+            method: "GET",
+            headers: {
+                "Authorization": token ?? ""
+            }
+        })
+    
+        const data = await res.json()
+
+        console.log("get_posts_for_admin")
+        console.log(data)
+
+        dispatch({
+            type: "get_posts_for_admin",
+            payload: data
+        })
+
+
+    } catch (err) {
+        dispatch({
+            type: "error_post",
+            payload: err
+        })
+    } 
+
+}
+
+export const deletePostAction = (postId: number) => async (dispatch: Dispatch<ACTION>, getState: any) => {
+    try {
+     
+        const token: string | null = await AsyncStorage.getItem("token");
+        console.log(token)
+
+         await fetch(`http://10.0.2.2:8080/api/posts/deletePost/${postId}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": token ?? ""
+            }
+        })
+        console.log("delete_post")
+
+        dispatch({
+            type: "delete_post",
+            payload: postId
+        })
+
+
+    } catch (err) {
+        dispatch({
+            type: "error_post",
+            payload: err
+        })
+    } 
+
+}
+
 
 
 

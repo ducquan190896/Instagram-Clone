@@ -100,6 +100,18 @@ export default (state: declareState = initialState, action: ACTION) => {
                posts: action.payload,
                postSuccess: true
             }
+        case "get_posts_for_admin":
+            return {
+               ...state,
+                posts: action.payload,
+                postSuccess: true
+            }
+        case "delete_post":
+            return {
+               ...state,
+                posts: state.posts.filter(po => po.id != action.payload),
+                postSuccess: true
+            }    
         case "error_post":
             return {
                 ...state,
