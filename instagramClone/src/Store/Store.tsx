@@ -51,4 +51,4 @@ const store = createStore(
 
 export default store;
 export type RootState = ReturnType<typeof store.getState>;
-export const RootURL = "http://192.168.0.103:8080";
+export const RootURL = "";
