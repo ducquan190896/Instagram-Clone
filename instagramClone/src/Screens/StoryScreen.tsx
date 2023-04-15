@@ -1,27 +1,39 @@
 import { Alert, Dimensions, Image, ImageBackground, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import React, { useCallback, useEffect, useState,  useMemo, useRef  } from 'react'
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native'
+import { RouteProp, useNavigation, useRoute, CompositeNavigationProp } from '@react-navigation/native'
 import { RootStackParamList } from '../Navigators/MainStack'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../Store/Store'
+import { RootState, RootURL } from '../Store/Store'
 import { useTailwind } from 'tailwind-rn/dist'
 import { deleteStoryAction, getStoryByidAction } from '../Store/Actions/StoryAction'
 import LoadingComponent from '../Components/LoadingComponent'
-import { AntDesign } from '@expo/vector-icons'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { declaredStateStory, STORY } from '../Store/Reducers/StoryReducer'
 import { checkStoryLikeStatus, errorStoryLikeAction, likeStoryAction, unlikeStoryAction } from '../Store/Actions/StoryLikeAction'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { Entypo } from '@expo/vector-icons'; 
-import { FontAwesome } from '@expo/vector-icons'; 
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Octicons from 'react-native-vector-icons/Octicons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Feather from 'react-native-vector-icons/Feather';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Entypo from 'react-native-vector-icons/Entypo';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { HomeStackParamList } from '../Navigators/HomeStack'
 
-// type StoryScreenRouteProp = RouteProp<RootStackParamList, "StoryScreen">
+type StoryScreenNavigationProp = CompositeNavigationProp<
+NativeStackNavigationProp<RootStackParamList, "StoryScreen">,
+BottomTabNavigationProp<HomeStackParamList>>;
+
+type StoryScreenRouteProp = RouteProp<RootStackParamList, "StoryScreen">;
+
 
 const StoryScreen = () => {
-    // const {params} = useRoute<StoryScreenRouteProp>()
-    // const {activeIndexProp, storyIndex} = params
-    const storyIndex = 2
+    const {params} = useRoute<StoryScreenRouteProp>()
+    const {activeIndexProp, storyIndex} = params
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [activeIndex, setActiveIndex] = useState<number>(0)
     const [isLike, setIsLike] = useState<boolean>(false)
@@ -31,14 +43,18 @@ const StoryScreen = () => {
     const {user, userSuccess, userError} = useSelector((state: RootState) => state.USERS)
     const dispatch = useDispatch()
     const tw = useTailwind()
-    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>()
+    const navigation = useNavigation<StoryScreenNavigationProp>()
    
    
 
     const LoadStoryLikeStatus = useCallback(async () => {
-        // if(storyIndex && stories && stories.length > 0) {
+        console.log("hello story");
+        console.log("storyIndex: " + storyIndex);
+        console.log("stories ");
+        console.log(stories)
+        if(storyIndex && stories) {
             const token = await AsyncStorage.getItem("token")
-            const res = await fetch(`http://10.0.2.2:8080/api/storyLikes/checkStoryLikeByAuthUser/${stories[storyIndex]?.id}`, {
+            const res = await fetch(RootURL + `/api/storyLikes/checkStoryLikeByAuthUser/${stories[storyIndex]?.id}`, {
                 method: "GET",
                 headers: {
                     "Authorization": token ?? ""
@@ -46,37 +62,30 @@ const StoryScreen = () => {
             })
             const data = await res.json()
     
-            console.log("check_storyLike_By_AuthUser")
-            console.log(data) 
+            console.log("check_storyLike_By_AuthUser: " + data);
+            // console.log(data) 
             setIsLike(data)
-        // }
-    }, [user, storyIndex, dispatch, storyLike]) 
+        }
+    }, [user, storyIndex, dispatch, storyLike, stories]) 
 
     const loadStory = useCallback( async () => {
-      
-    
-       
-            dispatch(getStoryByidAction(stories[storyIndex].id) as any)
-        
-       
-    }, [ storyIndex, dispatch, story])
+            dispatch(getStoryByidAction(stories[storyIndex].id) as any) 
+    }, [ storyIndex, dispatch, story, stories])
 
     const loadStoryById = useCallback( async () => {
-      
        if(story) {
         dispatch(getStoryByidAction(story?.id) as any)
-       }
-       
+       }   
     }, [ storyIndex, dispatch, story, storySuccess, stories])
 
     useEffect(() => {
         setIsLoading(true)
-      loadStory().then(() => setIsLoading(false))
-        
+        loadStory().then(() => setIsLoading(false))
     }, [ storyIndex, user, dispatch, isLike])
+
     useEffect(() => {
         LoadStoryLikeStatus()
-    }, [storyLikeSuccess, isLike, dispatch, storyIndex])
+    }, [storyLikeSuccess, isLike, dispatch, storyIndex, storyLike, stories])
     // storyLike, isLike, dispatch, stories
 
     const handlePrevStory = () => {
@@ -85,13 +94,11 @@ const StoryScreen = () => {
             if(storyIndex <= 0) {
                 return;
             } else {
-                // navigation.push("StoryScreen", { storyIndex: storyIndex - 1, activeIndexProp: 0})
+                navigation.push("StoryScreen", { storyIndex: storyIndex - 1, activeIndexProp: 0})
             }
-           
         } else {
             setActiveIndex(prev => prev - 1)
         }
-
     }
     const handleNextStory = () => {
         console.log("next story")
@@ -99,7 +106,7 @@ const StoryScreen = () => {
             if(storyIndex >= stories?.length - 1) {
                 return;
             }else {
-                // navigation.push("StoryScreen", { storyIndex: storyIndex + 1, activeIndexProp: 0})
+                navigation.push("StoryScreen", { storyIndex: storyIndex + 1, activeIndexProp: 0})
             }      
         } else {
             setActiveIndex(prev => prev + 1)
@@ -120,28 +127,22 @@ const StoryScreen = () => {
         if(isLike && story) {
            await dispatch(unlikeStoryAction(story?.id) as any)
             setIsLike(false)
-     
         }
          if(!isLike && story) {
            await dispatch(likeStoryAction(story?.id) as any)
           setIsLike(true)
-    
         }
     }
     
     const handleBackToHomeNavigation = () => {
-        // navigation.navigate("Home")
+        navigation.navigate('Home');
     }
 
     const handleDeleteStory = async () => {
-       
         await dispatch(deleteStoryAction(story?.id) as any)
         Alert.alert("deleted story")
-        if(storyIndex >= stories?.length -1 && stories?.length > 0) {
-          
-                // navigation.push("StoryScreen", { storyIndex: storyIndex - 1, activeIndexProp: 0})
-            
-           
+        if(storyIndex >= stories?.length -1 && stories?.length > 0) {       
+                // navigation.push("StoryScreen", { storyIndex: storyIndex - 1, activeIndexProp: 0}) 
         } 
          if(stories?.length == 0) {
             // navigation.navigate("Home")
@@ -191,39 +192,37 @@ const StoryScreen = () => {
             <Text style={tw('text-lg font-bold text-center')}>No story</Text>
         </View>
     }
-  return (
-    <SafeAreaView style={[{height: "100%"}]}>
-    <TouchableWithoutFeedback onPress={handlePress}>
-      <ImageBackground style={[tw('flex-1 '), { resizeMode: 'center'}]} source={{uri: "http://10.0.2.2:8080" + story?.imageUrls[activeIndex]}}>
-        { story?.imageUrls && story?.imageUrls.length > 0 && (
-            <View style={tw('flex-row w-full mt-2 mb-4 items-center justify-between')}>
-                {story?.imageUrls && story?.imageUrls.length > 0 && story?.imageUrls.map((img: string, index: number) => <View key={index} style={[tw(`rounded-full ${index <= activeIndex ? "bg-blue-500": "bg-gray-300"}`), {height: 4, paddingRight: 2, width: `${(1 / story?.imageUrls.length * 100) - 2}%`}]}></View>)}
-            </View>
-        )}
-        <View  style={tw(' flex-row items-center  justify-between px-6')} >
-            <Image style={[tw('w-14 h-14 rounded-full bg-white'), {resizeMode: 'contain'}]} source={story?.owner?.avatarUrl ? {uri: story?.owner?.avatarUrl}: require("../assets/download.png")}></Image>
-            <Text  style={tw('text-xs')}>{story?.id}</Text>
-           
-           <View style={tw('flex-row items-center')}>
-            <TouchableOpacity onPress={handleLikeStory} style={tw('')}>
-                {isLike ? <AntDesign name="heart" size={30} color="red" /> :<AntDesign name="hearto" size={30} color="black" />}         
-            </TouchableOpacity>
-            <TouchableOpacity onPress={handleBackToHomeNavigation} style={tw('ml-4')}>
-             <AntDesign name="home" size={30} color="black" />             
-            </TouchableOpacity>
-            {user?.id == story?.owner?.id && (
-                <TouchableOpacity onPress={handleDeleteStory} style={tw('ml-4')}>
-                  <FontAwesome name="trash-o" size={30} color="black" />            
-                </TouchableOpacity>
-            )}
-           </View>
-          
-        </View>
-       
-      </ImageBackground>
-    </TouchableWithoutFeedback>
-    </SafeAreaView>
-  )
+
+    return (
+        <SafeAreaView style={[{height: "100%"}]}>
+            <TouchableWithoutFeedback onPress={handlePress}>
+                <ImageBackground style={[tw('flex-1'), { resizeMode: 'center'}]} source={story && story?.imageUrls && story?.imageUrls?.length > 0 ? {uri: RootURL + story?.imageUrls[activeIndex]} : require("../assets/skysports-cristiano-ronaldo_5823297.jpg")}> 
+                    { story?.imageUrls && story?.imageUrls?.length > 0 && (
+                        <View style={tw('flex-row w-full mt-2 mb-4 items-center justify-between px-2')}>
+                            {story?.imageUrls && story?.imageUrls.length > 0 && story?.imageUrls.map((img: string, index: number) => <View key={index} style={[tw(`rounded-full ${index <= activeIndex ? "bg-blue-500": "bg-gray-300"}`), {height: 4, paddingRight: 2, width: `${(1 / story?.imageUrls.length * 100) - 2}%`}]}></View>)}
+                        </View>
+                    )}
+                    <View style={tw(' flex-row items-center  justify-between px-6')} >
+                        <Image style={[tw('w-14 h-14 rounded-full bg-white'), {resizeMode: 'contain'}]} source={story?.owner?.avatarUrl ? {uri: RootURL + story?.owner?.avatarUrl}: require("../assets/download.png")}></Image>
+                        <Text  style={tw('text-xs')}>{story?.id}</Text>
+                        <View style={tw('flex-row items-center')}>
+                            <TouchableOpacity onPress={handleLikeStory} style={tw('')}>
+                                {isLike == true ? <Entypo name="heart" size={32} color="red" /> :<Entypo name="heart" size={32} color="white" />}         
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={handleBackToHomeNavigation} style={tw('ml-4')}>
+                                <Entypo name="home" size={30} color="white" />             
+                            </TouchableOpacity>
+                            {user?.id == story?.owner?.id && (
+                                <TouchableOpacity onPress={handleDeleteStory} style={tw('ml-4')}>
+                                    <FontAwesome5 name="trash-alt" size={26} color="white" />            
+                                </TouchableOpacity>
+                            )}
+                        </View>
+                    </View>
+                </ImageBackground>
+            </TouchableWithoutFeedback>
+        </SafeAreaView>
+    )
 }
 
 export default StoryScreen
