@@ -24,4 +24,6 @@ public interface UserService {
     void deleteUser(Long id);
     UserResponse deactiveUser();
     UserResponse reactivateUser();
+    Users getAuthUser();
+    Users isCheckUser(Long userId);
 }

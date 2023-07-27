@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,16 +26,19 @@ public class MessageController {
     @Autowired
     MessageService messageService;
 
+    @CrossOrigin
     @GetMapping("/chat/{chatId}")
     public ResponseEntity<List<MessageResponse>> getAllByChat(@PathVariable Long chatId) {
         return new ResponseEntity<List<MessageResponse>>(messageService.getMessagesByChat(chatId), HttpStatus.OK);
     }
 
+    @CrossOrigin
     @PostMapping("/addMessage")
     public ResponseEntity<MessageResponse> addMessage(@Valid @RequestBody MessageRequest messageRequest ) {
         return new ResponseEntity<MessageResponse>(messageService.addMessage(messageRequest), HttpStatus.CREATED);
     }
 
+    @CrossOrigin
     @DeleteMapping("/removeMessage/{messageId}")
     public ResponseEntity<HttpStatus> removeMessage(@PathVariable Long messageId ) {
         messageService.deleteMessage(messageId);

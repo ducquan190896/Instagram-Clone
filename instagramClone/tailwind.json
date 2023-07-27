@@ -134,9 +134,9 @@
 			"marginRight": 8
 		}
 	},
-	"mr-20": {
+	"mr-24": {
 		"style": {
-			"marginRight": 80
+			"marginRight": 96
 		}
 	},
 	"mr-4": {
@@ -157,11 +157,6 @@
 	"mt-4": {
 		"style": {
 			"marginTop": 16
-		}
-	},
-	"mr-24": {
-		"style": {
-			"marginRight": 96
 		}
 	},
 	"block": {

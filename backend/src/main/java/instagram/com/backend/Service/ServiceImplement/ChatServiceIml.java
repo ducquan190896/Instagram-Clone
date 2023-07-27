@@ -1,27 +1,21 @@
 package instagram.com.backend.Service.ServiceImplement;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import javax.persistence.EntityNotFoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
 import instagram.com.backend.Entity.Chat;
 import instagram.com.backend.Entity.ChatParticipant;
 import instagram.com.backend.Entity.Users;
-import instagram.com.backend.Entity.Response.ChatParticipantResponse;
 import instagram.com.backend.Entity.Response.ChatResponse;
-import instagram.com.backend.Entity.Response.UserResponse;
-import instagram.com.backend.Exception.EntityNotFountException;
+import instagram.com.backend.Mapper.ChatMapper;
 import instagram.com.backend.Repository.ChatParticipantRepos;
 import instagram.com.backend.Repository.ChatRepos;
 import instagram.com.backend.Repository.UsersRepos;
 import instagram.com.backend.Service.ChatService;
+import instagram.com.backend.Service.UserService;
 
 @Service
 public class ChatServiceIml implements ChatService {
@@ -31,26 +25,25 @@ public class ChatServiceIml implements ChatService {
     ChatRepos chatRepos;
     @Autowired
     ChatParticipantRepos chatParticipantRepos;
-   
-
-    
-
+    @Autowired
+    UserService userService;
+    @Autowired
+    ChatMapper chatMapper;
 
 
     @Override
     public List<ChatResponse> getAllChats() {
         List<Chat> chats = chatRepos.findAll();
 
-        List<ChatResponse> responses = chats.stream().map(chat -> mapChatToResponse(chat)).collect(Collectors.toList());
+        List<ChatResponse> responses = chats.stream().map(chat -> chatMapper.mapChatToResponse(chat)).collect(Collectors.toList());
 
         return responses;
     }
 
     @Override
     public ChatResponse getChatByAuthUserAndReceiver(Long receiverId) {
-        Users authUser = getAuthUser();
-        Optional<Users> receiverEntity = usersRepos.findById(receiverId);
-        Users receiver = isCheck(receiverEntity);
+        Users authUser = userService.getAuthUser();
+        Users receiver = userService.isCheckUser(receiverId);
         
         List<Chat> chatList = chatRepos.findByUsers(authUser.getId(), receiverId);
         List<Chat> chatList2 = chatList.stream().filter(chat -> {
@@ -73,7 +66,7 @@ public class ChatServiceIml implements ChatService {
         if(chatList2 != null && chatList2.size() > 0) {
             //if chat of the authUser and the receiver exist
             Chat chat = chatList2.get(0);
-            ChatResponse response = mapChatToResponse(chat);
+            ChatResponse response = chatMapper.mapChatToResponse(chat);
             return response;
         } else {
             // if the chat of the authUser and the receiver do not exist
@@ -87,13 +80,11 @@ public class ChatServiceIml implements ChatService {
             usersRepos.save(authUser);
             usersRepos.save(receiver);
 
-            ChatResponse response = mapChatToResponse(chat);
+            ChatResponse response = chatMapper.mapChatToResponse(chat);
             return response;
         }
        
-    }
-    
-
+    } 
 
     @Override
     public ChatResponse getChatById(Long chatId) {
@@ -101,50 +92,26 @@ public class ChatServiceIml implements ChatService {
         if(!chatEntity.isPresent()) {
             throw new EntityNotFoundException("the chat not found");
         }
-        return mapChatToResponse(chatEntity.get());
+        return chatMapper.mapChatToResponse(chatEntity.get());
+    }
+
+    @Override
+    public Chat isCheckChat(Long chatId) {
+        Optional<Chat> chatEntity = chatRepos.findById(chatId);
+        if(!chatEntity.isPresent()) {
+            throw new EntityNotFoundException("the chat not found");
+        }
+        return chatEntity.get();
     }
 
     @Override
     public List<ChatResponse> getChatsByAuthUser() {
-        Users authUser = getAuthUser();
+        Users authUser = userService.getAuthUser();
         List<Chat> chats = chatRepos.findByUserId(authUser.getId());
 
-        List<ChatResponse> responses = chats.stream().map(chat -> mapChatToResponse(chat)).collect(Collectors.toList());
+        List<ChatResponse> responses = chats.stream().map(chat -> chatMapper.mapChatToResponse(chat)).collect(Collectors.toList());
 
         return responses;
     }
 
-
-
-    private Users isCheck(Optional<Users> entity) {
-        if(entity.isPresent()) {
-            return entity.get();
-        }
-        throw new EntityNotFountException("the user not found");
-    }
-    private UserResponse mapUserToUserResponse(Users user) {
-        UserResponse userresResponse = new UserResponse(user.getId(), user.getUsername(), user.getUsername(), user.getRole(), user.getActive(), user.getIntroduction(), user.getFollowersCount(), user.getFollowingsCount(), user.getAvatarUrl(), user.getPostCounts());
-
-        return userresResponse;
-
-    }
-
-    private Users getAuthUser() {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        Optional<Users> entity = usersRepos.findByUsername(username);
-        Users user = isCheck(entity);
-        return user;
-    }
-
-    private ChatParticipantResponse mapChatParticipantToResponse(ChatParticipant participant) {
-        ChatParticipantResponse response = new ChatParticipantResponse(participant.getId(), mapUserToUserResponse(participant.getOwner()), participant.getChat().getId());
-        return response;
-    }
-
-    private ChatResponse mapChatToResponse(Chat chat) {
-        List<ChatParticipantResponse> participantResponse = chat.getParticipants().stream().map(participant -> mapChatParticipantToResponse(participant)).collect(Collectors.toList());
-        ChatResponse response = new ChatResponse(chat.getId(), chat.getActive(), chat.getDateCreated(), chat.getDateUpdated(), participantResponse);
-
-        return response;
-    }
 }

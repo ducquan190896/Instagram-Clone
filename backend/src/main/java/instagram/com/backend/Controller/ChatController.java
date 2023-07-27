@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ public class ChatController {
     @Autowired
     ChatService chatService;
 
+    @CrossOrigin
     @GetMapping("/byAuthUser")
     public ResponseEntity<List<ChatResponse>> getAllByAuthUser() {
         return new ResponseEntity<List<ChatResponse>>(chatService.getChatsByAuthUser(), HttpStatus.OK);
@@ -32,10 +34,13 @@ public class ChatController {
         return new ResponseEntity<List<ChatResponse>>(chatService.getAllChats(), HttpStatus.OK);
     }
 
+    @CrossOrigin
     @GetMapping("/receiver/{receiverId}")
     public ResponseEntity<ChatResponse> getChatByAuthUserAndReceiver(@PathVariable Long receiverId) {
         return new ResponseEntity<ChatResponse>(chatService.getChatByAuthUserAndReceiver(receiverId), HttpStatus.OK);
     }
+
+    @CrossOrigin
     @GetMapping("/chat/{chatId}")
     public ResponseEntity<ChatResponse> getChatById(@PathVariable Long chatId) {
         return new ResponseEntity<ChatResponse>(chatService.getChatById(chatId), HttpStatus.OK);

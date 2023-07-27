@@ -5,26 +5,19 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
 import instagram.com.backend.Entity.Story;
 import instagram.com.backend.Entity.StoryLike;
-import instagram.com.backend.Entity.StoryNotification;
 import instagram.com.backend.Entity.Users;
 import instagram.com.backend.Entity.Response.StoryLikeResponse;
-import instagram.com.backend.Entity.Response.StoryResponse;
-import instagram.com.backend.Entity.Response.UserResponse;
-import instagram.com.backend.Exception.EntityNotFountException;
 import instagram.com.backend.Exception.EntityexistingException;
+import instagram.com.backend.Mapper.StoryLikeMapper;
 import instagram.com.backend.Repository.StoryLikeRepos;
-import instagram.com.backend.Repository.StoryNotificationRepos;
 import instagram.com.backend.Repository.StoryRepos;
 import instagram.com.backend.Repository.UsersRepos;
 import instagram.com.backend.Service.StoryLikeService;
-import instagram.com.backend.Service.StoryService;
+import instagram.com.backend.Service.UserService;
 
 @Service
 public class StoryLikeServiceIml implements StoryLikeService {
@@ -35,7 +28,9 @@ public class StoryLikeServiceIml implements StoryLikeService {
     @Autowired
     StoryLikeRepos storyLikeRepos;
     @Autowired
-    StoryNotificationRepos storyNotificationRepos;
+    UserService userService;
+    @Autowired
+    StoryLikeMapper storyLikeMapper;
 
     @Override
     public List<StoryLikeResponse> getStoryLikeByStory(Long storyId) {
@@ -44,13 +39,13 @@ public class StoryLikeServiceIml implements StoryLikeService {
         List<StoryLike> list = storyLikeRepos.findByStory(story); 
         list.sort((a, b) -> a.getDateCreated().compareTo(b.getDateCreated()));
         
-        List<StoryLikeResponse> responses = list.stream().map(like -> mapStoryLikeToResponse(like)).collect(Collectors.toList());
+        List<StoryLikeResponse> responses = list.stream().map(like -> storyLikeMapper.mapStoryLikeToResponse(like)).collect(Collectors.toList());
 
         return responses;
     }
     @Override
     public StoryLikeResponse likeStory(Long storyId) {
-        Users authUser = getAuthUser();
+        Users authUser = userService.getAuthUser();
         Story story = isCheckStory(storyId);
         Optional<StoryLike> entity = storyLikeRepos.findByOwnerAndStory(authUser, story);
         if(entity.isPresent()) {
@@ -65,23 +60,17 @@ public class StoryLikeServiceIml implements StoryLikeService {
         authUser.getStorieLikes().add(like);
 
         Users receiver = story.getOwner();
-        StoryNotification notification = new StoryNotification(authUser, receiver, story);
-        storyNotificationRepos.save(notification);
-
-        authUser.getStoryNotificationsCreator().add(notification);
-        receiver.getStoryNotificationsReceiver().add(notification);
-        story.getStoryNotifications().add(notification);
 
         usersRepos.save(authUser);
         usersRepos.save(receiver);
         storyRepos.save(story);
 
-        StoryLikeResponse response = mapStoryLikeToResponse(like);
+        StoryLikeResponse response = storyLikeMapper.mapStoryLikeToResponse(like);
         return response;
     }
     @Override
     public void removeLikeFromStory(Long storyId) {
-        Users authUser = getAuthUser();
+        Users authUser = userService.getAuthUser();
         Story story = isCheckStory(storyId);
         Optional<StoryLike> entity = storyLikeRepos.findByOwnerAndStory(authUser, story);
         StoryLike like = isCheckStoryLike(entity);
@@ -98,10 +87,9 @@ public class StoryLikeServiceIml implements StoryLikeService {
         
     }
     
-
      @Override
     public boolean checkStoryLikeByAuthUser(Long storyId) {
-        Users authUser = getAuthUser();
+        Users authUser = userService.getAuthUser();
         Story story = isCheckStory(storyId);
         Optional<StoryLike> entity = storyLikeRepos.findByOwnerAndStory(authUser, story);
         if(entity.isPresent()) {
@@ -110,29 +98,6 @@ public class StoryLikeServiceIml implements StoryLikeService {
             return false;
         }
 
-    }
-    private Users isCheck(Optional<Users> entity) {
-        if(entity.isPresent()) {
-            return entity.get();
-        }
-        throw new EntityNotFountException("the user not found");
-    }
-    private UserResponse mapUserToUserResponse(Users user) {
-        UserResponse userresResponse = new UserResponse(user.getId(), user.getUsername(), user.getUsername(), user.getRole(), user.getActive(), user.getIntroduction(), user.getFollowersCount(), user.getFollowingsCount(), user.getAvatarUrl(), user.getPostCounts());
-
-        return userresResponse;
-
-    }
-
-    private Users getAuthUser() {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        Optional<Users> entity = usersRepos.findByUsername(username);
-        Users user = isCheck(entity);
-        return user;
-    }
-    private StoryResponse mapStoryToResponse(Story story) {
-        StoryResponse response = new StoryResponse(story.getId(), story.getLikeCount(), story.getDateCreated(), story.getImageUrls(), mapUserToUserResponse(story.getOwner()));
-        return response;
     }
 
     private Story isCheckStory(Long storyId) {
@@ -143,10 +108,6 @@ public class StoryLikeServiceIml implements StoryLikeService {
         throw new EntityNotFoundException("the story not found");
     }
 
-    private StoryLikeResponse mapStoryLikeToResponse(StoryLike storyLike) {
-        StoryLikeResponse response = new StoryLikeResponse(storyLike.getId(), storyLike.getDateCreated(), mapUserToUserResponse(storyLike.getOwner()), storyLike.getStory().getId());
-        return response;
-    }
 
     private StoryLike isCheckStoryLike(Optional<StoryLike> entity) {
         if(entity.isPresent()) {

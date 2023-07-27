@@ -62,9 +62,9 @@ public class Story {
     @OneToMany(mappedBy = "story", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<StoryLike> storyLikes = new ArrayList<>();
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "story", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<StoryNotification> storyNotifications = new ArrayList<>();
+    // @JsonIgnore
+    // @OneToMany(mappedBy = "story", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    // private List<StoryNotification> storyNotifications = new ArrayList<>();
 
 
     public Story(List<String> imageUrls, Users owner) {

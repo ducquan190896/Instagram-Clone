@@ -72,10 +72,6 @@ public class Comment {
     @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<CommentLike> commentLikes = new ArrayList<>();
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "parentComment", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<CommentNotification> commentNotifications = new ArrayList<>();
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(
         name = "parent_comment_id",

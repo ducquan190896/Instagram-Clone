@@ -80,14 +80,6 @@ public class Post {
 
     @JsonIgnore
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<CommentNotification> commentNotifications = new ArrayList<>();
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<PostNotification> postNotifications = new ArrayList<>();
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<CommentLike> commentLikes = new ArrayList<>();
 
     @ManyToMany(mappedBy = "posts", fetch = FetchType.LAZY)

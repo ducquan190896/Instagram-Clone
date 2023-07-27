@@ -11,4 +11,5 @@ public interface ChatService {
     List<ChatResponse> getAllChats();
     ChatResponse getChatByAuthUserAndReceiver(Long receiverId);
     ChatResponse getChatById(Long chatId);
+    Chat isCheckChat(Long chatId);
 }

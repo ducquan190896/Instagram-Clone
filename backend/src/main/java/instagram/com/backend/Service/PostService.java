@@ -30,5 +30,6 @@ public interface PostService {
     PostResponse savePostWithPoll(PostRequest postRequest);
     @Transactional
     void deletePost(Long id);
+    Post isCheckPost(Long postId);
     
 }

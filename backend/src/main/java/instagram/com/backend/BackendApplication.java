@@ -17,7 +17,6 @@ import instagram.com.backend.Entity.Message;
 import instagram.com.backend.Entity.Poll;
 import instagram.com.backend.Entity.Post;
 import instagram.com.backend.Entity.PostLike;
-import instagram.com.backend.Entity.PostNotification;
 import instagram.com.backend.Entity.Story;
 import instagram.com.backend.Entity.Tag;
 import instagram.com.backend.Entity.Users;
@@ -31,7 +30,6 @@ import instagram.com.backend.Repository.FollowRepos;
 import instagram.com.backend.Repository.MessageRepos;
 import instagram.com.backend.Repository.PollRepos;
 import instagram.com.backend.Repository.PostLikeRepos;
-import instagram.com.backend.Repository.PostNotificationRepos;
 import instagram.com.backend.Repository.PostRepos;
 import instagram.com.backend.Repository.StoryRepos;
 import instagram.com.backend.Repository.TagRepos;
@@ -47,16 +45,16 @@ public class BackendApplication {
 	}
 
 	@Bean
-	CommandLineRunner commandLineRunner(UsersRepos usersRepos, FollowRepos followRepos, FollowService followService, PostRepos postRepos, PostLikeRepos postLikeRepos, PostNotificationRepos postNotificationRepos, TagRepos tagRepos, StoryRepos storyRepost, PollRepos pollRepos, ChoiceRepos choiceRepos, VoteRepos voteRepos, ChatRepos chatRepos, MessageRepos messageRepose, ChatParticipantRepos ChatParticipantRepos ) {
+	CommandLineRunner commandLineRunner(UsersRepos usersRepos, FollowRepos followRepos, FollowService followService, PostRepos postRepos, PostLikeRepos postLikeRepos, TagRepos tagRepos, StoryRepos storyRepost, PollRepos pollRepos, ChoiceRepos choiceRepos, VoteRepos voteRepos, ChatRepos chatRepos, MessageRepos messageRepose, ChatParticipantRepos ChatParticipantRepos ) {
 		return args -> {
-			// Users admin = new Users("admin", "admin@gmail.com", new BCryptPasswordEncoder().encode("123456"), "admin manages the application", Role.ADMIN);
-			// Users quan = new Users("quan", "quan@gmail.com",  new BCryptPasswordEncoder().encode("123456"), "quan manages the application", Role.USER);
-			// Users quan2 = new Users("quan2", "quan2@gmail.com",  new BCryptPasswordEncoder().encode("123456"), "quan2 manages the application", Role.USER);
-			// Users quan3 = new Users("quan3", "quan3@gmail.com",  new BCryptPasswordEncoder().encode("123456"), "quan2 manages the application", Role.USER);
-			// usersRepos.save(admin);
-			// usersRepos.save(quan);
-			// usersRepos.save(quan2);
-			// usersRepos.save(quan3);
+			Users admin = new Users("admin", "admin@gmail.com", new BCryptPasswordEncoder().encode("123456"), "admin manages the application", Role.ADMIN);
+			Users quan = new Users("quan", "quan@gmail.com",  new BCryptPasswordEncoder().encode("123456"), "quan manages the application", Role.USER);
+			Users quan2 = new Users("quan2", "quan2@gmail.com",  new BCryptPasswordEncoder().encode("123456"), "quan2 manages the application", Role.USER);
+			Users quan3 = new Users("quan3", "quan3@gmail.com",  new BCryptPasswordEncoder().encode("123456"), "quan2 manages the application", Role.USER);
+			usersRepos.save(admin);
+			usersRepos.save(quan);
+			usersRepos.save(quan2);
+			usersRepos.save(quan3);
 			// // followService.followUser(quan, quan2);
 
 			// Tag tag1 = new Tag("helsinki");

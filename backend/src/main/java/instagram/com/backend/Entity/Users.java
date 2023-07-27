@@ -88,39 +88,6 @@ public class Users {
     private List<PostLike> postLikes = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<PostNotification> postNotificationsCreator = new ArrayList<>();
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<PostNotification> postNotificationsReceiver = new ArrayList<>();
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<CommentNotification> commentNotificationsCreator = new ArrayList<>();
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<CommentNotification> commentNotificationsReceiver = new ArrayList<>();
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<FollowNotification> followNotificationsCreator = new ArrayList<>();
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<FollowNotification> followNotificationsReceiver = new ArrayList<>();
-    
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<StoryNotification> storyNotificationsCreator = new ArrayList<>();
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<StoryNotification> storyNotificationsReceiver = new ArrayList<>();
-
-    @JsonIgnore
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<>();
 

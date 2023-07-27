@@ -30,6 +30,7 @@ import instagram.com.backend.Entity.Response.UserResponse;
 import instagram.com.backend.Exception.BadResultException;
 import instagram.com.backend.Exception.EntityNotFountException;
 import instagram.com.backend.Exception.EntityexistingException;
+import instagram.com.backend.Mapper.UserMapper;
 import instagram.com.backend.Repository.UsersRepos;
 import instagram.com.backend.Security.SecurityConstant;
 import instagram.com.backend.Service.UserService;
@@ -40,6 +41,8 @@ public class UserServiceImp implements UserService, UserDetailsService {
     UsersRepos usersRepos;
     @Autowired
     HttpServletResponse response;
+    @Autowired
+    UserMapper userMapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -64,7 +67,7 @@ public class UserServiceImp implements UserService, UserDetailsService {
     public UserResponse getUserByUserName(String username) {
         Optional<Users> entity = usersRepos.findByUsername(username);
         Users user = isCheck(entity);
-        UserResponse userResponse = mapUserToUserResponse(user);
+        UserResponse userResponse = userMapper.mapUserToUserResponse(user);
         return userResponse;
     }
 
@@ -81,7 +84,7 @@ public class UserServiceImp implements UserService, UserDetailsService {
     public UserResponse getUserById(Long id) {
         Optional<Users> entity = usersRepos.findById(id);
         Users user = isCheck(entity);
-        UserResponse userResponse = mapUserToUserResponse(user);
+        UserResponse userResponse = userMapper.mapUserToUserResponse(user);
         return userResponse;
     }
     
@@ -93,7 +96,7 @@ public class UserServiceImp implements UserService, UserDetailsService {
         if(user.getActive() == false) {
             return null;
         }
-        UserResponse userResponse = mapUserToUserResponse(user);
+        UserResponse userResponse = userMapper.mapUserToUserResponse(user);
         return userResponse;
     }
 
@@ -102,7 +105,7 @@ public class UserServiceImp implements UserService, UserDetailsService {
     public List<UserResponse> getUsers() {
 
         List<Users> users = usersRepos.findAll(Sort.by(Sort.Direction.ASC, "username"));
-        List<UserResponse> userResponses = users.stream().map(user -> mapUserToUserResponse(user)).collect(Collectors.toList());
+        List<UserResponse> userResponses = users.stream().map(user -> userMapper.mapUserToUserResponse(user)).collect(Collectors.toList());
         return userResponses;
     }
 
@@ -112,7 +115,7 @@ public class UserServiceImp implements UserService, UserDetailsService {
         
         List<Users> users = usersRepos.findByActiveAndUsernameContaining(true, name);
         users.sort((a, b) -> a.getUsername().compareTo(b.getUsername()));
-        List<UserResponse> userResponses = users.stream().map(user -> mapUserToUserResponse(user)).collect(Collectors.toList());
+        List<UserResponse> userResponses = users.stream().map(user -> userMapper.mapUserToUserResponse(user)).collect(Collectors.toList());
         return userResponses;
     }
     
@@ -122,7 +125,7 @@ public class UserServiceImp implements UserService, UserDetailsService {
     public List<UserResponse> getAllUsersByName(String name) {
         List<Users> users = usersRepos.findByUsernameContaining( name);
         users.sort((a, b) -> a.getUsername().compareTo(b.getUsername()));
-        List<UserResponse> userResponses = users.stream().map(user -> mapUserToUserResponse(user)).collect(Collectors.toList());
+        List<UserResponse> userResponses = users.stream().map(user -> userMapper.mapUserToUserResponse(user)).collect(Collectors.toList());
         return userResponses;
     }
 
@@ -160,7 +163,7 @@ public class UserServiceImp implements UserService, UserDetailsService {
        
         response.setHeader("Authorization", SecurityConstant.authorization + token);
 
-       UserResponse userResponse = mapUserToUserResponse(user);
+       UserResponse userResponse = userMapper.mapUserToUserResponse(user);
        return userResponse;
     }
 
@@ -186,7 +189,7 @@ public class UserServiceImp implements UserService, UserDetailsService {
         
          response.setHeader("Authorization", SecurityConstant.authorization + token);
  
-        return mapUserToUserResponse(user);
+        return userMapper.mapUserToUserResponse(user);
 
     }
 
@@ -196,7 +199,7 @@ public class UserServiceImp implements UserService, UserDetailsService {
          Users user = getAuthUser();
          user.setActive(false);
          usersRepos.save(user);
-         return mapUserToUserResponse(user);
+         return userMapper.mapUserToUserResponse(user);
     }
 
 
@@ -205,7 +208,7 @@ public class UserServiceImp implements UserService, UserDetailsService {
         Users user = getAuthUser();
          user.setActive(true);
          usersRepos.save(user);
-         return mapUserToUserResponse(user);
+         return userMapper.mapUserToUserResponse(user);
     }
 
 
@@ -215,17 +218,21 @@ public class UserServiceImp implements UserService, UserDetailsService {
         }
         throw new EntityNotFountException("the user not found");
     }
-    private UserResponse mapUserToUserResponse(Users user) {
-        UserResponse userresResponse = new UserResponse(user.getId(), user.getUsername(), user.getUsername(), user.getRole(), user.getActive(), user.getIntroduction(), user.getFollowersCount(), user.getFollowingsCount(), user.getAvatarUrl(), user.getPostCounts());
 
-        return userresResponse;
-
-    }
-
-    private Users getAuthUser() {
+    @Override
+    public Users getAuthUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Optional<Users> entity = usersRepos.findByUsername(username);
         Users user = isCheck(entity);
         return user;
+    }
+
+    @Override
+    public Users isCheckUser(Long userId) {
+        Optional<Users> entity = usersRepos.findById(userId);
+        if(entity.isPresent()) {
+            return entity.get();
+        }
+        throw new EntityNotFountException("the user not found");
     }
 }

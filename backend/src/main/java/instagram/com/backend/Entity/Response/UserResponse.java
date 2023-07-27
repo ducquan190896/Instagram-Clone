@@ -2,6 +2,7 @@ package instagram.com.backend.Entity.Response;
 
 import instagram.com.backend.Entity.Enum.Role;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class UserResponse {
     private Long id;
     private String username;

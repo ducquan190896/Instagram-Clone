@@ -95,9 +95,6 @@ const HomeScreen = () => {
                 <TouchableOpacity onPress={() => navigation.navigate("UserBottomStack", {screen: "CreatePostForm"})} style={tw('mr-4')}>
                     <Feather name="plus-square" size={24} color="black" />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate("NotificationsScreen")} style={tw('mr-4')}>
-                    <FontAwesome5 name="heart" size={24} color="black" />
-                </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate("ChatsScreen")} style={tw('mr-2')}>
                     <FontAwesome5 name="telegram-plane" size={24} color="black" />
                 </TouchableOpacity>

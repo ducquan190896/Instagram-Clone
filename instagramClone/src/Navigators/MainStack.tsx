@@ -17,7 +17,6 @@ import StoryScreen from '../Screens/StoryScreen';
 import ChatsScreen from '../Screens/ChatsScreen';
 import ChatSearchScreen from '../Screens/ChatSearchScreen';
 import ConversationScreen from '../Screens/ConversationScreen';
-import NotificationsScreen from '../Screens/NotificationsScreen';
 import UserBottomStack from './UserBottomStack';
 import RegisterScreen from '../Screens/RegisterScreen';
 import ChangePasswordScreen from '../Screens/ChangePasswordScreen';

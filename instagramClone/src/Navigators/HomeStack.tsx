@@ -20,7 +20,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import FollowerScreen from '../Screens/FollowerScreen';
 import FollowingScreen from '../Screens/FollowingScreen';
 import OtherUserHomeScreen from '../Screens/OtherUserHomeScreen';
-import NotificationsScreen from '../Screens/NotificationsScreen';
 
 export type HomeStackParamList = {
     FollowerScreen: {
@@ -33,7 +32,6 @@ export type HomeStackParamList = {
         userId: number,
         isSearch: boolean
     },
-    NotificationsScreen: undefined,
     Home: undefined,
 }
 
@@ -46,7 +44,6 @@ const HomeStack = () => {
         <stack.Screen component={FollowerScreen}  name="FollowerScreen"></stack.Screen>
         <stack.Screen component={FollowingScreen}  name="FollowingScreen"></stack.Screen>
         <stack.Screen component={OtherUserHomeScreen}  name="OtherUserHomeScreen"></stack.Screen>
-        <stack.Screen component={NotificationsScreen} options={{title: "Notifications"}}    name="NotificationsScreen"></stack.Screen>
     </stack.Navigator>
   )
 }
