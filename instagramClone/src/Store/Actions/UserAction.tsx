@@ -66,7 +66,7 @@ export const login = (LoginForm: LoginForm) => async (dispatch: Dispatch<ACTION>
        })
 
     } else {
-        Alert.alert("Signed In successfully")
+        // Alert.alert("Signed In successfully")
         console.log(token)
         await AsyncStorage.setItem("token", token)
         dispatch({

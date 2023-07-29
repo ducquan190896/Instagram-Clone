@@ -55,6 +55,13 @@ export default (state: declaredState = initialState, action: ACTION) => {
                 comments: [...state.comments, action.payload],
                 commentSuccess: true
             }
+        case "receive_comment_from_Websocket":
+            return {
+                ...state,
+                comment: action.payload,
+                comments: [...state.comments, action.payload],
+                commentSuccess: true
+            }
         case "get_comment_by_id":
             return {
                 ...state,

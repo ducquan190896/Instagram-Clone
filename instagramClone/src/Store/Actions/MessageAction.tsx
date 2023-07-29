@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import { Dispatch } from "react"
 import { ACTION } from "../Reducers/UserReducer"
 import { RootURL } from "../Store"
+import { MESSAGE } from "../Reducers/MessageReducer"
 
 export interface MESSAGEFORM {
     text: string,
@@ -92,6 +93,21 @@ export const clearMessagesAction = () => async(dispatch: Dispatch<ACTION>, getSt
     try {
         dispatch({
             type: "clear_messages"
+        })
+
+    } catch (err) {
+        dispatch({
+            type: "error_message",
+            payload: err
+        })
+    }
+}
+
+export const receiveMessageSocket = (message: MESSAGE) => async(dispatch: Dispatch<ACTION>, getState: any) => {
+    try {
+        dispatch({
+            type: "receive_message_from_websocket",
+            payload: message
         })
 
     } catch (err) {

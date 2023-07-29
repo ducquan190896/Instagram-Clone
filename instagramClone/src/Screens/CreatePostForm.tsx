@@ -1,17 +1,11 @@
-import {TouchableOpacity, Keyboard, KeyboardAvoidingView, StyleSheet, Text, TouchableWithoutFeedback, View, TextInput, Platform, Alert } from 'react-native'
-import React, {useLayoutEffect, useState} from 'react'
+import {TouchableOpacity, Keyboard, KeyboardAvoidingView, StyleSheet, Text, TouchableWithoutFeedback, View, TextInput, Platform, Alert, FlatList, useWindowDimensions, Image, ListRenderItem } from 'react-native'
+import React, {useLayoutEffect, useState, useRef} from 'react'
 import { useNavigation, CompositeNavigationProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../Navigators/MainStack';
 import { useTailwind } from 'tailwind-rn/dist';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Octicons from 'react-native-vector-icons/Octicons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Feather from 'react-native-vector-icons/Feather';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Button, CheckBox, Badge } from '@rneui/base';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
@@ -22,12 +16,14 @@ import {Picker} from '@react-native-picker/picker';
 import { RootURL } from '../Store/Store';
 import { UserBottomTabProps } from '../Navigators/UserBottomStack';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import PostCardDot from '../Components/PostCardDot';
 
 type CreatePostFormNavigationProp = CompositeNavigationProp<
 BottomTabNavigationProp<UserBottomTabProps, "CreatePostForm">,
 NativeStackNavigationProp<RootStackParamList>>;
 
 const CreatePostForm = () => {
+    const [activeIndex, setActiveIndex] = useState<number>(0)   
     const [isPoll, setIsPoll] = useState<boolean>(false)
     const [images, setImages] = useState<string[] | []>([])
     const [tags, setTags] = useState<string[] | []>([])
@@ -39,6 +35,7 @@ const CreatePostForm = () => {
     const navigation = useNavigation<CreatePostFormNavigationProp>()
     const tw = useTailwind()
     const dispatch = useDispatch()
+    const windownWith = useWindowDimensions().width
 
     const backToMainPageNavigation = () => {
         // navigation.navigate("Home")
@@ -65,14 +62,6 @@ const CreatePostForm = () => {
     }
 
     const addImages = async () => {
-        // const results = await ImagePicker.launchImageLibraryAsync({
-        //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        //     allowsMultipleSelection: true,
-        //     selectionLimit: 3,
-        //     quality: 1,
-        //     aspect: [4, 3]
-        // })
-
         const results: any = await launchImageLibrary({
             mediaType: 'photo',
             quality: 1,
@@ -117,9 +106,6 @@ const CreatePostForm = () => {
 
     const createPostSubmit = async () => {
         if(images && images.length > 0 && content && tags) {
-            // console.log(images)
-            // console.log(content)
-            // console.log(tags)
             dispatch(createPostAction({imageUrls :images, tags, content}) as any)
             Alert.alert("created post successfully")
             setImages([])
@@ -129,7 +115,6 @@ const CreatePostForm = () => {
         } else {
             Alert.alert("please fill all information for the post")
         }
-        
     }
 
     const createPollSubmit = async () => {
@@ -160,12 +145,9 @@ const CreatePostForm = () => {
         console.log(choicesCopy)
         choicesCopy[index] = text
         setChoices(choicesCopy)
-
-
     }
 
-    const removeChoice = (index: number) => {
-        
+    const removeChoice = (index: number) => {  
         if(choices.length > 2) {
             const choiceCopy = [...choices.slice(0, index), ...choices.slice(index + 1)]
             setChoices(choiceCopy)
@@ -183,18 +165,21 @@ const CreatePostForm = () => {
         }
     }
 
-    
+    const onViewableItemsChanged = useRef(({viewableItems, changed}: {viewableItems: any, changed: any}) => {
+        if (viewableItems.length > 0) {
+            setActiveIndex(viewableItems[0].index)
+        }
+    })
+    const handlerRenderImages: ListRenderItem<any> = ({item, index}) => (    
+        <Image key={index} source={{uri:  RootURL + item}} style={[tw('text-base'), {width: windownWith, height: 300, resizeMode: 'cover'}]}></Image>   
+    )
 
 
 
   return (
-   <KeyboardAwareScrollView style={tw('flex-1')} 
-  extraHeight={120}
-   >
-    <TouchableWithoutFeedback style={tw('flex-1')} onPress={Keyboard.dismiss} >
-        <SafeAreaView style={tw('flex-1 bg-gray-100')}>
-            <View style={tw('w-full  mt-4 flex-row items-center')}>
-                <CheckBox 
+    <KeyboardAwareScrollView style={tw('flex-1')}>
+        <View style={tw('w-full  flex-row items-center')}>
+            <CheckBox 
                 center
                 title="Create Poll"
                 checkedIcon="dot-circle-o"
@@ -202,67 +187,96 @@ const CreatePostForm = () => {
                 checked={isPoll}
                 onPress={() => setIsPoll(!isPoll)}
                 containerStyle={tw('bg-gray-100')}
-                ></CheckBox>
-            </View>
-            {!isPoll && (
-                <View style={tw('px-2')}>
-                    <Button onPress={addImages} title="add Images" containerStyle={tw('w-full  mt-4 my-4')} buttonStyle={tw('rounded-lg')}></Button>
-                    <TextInput  placeholder='caption' value={content} onChangeText={(text: string) => setContent(text)} style={tw(' my-4 py-2 px-4 w-full bg-gray-200 text-base  rounded-lg')}></TextInput>
-
-                    <View style={tw('w-full flex-wrap flex-row items-center justify-start')}>
-                        {tags && tags.length > 0 &&  tags.map((ta, index) =>  
-                     
-                         <TouchableOpacity onPress={() => deleteTagFunction(ta)} style={tw('')}>
-                            <Badge key={index}    containerStyle={tw('my-2 mx-2 text-base')} badgeStyle={tw('w-20 h-10 rounded-full p-2')}   textStyle={tw('text-white text-base')} value={ta} status="primary" />
-                        </TouchableOpacity>
-                        )}
-                    </View>
-                    <TextInput  placeholder='Tag' value={tag} onChangeText={(text: string) => {setTag(text)}}  style={tw(' my-4 py-2 px-4 w-full bg-gray-200 text-base  rounded-lg')}></TextInput>
-                    <Button title="Add Tag" containerStyle={tw('w-1/3 mb-4')} buttonStyle={tw('rounded-lg')} onPress={addTag}></Button>
-                    <Button onPress={createPostSubmit} title="Create Post" containerStyle={tw('w-full  mt-4 my-4')} buttonStyle={tw('rounded-lg')}></Button>
-                </View>
+            />
+        </View>
+        <View style={tw('flex items-center justify-center')}>
+            {!isPoll && images && images.length > 0 && (
+                <FlatList
+                    scrollEnabled={true}
+                    // nestedScrollEnabled={true}
+                    data={ images}
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    snapToAlignment='center'
+                    decelerationRate='fast'
+                    snapToInterval={windownWith}
+                    viewabilityConfig={{
+                    viewAreaCoveragePercentThreshold: 50,
+                    }}
+                    onViewableItemsChanged={onViewableItemsChanged.current}
+                    keyExtractor={(item: string) => item}
+                    renderItem={handlerRenderImages}
+                    style={tw('mb-4')}
+                />
             )}
-
-            {isPoll && (
-                 <View style={tw('px-2')}>
-                
-                 <TextInput  placeholder='caption' value={content} onChangeText={(text: string) => setContent(text)} style={tw(' my-4 py-2 px-4 w-full bg-gray-200 text-base  rounded-lg')}></TextInput>
-
-                 <View style={tw('w-full flex-wrap flex-row items-center justify-start')}>
-                     {tags && tags.length > 0 &&  tags.map((ta, index) =>  
-                  
-                      <TouchableOpacity onPress={() => deleteTagFunction(ta)} style={tw('')}>
-                         <Badge key={index}    containerStyle={tw('my-2 mx-2 text-base')} badgeStyle={tw('w-20 h-10 rounded-full p-2')}   textStyle={tw('text-white text-base')} value={ta} status="primary" />
-                     </TouchableOpacity>
-                     )}
-                 </View>
-                 <TextInput  placeholder='Tag' value={tag} onChangeText={(text: string) => {setTag(text)}}  style={tw(' my-4 py-2 px-4 w-full bg-gray-200 text-base  rounded-lg')}></TextInput>
-                 <Button title="Add Tag" containerStyle={tw('w-1/3 mb-4')} buttonStyle={tw('rounded-lg')} onPress={addTag}></Button>
-                 <TextInput  placeholder='Ask a Question' value={question} onChangeText={(text: string) => setQuestion(text)} style={tw(' my-4 py-2 px-4 w-full bg-gray-200 text-base  rounded-lg')}></TextInput>
-
-                 <View style={tw('w-full px-2 my-2 py-2 rounded-lg border border-gray-300')}>
-                    {choices && choices.length > 0 && choices.map((choice, index) => <PollChoice removeChoice={removeChoice} handleChoiceChange={handleChoiceChange} key={index} choice={choice} index={index}></PollChoice>)}
-                    <Button title="More Choice" containerStyle={tw('w-1/3 mb-4')} buttonStyle={tw('rounded-lg')} onPress={addChoice}></Button>
-                    <Text style={tw('text-gray-300 mb-2')}>Max 5 choices And Min 2 choices</Text>
-                    <View style={tw('flex-row items-center justify-start my-2')}>
-                        <Text style={tw('text-lg mr-10')}>Voting Time:</Text>
-                        <Picker
-                            selectedValue={dayExpire}
-                            onValueChange={(itemValue) => setDayExpire(itemValue)}
-                            style={tw('w-1/3 bg-gray-200 rounded-lg')}
-                            >
-                            {[1, 2, 3, 4, 5].map(day => <Picker.Item value={day} label={day != 1 ? day + " days" : day + " day"}></Picker.Item>)}
-                        </Picker>
-                    </View>
-                 </View>
-
-                 <Button onPress={createPollSubmit} title="Create Poll" containerStyle={tw('w-full  mt-4 my-4')} buttonStyle={tw('rounded-lg')}></Button>
-             </View>
+            {!isPoll && images && images.length > 0 && (
+                <PostCardDot activeIndex={activeIndex} arrayLength={images && images.length > 0 ?  images?.length : 0}></PostCardDot>
             )}
-             
-        </SafeAreaView>
-    </TouchableWithoutFeedback>
-   </KeyboardAwareScrollView>
+        </View>
+        <KeyboardAvoidingView style={tw('flex-1')} 
+        >
+            <TouchableWithoutFeedback style={tw('flex-1')} onPress={Keyboard.dismiss} >
+                <SafeAreaView style={tw('flex-1 bg-gray-100')}>
+                    {!isPoll && (
+                        <View style={tw('px-2')}>
+                            <Button onPress={addImages} title="add Images" containerStyle={tw('w-full  mt-4 my-4')} buttonStyle={tw('rounded-lg')}></Button>
+                            <TextInput  placeholder='caption' value={content} onChangeText={(text: string) => setContent(text)} style={tw(' my-4 py-2 px-4 w-full bg-gray-200 text-base  rounded-lg')}></TextInput>
+
+                            <View style={tw('w-full flex-wrap flex-row items-center justify-start')}>
+                                {tags && tags.length > 0 &&  tags.map((ta, index) =>  
+                            
+                                <TouchableOpacity key={index} onPress={() => deleteTagFunction(ta)} style={tw('')}>
+                                    <Badge key={index}    containerStyle={tw('my-2 mx-2 text-base')} badgeStyle={tw('w-20 h-10 rounded-full p-2')}   textStyle={tw('text-white text-base')} value={ta} status="primary" />
+                                </TouchableOpacity>
+                                )}
+                            </View>
+                            <TextInput  placeholder='Tag' value={tag} onChangeText={(text: string) => {setTag(text)}}  style={tw(' my-4 py-2 px-4 w-full bg-gray-200 text-base  rounded-lg')}></TextInput>
+                            <Button title="Add Tag" containerStyle={tw('w-1/3 mb-4')} buttonStyle={tw('rounded-lg')} onPress={addTag}></Button>
+                            <Button onPress={createPostSubmit} title="Create Post" containerStyle={tw('w-full  mt-4 my-4')} buttonStyle={tw('rounded-lg')}></Button>
+                        </View>
+                    )}
+
+                    {isPoll && (
+                        <View style={tw('px-2')}>
+                        
+                        <TextInput  placeholder='caption' value={content} onChangeText={(text: string) => setContent(text)} style={tw(' my-4 py-2 px-4 w-full bg-gray-200 text-base  rounded-lg')}></TextInput>
+
+                        <View style={tw('w-full flex-wrap flex-row items-center justify-start')}>
+                            {tags && tags.length > 0 &&  tags.map((ta, index) =>  
+                        
+                            <TouchableOpacity key={index} onPress={() => deleteTagFunction(ta)} style={tw('')}>
+                                <Badge key={index}    containerStyle={tw('my-2 mx-2 text-base')} badgeStyle={tw('w-20 h-10 rounded-full p-2')}   textStyle={tw('text-white text-base')} value={ta} status="primary" />
+                            </TouchableOpacity>
+                            )}
+                        </View>
+                        <TextInput  placeholder='Tag' value={tag} onChangeText={(text: string) => {setTag(text)}}  style={tw(' my-4 py-2 px-4 w-full bg-gray-200 text-base  rounded-lg')}></TextInput>
+                        <Button title="Add Tag" containerStyle={tw('w-1/3 mb-4')} buttonStyle={tw('rounded-lg')} onPress={addTag}></Button>
+                        <TextInput  placeholder='Ask a Question' value={question} onChangeText={(text: string) => setQuestion(text)} style={tw(' my-4 py-2 px-4 w-full bg-gray-200 text-base  rounded-lg')}></TextInput>
+
+                        <View style={tw('w-full px-2 my-2 py-2 rounded-lg border border-gray-300')}>
+                            {choices && choices.length > 0 && choices.map((choice, index) => <PollChoice removeChoice={removeChoice} handleChoiceChange={handleChoiceChange} key={index} choice={choice} index={index}></PollChoice>)}
+                            <Button title="More Choice" containerStyle={tw('w-1/3 mb-4')} buttonStyle={tw('rounded-lg')} onPress={addChoice}></Button>
+                            <Text style={tw('text-gray-300 mb-2')}>Max 5 choices And Min 2 choices</Text>
+                            <View style={tw('flex-row items-center justify-start my-2')}>
+                                <Text style={tw('text-lg mr-10')}>Voting Time:</Text>
+                                <Picker
+                                    selectedValue={dayExpire}
+                                    onValueChange={(itemValue) => setDayExpire(itemValue)}
+                                    style={tw('w-1/3 bg-gray-200 rounded-lg')}
+                                    >
+                                    {[1, 2, 3, 4, 5].map(day => <Picker.Item value={day} label={day != 1 ? day + " days" : day + " day"}></Picker.Item>)}
+                                </Picker>
+                            </View>
+                        </View>
+
+                        <Button onPress={createPollSubmit} title="Create Poll" containerStyle={tw('w-full  mt-4 my-4')} buttonStyle={tw('rounded-lg')}></Button>
+                    </View>
+                    )}
+                    
+                </SafeAreaView>
+            </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   )
 }
 

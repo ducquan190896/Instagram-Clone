@@ -164,35 +164,37 @@ const OtherUserHomeScreen = () => {
     // }
 
   return (
-    <SafeAreaView style={tw('flex-1')}>
+    <SafeAreaView style={tw('flex-1 bg-white')}>
         <View style={tw('flex-1')}>
             {otherUser && (
                 <>
+                    <View style={[tw('bg-white'), styles.shadow]}>
                     <View style={tw('flex-row px-2 items-center justify-center mt-2')}>
                         <View style={tw('items-center justify-center mr-10')}>
                             <Image style={[tw('w-16 h-16 rounded-full bg-white mb-2'), {resizeMode: 'contain'}]} source={otherUser.avatarUrl ? {uri: RootURL + otherUser.avatarUrl}: require("../assets/download.png")}></Image>
-                            <Text style={tw('text-lg font-bold')}>{otherUser.username}</Text>
+                            <Text style={tw('text-lg font-bold text-[#03b1fc]')}>{otherUser.username}</Text>
                         </View>
                         <View style={tw('items-center justify-center mx-2')}>
-                            <Text style={tw('text-2xl font-bold')}>{otherUser.postCounts}</Text>
-                            <Text style={tw('text-lg   mt-2')}>Posts</Text>
+                            <Text style={tw('text-2xl font-bold text-[#03b1fc]')}>{otherUser.postCounts}</Text>
+                            <Text style={tw('text-sm text-gray-500  mt-2')}>Posts</Text>
                         </View>
                         <TouchableOpacity onPress={navigateToFollowerScreen} style={tw('items-center justify-center mx-2')}>
-                            <Text style={tw('text-2xl font-bold')}>{otherUser.followersCount}</Text>
-                            <Text style={tw('text-lg   mt-2')}>Followers</Text>
+                            <Text style={tw('text-2xl font-bold text-[#03b1fc]')}>{otherUser.followersCount}</Text>
+                            <Text style={tw('text-sm text-gray-500  mt-2')}>Followers</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={navigateToFollowingScreen} style={tw('items-center justify-center mx-2')}>
-                            <Text style={tw('text-2xl font-bold')}>{otherUser.followingsCount}</Text>
-                            <Text style={tw('text-lg   mt-2')}>Followings</Text>
+                            <Text style={tw('text-2xl font-bold text-[#03b1fc]')}>{otherUser.followingsCount}</Text>
+                            <Text style={tw('text-sm text-gray-500  mt-2')}>Followings</Text>
                         </TouchableOpacity>
                     </View>
                     {user?.id != userId && (
                          <View style={tw('flex-row items-center justify-center px-10 my-2')}>
-                            <Button onPress={CheckFollowingFunction} titleStyle={tw('text-black')} title={isFollowing == true ? "Unfollow" : "Follow"} buttonStyle={tw('rounded-lg bg-gray-300  px-4 mr-10')}></Button>
-                            <Button onPress={NavigateToMessageScreen} titleStyle={tw('text-black')} title="Message" buttonStyle={tw('rounded-lg bg-gray-300 px-6')}></Button>
+                            <Button onPress={CheckFollowingFunction} titleStyle={tw('text-[#03b1fc]')} title={isFollowing == true ? "Unfollow" : "Follow"} buttonStyle={tw('rounded-lg bg-gray-200  px-4 mr-10')}></Button>
+                            <Button onPress={NavigateToMessageScreen} titleStyle={tw('text-[#03b1fc]')} title="Message" buttonStyle={tw('rounded-lg bg-gray-200 px-6')}></Button>
                         </View>
                     )}
-                    <View style={[tw('w-full mb-2 bg-gray-400'), {height: 2}]}></View>
+                    </View>
+                    {/* <View style={[tw('w-full mb-2 bg-gray-400'), {height: 2}]}></View> */}
                     {!isLoading && posts && (posts as Post[]).length <= 0 && (
                         <View style={tw('flex-1 items-center justify-center')}>
                             <Text style={tw('text-lg font-bold text-center')}>No Posts</Text>
@@ -216,4 +218,16 @@ const OtherUserHomeScreen = () => {
 
 export default OtherUserHomeScreen
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    shadow: {
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 0.34,
+        shadowRadius: 6.27,
+
+        elevation: 10,
+    }
+})

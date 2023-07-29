@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,8 @@ import instagram.com.backend.Service.MessageService;
 public class MessageController {
     @Autowired
     MessageService messageService;
+    @Autowired
+    SimpMessagingTemplate simpMessagingTemplate;
 
     @CrossOrigin
     @GetMapping("/chat/{chatId}")
@@ -35,7 +38,10 @@ public class MessageController {
     @CrossOrigin
     @PostMapping("/addMessage")
     public ResponseEntity<MessageResponse> addMessage(@Valid @RequestBody MessageRequest messageRequest ) {
-        return new ResponseEntity<MessageResponse>(messageService.addMessage(messageRequest), HttpStatus.CREATED);
+        MessageResponse res = messageService.addMessage(messageRequest);
+        simpMessagingTemplate.convertAndSend("/chatroom/" + res.getChatId(), res);
+        return new ResponseEntity<MessageResponse>(res, HttpStatus.CREATED);
+
     }
 
     @CrossOrigin

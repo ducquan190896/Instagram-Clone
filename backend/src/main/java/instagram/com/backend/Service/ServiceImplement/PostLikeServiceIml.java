@@ -58,7 +58,7 @@ public class PostLikeServiceIml implements PostLikeService {
         authUser.getPostLikes().add(postLike);
         post.getPostLikes().add(postLike);
         post.setLikeCount(post.getLikeCount() + 1);
-
+        postRepos.save(post);
         PostLikeResponse postLikeResponse = postLikeMapper.mapPostLikeToResponse(postLike);
         return postLikeResponse;
     }

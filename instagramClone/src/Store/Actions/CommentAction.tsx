@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import { Dispatch } from "react"
 import { ACTION } from "../Reducers/UserReducer"
 import { RootURL } from "../Store"
+import { COMMENT } from "../Reducers/CommentReducer"
 
 export interface CommentOfPost {
     content: string,
@@ -113,5 +114,12 @@ export const addCommentToParentComment = (commentFormOfParentComment: CommentOfC
 export const resetCommentAction = () => (dispatch: Dispatch<ACTION>, getState: any) =>{
     dispatch({
         type: "reset_comment"
+    })
+}
+
+export const ReceiveCommentFromWebSocket = (comment: COMMENT) => (dispatch: Dispatch<ACTION>, getState: any) =>{
+    dispatch({
+        type: "receive_comment_from_Websocket",
+        payload: comment
     })
 }

@@ -5,30 +5,21 @@ import { useTailwind } from 'tailwind-rn/dist'
 import { useDispatch, useSelector } from 'react-redux'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types';
 import { RootStackParamList } from '../Navigators/MainStack';
-
 import { RootState, RootURL } from '../Store/Store'
 import { getAllChatsByAuthAction, getChatByIdAction, getOrAddChatAction } from '../Store/Actions/ChatAction'
-import { CHAT } from '../Store/Reducers/ChatReducer'
-import ChatCard from '../Components/ChatCard'
 import { USER } from '../Store/Reducers/UserReducer'
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Octicons from 'react-native-vector-icons/Octicons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Feather from 'react-native-vector-icons/Feather';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Entypo from 'react-native-vector-icons/Entypo';
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import { Button } from '@rneui/base'
 import { RouteProp, useNavigation, useRoute, CompositeNavigationProp } from '@react-navigation/native'
-import { addMessageAction, clearMessagesAction, getMessagesOfChatAction } from '../Store/Actions/MessageAction'
+import { addMessageAction, clearMessagesAction, getMessagesOfChatAction, receiveMessageSocket } from '../Store/Actions/MessageAction'
 import { MESSAGE } from '../Store/Reducers/MessageReducer'
 import MessageItem from '../Components/MessageItem'
 import LoadingComponent from '../Components/LoadingComponent'
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { HomeStackParamList } from '../Navigators/HomeStack'
 import { UserBottomTabProps } from '../Navigators/UserBottomStack'
+import SockJS from "sockjs-client";
+import {over} from "stompjs"
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 type ChatsScreenNavigationProp = CompositeNavigationProp<
 NativeStackNavigationProp<RootStackParamList, "ConversationScreen">,
@@ -37,6 +28,7 @@ BottomTabNavigationProp<UserBottomTabProps>>;
 type ChatsScreenRouteProp = RouteProp<RootStackParamList, "ConversationScreen">;
 
 const ConversationScreen = () => {
+    const [stompClient, setStompClient] = useState<any | null>(null);
     const {chatId, chatPersonId} = useRoute<ChatsScreenRouteProp>()?.params
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
@@ -59,6 +51,7 @@ const ConversationScreen = () => {
       }
     }, [ chat, dispatch])
 
+
     const loadChat = useCallback(async () => {
       if (chatId) {
         await dispatch(getChatByIdAction(chatId) as any)
@@ -77,7 +70,10 @@ const ConversationScreen = () => {
       dispatch(clearMessagesAction() as any);
       setIsLoading(true)
       loadMessages().then(() => setIsLoading(false))
-    }, [chat, dispatch]) 
+      if(stompClient == null) {
+        connect();
+      }
+    }, [chat, dispatch, stompClient]) 
 
     useEffect(() => {
       if (chat && chat?.participantResponses && chat?.participantResponses.length > 0 ) {
@@ -88,6 +84,34 @@ const ConversationScreen = () => {
     useEffect(() => {
       scrollRef?.current?.scrollToEnd()
     }, [messages])
+
+    const connect = useCallback(async () => {
+      if(chat != null) {
+        const token = await AsyncStorage.getItem("token");
+        let sock = SockJS(RootURL + "/socket");
+        let stompClient = over(sock);
+        setStompClient(stompClient);
+        if(stompClient.status !== "CONNECTED") {
+          stompClient.connect({username: user.username, token: token}, (frame: any) => {
+            stompClient.subscribe("/chatroom/" + chat.id, messageReceived)
+          }, notConnected)
+        }
+      }
+    }, [stompClient, chat])
+
+    const messageReceived = (payload: any) => {
+      const message : MESSAGE =  JSON.parse(payload.body);
+      console.log("message received");
+      console.log(message);
+      if(message.participant.owner.id != user?.id) {
+        dispatch(receiveMessageSocket(message) as any);
+        console.log(payload.body);
+      }
+    }
+
+    const notConnected = () => {
+      console.log("not connected");
+    }
     
     const renderCommentItem: ListRenderItem<any> = ({item}: {item: MESSAGE}) => (
       <MessageItem item={item}></MessageItem>
@@ -130,29 +154,29 @@ const ConversationScreen = () => {
           </TouchableOpacity>
         }
       </View>
-      {messages && messages?.length > 0 && (
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          ref={scrollRef}
-          refreshing={isRefreshing}
-          onRefresh={loadMessages}
-          data={messages}
-          keyExtractor={(item) => item.id}
-          renderItem={renderCommentItem}
-          scrollEventThrottle={30}
-          // inverted
-          initialScrollIndex={0}
-          onContentSizeChange={() => scrollRef?.current?.scrollToEnd()}
-          style={[{height: height - 125}, tw('bg-gray-100 flex-1')]}
-        >
-        </FlatList>
-      )}
       <KeyboardAvoidingView style={tw('absolute bottom-0 w-full')}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>         
           <>
+            {messages && messages?.length > 0 && (
+              <FlatList
+                showsVerticalScrollIndicator={false}
+                ref={scrollRef}
+                refreshing={isRefreshing}
+                onRefresh={loadMessages}
+                data={messages}
+                keyExtractor={(item) => item.id}
+                renderItem={renderCommentItem}
+                scrollEventThrottle={30}
+                // inverted
+                initialScrollIndex={0}
+                onContentSizeChange={() => scrollRef?.current?.scrollToEnd()}
+                style={[{height: height - 125}, tw('bg-gray-100 flex-1')]}
+              >
+              </FlatList>
+            )}
             <View style={tw('w-full py-2 flex-row items-center justify-center')}>
               {user && <Image style={[tw('w-8 h-8 rounded-full bg-white ml-2 mr-2'), {resizeMode: 'contain'}]} source={user.avatarUrl ? {uri: RootURL + user.avatarUrl}: require("../assets/download.png")}></Image>}
-              <TextInput value={messageInput} onChangeText={(text: string) => setMessageInput(text)} placeholder='your comment'  style={tw('flex-1  text-base bg-gray-300 rounded-full py-2 px-6')} ></TextInput>
+              <TextInput value={messageInput} onChangeText={(text: string) => setMessageInput(text)} placeholder='your message'  style={tw('flex-1  text-base bg-gray-300 rounded-full py-2 px-6')} ></TextInput>
               <TouchableOpacity onPress={addMessageFunction}  style={tw('mx-2')}>
                 <Ionicons name="send-sharp" size={24} color="#3b82f6" />
               </TouchableOpacity>

@@ -31,13 +31,6 @@ const StoryCreateForm = () => {
     const navigation = useNavigation<StoryCreateFormNavigationProp>()
 
     const addImagesFunction = async () => {
-        // const results = await ImagePicker.launchImageLibraryAsync({
-        //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        //     allowsMultipleSelection: true,
-        //     selectionLimit: 3,
-        //     quality: 1,
-        //     aspect: [4, 3]
-        // })
         const results: any = await launchImageLibrary({
             mediaType: 'photo',
             quality: 1,
@@ -74,8 +67,7 @@ const StoryCreateForm = () => {
         setImages(imageUrls)
         // setIsAddImage(true)
     }
-    const handleRenderItem: ListRenderItem<any> = ({item, index}) => (
-        // <Image key={index}  style={[tw('text-base'), {width: windownWith, height: 300, resizeMode: 'cover'}]} source={item ? {uri:  RootURL + item}: require("../assets/download.png")}></Image>      
+    const handleRenderItem: ListRenderItem<any> = ({item, index}) => (   
         <Image source={{uri:  RootURL + item}} style={[tw('text-base'), {width: windownWith, height: 400, resizeMode: 'cover'}]}></Image>   
     )
 

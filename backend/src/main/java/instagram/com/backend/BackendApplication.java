@@ -55,20 +55,20 @@ public class BackendApplication {
 			usersRepos.save(quan);
 			usersRepos.save(quan2);
 			usersRepos.save(quan3);
-			// // followService.followUser(quan, quan2);
+			// followService.followUser(quan, quan2);
 
-			// Tag tag1 = new Tag("helsinki");
-			// tagRepos.save(tag1);
+			Tag tag1 = new Tag("helsinki");
+			tagRepos.save(tag1);
 
-			// Post post1 = new Post("hello instagram", quan);
-			// postRepos.save(post1);
+			Post post1 = new Post("hello instagram", quan);
+			postRepos.save(post1);
 
 
-			// Post post2 = new Post("hello instagram 2", quan2);
-			// tag1.addTagToPost(post2);
+			Post post2 = new Post("hello instagram 2", quan2);
+			tag1.addTagToPost(post2);
 			
-			// postRepos.save(post2);
-			// tagRepos.save(tag1);
+			postRepos.save(post2);
+			tagRepos.save(tag1);
 
 			// Post post3 = new Post("hello instagram 2", quan3);
 			// postRepos.save(post3);

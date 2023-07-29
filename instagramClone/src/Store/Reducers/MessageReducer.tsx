@@ -42,6 +42,13 @@ export default (state: declaredState = initialState, action: ACTION) => {
                 message: action.payload,
                 messages: [...state.messages, action.payload]
             }
+        case "receive_message_from_websocket":
+            return {
+                ...state,
+                messageSuccess: true,
+                message: action.payload,
+                messages: [...state.messages, action.payload]
+            }
         case "clear_messages":
             return {
                 ...state,

@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,15 +25,21 @@ import instagram.com.backend.Service.CommentService;
 public class CommentController {
     @Autowired
     CommentService commentService;
+    @Autowired
+    SimpMessagingTemplate simpMessagingTemplate;
 
     @PostMapping("/addCommentToPost")
     public ResponseEntity<CommentResponse> addCommentToPost(@Valid @RequestBody CommentRequest commentRequest) {
-        return new ResponseEntity<>(commentService.addCommentToPost(commentRequest), HttpStatus.CREATED);
+        CommentResponse res = commentService.addCommentToPost(commentRequest);
+        simpMessagingTemplate.convertAndSend("/post/" + res.getPostResponse().getId(), res);
+        return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
     
     @PostMapping("/addCommentToParentComment")
     public ResponseEntity<CommentResponse> addCommentToParentComment(@Valid @RequestBody CommentRequest commentRequest) {
-        return new ResponseEntity<>(commentService.addCommentToParentComment(commentRequest), HttpStatus.CREATED);
+        CommentResponse res = commentService.addCommentToParentComment(commentRequest);
+        simpMessagingTemplate.convertAndSend("/post/" + res.getPostResponse().getId(), res);
+        return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
 
     // can be accessed by anyone without authentication

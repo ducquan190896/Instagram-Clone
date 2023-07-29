@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState, RootURL } from '../Store/Store'
 import { useTailwind } from 'tailwind-rn/dist'
-import { addCommentToParentComment, addCommentToPost, getCommentsOfPost, resetCommentAction } from '../Store/Actions/CommentAction'
+import { ReceiveCommentFromWebSocket, addCommentToParentComment, addCommentToPost, getCommentsOfPost, resetCommentAction } from '../Store/Actions/CommentAction'
 import { COMMENT } from '../Store/Reducers/CommentReducer'
 import LoadingComponent from '../Components/LoadingComponent'
 import { useNavigation, useRoute, CompositeNavigationProp, RouteProp } from '@react-navigation/native';
@@ -12,16 +12,12 @@ import { RootStackParamList } from '../Navigators/MainStack';
 import { SafeAreaView } from 'react-native-safe-area-context'
 import CommentItem from '../Components/CommentItem'
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Octicons from 'react-native-vector-icons/Octicons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Feather from 'react-native-vector-icons/Feather';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Entypo from 'react-native-vector-icons/Entypo';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { HomeStackParamList } from '../Navigators/HomeStack'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import SockJS from "sockjs-client";
+import {over} from "stompjs"
 
 type CommentScreenNavigationProp = CompositeNavigationProp<
 NativeStackNavigationProp<RootStackParamList, "CommentScreen">,
@@ -30,8 +26,8 @@ BottomTabNavigationProp<HomeStackParamList>>;
 type CommentScreenRouteProp = RouteProp<RootStackParamList, "CommentScreen">;
 
 const CommentScreen = () => {
-    const {params} = useRoute<CommentScreenRouteProp>();
-    const {postId} = params;
+    const [stompClient, setStompClient] = useState<any | null>(null);
+    const {postId} = useRoute<CommentScreenRouteProp>().params;
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [isRefreshing, setIsRefreshing] = useState<boolean>(false)
     const [isReply, setIsReply] = useState<boolean>(false)
@@ -41,18 +37,15 @@ const CommentScreen = () => {
     const dispatch = useDispatch()
     const tw = useTailwind();
     const height: number = Dimensions.get("window").height
-   
     const {comments, commentSuccess, commentError, comment} = useSelector((state: RootState) => state.COMMENTS);
     const {user, userSuccess, userError} = useSelector((state: RootState) => state.USERS)
     const navigation = useNavigation<CommentScreenNavigationProp>();
     const scrollRef = useRef<FlatList>(null)
 
     const loadCommentsOfPost = useCallback(async () => {
-      //  if(!isRefreshing) {
         setIsRefreshing(true)
         dispatch(getCommentsOfPost(postId) as any)
         setIsRefreshing(false)
-      //  }
     }, [postId, comments])
 
     useEffect(() => {
@@ -61,20 +54,48 @@ const CommentScreen = () => {
     }, [postId])
 
     useEffect(() => {
+      if(stompClient == null && postId) {
+        connect();
+      }
+    }, [stompClient, postId])
+
+    useEffect(() => {
       scrollRef.current?.scrollToEnd()
     }, [comments])
-
-    // useEffect(() => {
-    //   if(commentError || commentSuccess) {
-    //     dispatch(resetCommentAction() as any)
-    //   }
-    // }, [commentSuccess, commentError])
 
     useLayoutEffect(() => {
       navigation.setOptions({
         title: "Comments"
       })
     })
+
+    const connect = useCallback(async () => {
+      if(postId) {
+        const token = await AsyncStorage.getItem("token");
+        let sock = SockJS(RootURL + "/socket");
+        let stompClient = over(sock);
+        setStompClient(stompClient);
+        if(stompClient.status !== "CONNECTED") {
+          stompClient.connect({username: user.username, token: token}, (frame: any) => {
+            stompClient.subscribe("/post/" + postId, messageReceived)
+          }, notConnected)
+        }
+      }
+    }, [stompClient, postId])
+
+    const messageReceived = (payload: any) => {
+      const comment : COMMENT =  JSON.parse(payload.body);
+      console.log("message received");
+      console.log(comment);
+      if(comment.ownerResposne.id != user?.id) {
+        dispatch(ReceiveCommentFromWebSocket(comment) as any);
+        console.log(payload.body);
+      }
+    }
+
+    const notConnected = () => {
+      console.log("not connected");
+    }
 
     const renderCommentItem: ListRenderItem<any> = ({item}: {item: COMMENT}) => (
       <CommentItem item={item} setIsReply={setIsReply} setParent={setParent} setParentCommentId={setParentCommentId}></CommentItem>

@@ -36,7 +36,8 @@ const UserBottomStack = () => {
             screenOptions={{
                 tabBarShowLabel: false,
                 tabBarInactiveTintColor: '#c7c9c9',
-                tabBarActiveTintColor: '#03b1fc'
+                tabBarActiveTintColor: '#03b1fc',
+                unmountOnBlur: true
             }}
             initialRouteName='HomeStack'
         >

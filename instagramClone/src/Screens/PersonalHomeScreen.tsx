@@ -117,25 +117,25 @@ const PersonalHomeScreen = () => {
                         <View style={tw('flex-row px-2 items-center justify-center mt-2')}>
                             <View style={tw('items-center justify-center mr-10')}>
                                 <Image style={[tw('w-16 h-16 rounded-full bg-white'), {resizeMode: 'contain'}]} source={user.avatarUrl ? {uri: RootURL + user.avatarUrl}: require("../assets/download.png")}></Image>
-                                <Text style={tw('text-lg font-bold text-black')}>{user.username}</Text>
+                                <Text style={tw('text-lg font-bold text-[#03b1fc]')}>{user.username}</Text>
                             </View>
                             <View style={tw('items-center justify-center mx-2')}>
-                                <Text style={tw('text-2xl font-bold text-black')}>{user.postCounts}</Text>
-                                <Text style={tw('text-base text-black  mt-2')}>Posts</Text>              
+                                <Text style={tw('text-2xl font-bold text-[#03b1fc]')}>{user.postCounts}</Text>
+                                <Text style={tw('text-base text-gray-500  mt-2')}>Posts</Text>              
                             </View>
                             <TouchableOpacity onPress={navigateToFollowerScreen} style={tw('items-center justify-center mx-2')}>
-                                <Text style={tw('text-2xl font-bold text-black')}>{user.followersCount}</Text>
-                                <Text style={tw('text-base text-black  mt-2')}>Followers</Text>              
+                                <Text style={tw('text-2xl font-bold text-[#03b1fc]')}>{user.followersCount}</Text>
+                                <Text style={tw('text-base text-gray-500  mt-2')}>Followers</Text>              
                             </TouchableOpacity>
                             <TouchableOpacity onPress={navigateToFollowingScreen} style={tw('items-center justify-center mx-2')}>
-                                <Text style={tw('text-2xl font-bold text-black')}>{user.followingsCount}</Text>
-                                <Text style={tw('text-base text-black  mt-2')}>Followings</Text>              
+                                <Text style={tw('text-2xl font-bold text-[#03b1fc]')}>{user.followingsCount}</Text>
+                                <Text style={tw('text-base text-gray-500  mt-2')}>Followings</Text>              
                             </TouchableOpacity>
                         </View>
                         
                         <View style={tw('flex-row items-center justify-between px-10 my-2')}>
-                            <Button onPress={navigateToChangePasswordScreen} titleStyle={tw('text-black')} title="Edit Password" buttonStyle={tw('rounded-lg bg-gray-300  px-4')}></Button>
-                            <Button onPress={deactivateAccountFunction} titleStyle={tw('text-black')} title="Deactive Account" buttonStyle={tw('rounded-lg bg-gray-300 px-4')}></Button>
+                            <Button onPress={navigateToChangePasswordScreen} titleStyle={tw('text-[#03b1fc]')} title="Edit Password" buttonStyle={tw('rounded-lg bg-gray-200  px-4')}></Button>
+                            <Button onPress={deactivateAccountFunction} titleStyle={tw('text-[#03b1fc]')} title="Deactive Account" buttonStyle={tw('rounded-lg bg-gray-200 px-4')}></Button>
                         </View> 
                     </View>
                     {/* <View style={[tw('w-full mb-2 bg-gray-400'), {height: 2}]}></View> */}

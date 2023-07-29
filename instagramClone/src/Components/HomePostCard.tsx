@@ -201,7 +201,7 @@ const HomePostCard = ({post, isLoading, setIsLoading, navigation}: {post: Post, 
               </TouchableOpacity>
             )}
         </View>
-        {!post?.poll && (
+        {!post?.poll && post?.imageUrls.length > 1 && (
           <PostCardDot activeIndex={activeIndex} arrayLength={post?.imageUrls && post?.imageUrls.length > 0 ?  post?.imageUrls?.length : imagesDefault.length}></PostCardDot>
         )}
       </View>
