@@ -6,8 +6,9 @@ link: https://www.youtube.com/watch?v=l0iY1lV46pQ
 
 # Features
 - Login and Register as a user
+- Follow/Unfollow users
 - Create posts with multiple images
-- Create poll with multiple choices for voting within chosen length of time
+- Create poll with multiple choices for voting within a chosen length of time
 - Vote for polls before the poll expires
 - Comment on post and poll in real time
 - Create stories with multiple images
