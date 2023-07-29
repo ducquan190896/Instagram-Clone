@@ -19,7 +19,7 @@ link: https://www.youtube.com/watch?v=l0iY1lV46pQ
 - Chat with other users in real time
 
 # Technologies
-- SpringBoot, Spring Security
+- SpringBoot, Spring Security, Maven
 - WebSocket
 - PostgresSQL
 - React-Native
