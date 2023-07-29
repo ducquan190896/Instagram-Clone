@@ -64,12 +64,14 @@ const ChatsScreen = () => {
         <KeyboardAvoidingView style={tw('flex-1')}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={tw('bg-white')}>
-                    <Pressable onPress={() => navigation.navigate("ChatSearchScreen")} style={[tw('w-full relative  my-2 px-4')]}>
-                        <View  style={tw('rounded-full h-10 py-2 text-lg pl-12 bg-gray-200 text-black')} ></View>
-                        <View style={tw('mx-2 absolute top-2 left-4')}>
-                            <Entypo name="magnifying-glass" size={28} color="black" />
-                        </View>
-                    </Pressable>
+                    {chats?.length > 5 && (
+                        <Pressable onPress={() => navigation.navigate("ChatSearchScreen")} style={[tw('w-full relative  my-2 px-4')]}>
+                            <View  style={tw('rounded-full h-10 py-2 text-lg pl-12 bg-gray-200 text-black')} ></View>
+                            <View style={tw('mx-2 absolute top-2 left-4')}>
+                                <Entypo name="magnifying-glass" size={28} color="black" />
+                            </View>
+                        </Pressable>
+                    )}
                     <FlatList 
                         refreshing={isRefreshing}
                         onRefresh={loadChatsByAuthUser}

@@ -196,7 +196,7 @@ const StoryScreen = () => {
     return (
         <SafeAreaView style={[{height: "100%"}]}>
             <TouchableWithoutFeedback onPress={handlePress}>
-                <ImageBackground style={[tw('flex-1'), { resizeMode: 'center'}]} source={story && story?.imageUrls && story?.imageUrls?.length > 0 ? {uri: RootURL + story?.imageUrls[activeIndex]} : require("../assets/skysports-cristiano-ronaldo_5823297.jpg")}> 
+                <ImageBackground style={[tw('flex-1 bg-black'), { resizeMode: "cover"}]} imageStyle={{resizeMode: "contain"}} source={story && story?.imageUrls && story?.imageUrls?.length > 0 ? {uri: RootURL + story?.imageUrls[activeIndex]} : require("../assets/skysports-cristiano-ronaldo_5823297.jpg")}> 
                     { story?.imageUrls && story?.imageUrls?.length > 0 && (
                         <View style={tw('flex-row w-full mt-2 mb-4 items-center justify-between px-2')}>
                             {story?.imageUrls && story?.imageUrls.length > 0 && story?.imageUrls.map((img: string, index: number) => <View key={index} style={[tw(`rounded-full ${index <= activeIndex ? "bg-blue-500": "bg-gray-300"}`), {height: 4, paddingRight: 2, width: `${(1 / story?.imageUrls.length * 100) - 2}%`}]}></View>)}
@@ -204,7 +204,7 @@ const StoryScreen = () => {
                     )}
                     <View style={tw(' flex-row items-center  justify-between px-6')} >
                         <Image style={[tw('w-14 h-14 rounded-full bg-white'), {resizeMode: 'contain'}]} source={story?.owner?.avatarUrl ? {uri: RootURL + story?.owner?.avatarUrl}: require("../assets/download.png")}></Image>
-                        <Text  style={tw('text-xs')}>{story?.id}</Text>
+                        {/* <Text  style={tw('text-xs')}>{story?.id}</Text> */}
                         <View style={tw('flex-row items-center')}>
                             <TouchableOpacity onPress={handleLikeStory} style={tw('')}>
                                 {isLike == true ? <Entypo name="heart" size={32} color="red" /> :<Entypo name="heart" size={32} color="white" />}         

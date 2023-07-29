@@ -78,8 +78,9 @@ const SearchScreen = () => {
     </KeyboardAvoidingView>
     <Tab.Navigator
       screenOptions={{
-        tabBarActiveTintColor: "blue",
-        tabBarLabelStyle: {fontSize: 14, color: "#3b82f6", fontWeight: 'bold'},
+        tabBarActiveTintColor: "#03b1fc",
+        tabBarIndicatorStyle: {backgroundColor: "#03b1fc"},
+        tabBarLabelStyle: {fontSize: 14, color: "#03b1fc", fontWeight: 'bold'},
         tabBarStyle: {marginTop: 0, paddingTop: 0}
       }}
       tabBarPosition='top'

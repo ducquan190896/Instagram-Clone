@@ -41,7 +41,7 @@ const HomePostCard = ({post, isLoading, setIsLoading, navigation}: {post: Post, 
     let timeOfPosting2 = ( currentTime.getTime() - dateOfPost.getTime()) / 1000 / 60 
 
     const handleRenderItem: ListRenderItem<any> = ({item}) => (
-      <Image source={post?.imageUrls && post?.imageUrls.length > 0 ? {uri: RootURL + item} : item} style={[tw('text-base'), {width: windownWith, height: 400, resizeMode: 'cover'}]}></Image>       
+      <Image source={post?.imageUrls && post?.imageUrls.length > 0 ? {uri: RootURL + item} : item} style={[tw('text-base'), {width: windownWith, height: 300, resizeMode: 'cover'}]}></Image>       
     )
 
     const onViewableItemsChanged = useRef(({viewableItems, changed}: {viewableItems: any, changed: any}) => {

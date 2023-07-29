@@ -154,9 +154,10 @@ const ConversationScreen = () => {
           </TouchableOpacity>
         }
       </View>
-      <KeyboardAvoidingView style={tw('absolute bottom-0 w-full')}>
+      <KeyboardAvoidingView style={tw('absolute bottom-0 w-full flex-1')}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>         
           <>
+            <View style={tw('flex-1')}>
             {messages && messages?.length > 0 && (
               <FlatList
                 showsVerticalScrollIndicator={false}
@@ -174,6 +175,7 @@ const ConversationScreen = () => {
               >
               </FlatList>
             )}
+            </View>
             <View style={tw('w-full py-2 flex-row items-center justify-center')}>
               {user && <Image style={[tw('w-8 h-8 rounded-full bg-white ml-2 mr-2'), {resizeMode: 'contain'}]} source={user.avatarUrl ? {uri: RootURL + user.avatarUrl}: require("../assets/download.png")}></Image>}
               <TextInput value={messageInput} onChangeText={(text: string) => setMessageInput(text)} placeholder='your message'  style={tw('flex-1  text-base bg-gray-300 rounded-full py-2 px-6')} ></TextInput>

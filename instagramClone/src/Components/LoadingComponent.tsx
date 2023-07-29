@@ -6,7 +6,7 @@ const LoadingComponent = () => {
   const tw = useTailwind()
   return (
     <View style={tw('flex-1 items-center justify-center')}>
-      <ActivityIndicator size={50} color="blue"></ActivityIndicator>
+      <ActivityIndicator size={50} color="#03b1fc"></ActivityIndicator>
     </View>
   )
 }

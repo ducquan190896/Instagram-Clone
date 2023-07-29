@@ -186,7 +186,8 @@ const CreatePostForm = () => {
                 uncheckedIcon="circle-o"
                 checked={isPoll}
                 onPress={() => setIsPoll(!isPoll)}
-                containerStyle={tw('bg-gray-100')}
+                containerStyle={tw('bg-gray-100 ')}
+                style={tw('bg-[#03b1fc]')}
             />
         </View>
         <View style={tw('flex items-center justify-center')}>
@@ -219,7 +220,7 @@ const CreatePostForm = () => {
                 <SafeAreaView style={tw('flex-1 bg-gray-100')}>
                     {!isPoll && (
                         <View style={tw('px-2')}>
-                            <Button onPress={addImages} title="add Images" containerStyle={tw('w-full  mt-4 my-4')} buttonStyle={tw('rounded-lg')}></Button>
+                            <Button onPress={addImages} title="add Images" containerStyle={tw('w-full  mt-4 my-4 bg-[#03b1fc]')} buttonStyle={tw('rounded-lg bg-[#03b1fc]')}></Button>
                             <TextInput  placeholder='caption' value={content} onChangeText={(text: string) => setContent(text)} style={tw(' my-4 py-2 px-4 w-full bg-gray-200 text-base  rounded-lg')}></TextInput>
 
                             <View style={tw('w-full flex-wrap flex-row items-center justify-start')}>
@@ -231,8 +232,8 @@ const CreatePostForm = () => {
                                 )}
                             </View>
                             <TextInput  placeholder='Tag' value={tag} onChangeText={(text: string) => {setTag(text)}}  style={tw(' my-4 py-2 px-4 w-full bg-gray-200 text-base  rounded-lg')}></TextInput>
-                            <Button title="Add Tag" containerStyle={tw('w-1/3 mb-4')} buttonStyle={tw('rounded-lg')} onPress={addTag}></Button>
-                            <Button onPress={createPostSubmit} title="Create Post" containerStyle={tw('w-full  mt-4 my-4')} buttonStyle={tw('rounded-lg')}></Button>
+                            <Button title="Add Tag" containerStyle={tw('w-1/3 mb-4 bg-[#03b1fc]')} buttonStyle={tw('rounded-lg bg-[#03b1fc]')} onPress={addTag}></Button>
+                            <Button onPress={createPostSubmit} title="Create Post" containerStyle={tw('w-full  mt-4 my-4')} buttonStyle={tw('rounded-lg bg-[#03b1fc]')}></Button>
                         </View>
                     )}
 
@@ -245,17 +246,17 @@ const CreatePostForm = () => {
                             {tags && tags.length > 0 &&  tags.map((ta, index) =>  
                         
                             <TouchableOpacity key={index} onPress={() => deleteTagFunction(ta)} style={tw('')}>
-                                <Badge key={index}    containerStyle={tw('my-2 mx-2 text-base')} badgeStyle={tw('w-20 h-10 rounded-full p-2')}   textStyle={tw('text-white text-base')} value={ta} status="primary" />
+                                <Badge key={index}    containerStyle={tw('my-2 mx-2 text-base bg-[#03b1fc]')} badgeStyle={tw('w-20 h-10 rounded-full p-2 bg-[#03b1fc]')}   textStyle={tw('text-white text-base')} value={ta} status="primary" />
                             </TouchableOpacity>
                             )}
                         </View>
                         <TextInput  placeholder='Tag' value={tag} onChangeText={(text: string) => {setTag(text)}}  style={tw(' my-4 py-2 px-4 w-full bg-gray-200 text-base  rounded-lg')}></TextInput>
-                        <Button title="Add Tag" containerStyle={tw('w-1/3 mb-4')} buttonStyle={tw('rounded-lg')} onPress={addTag}></Button>
+                        <Button title="Add Tag" containerStyle={tw('w-1/3 mb-4')} buttonStyle={tw('rounded-lg bg-[#03b1fc]')} onPress={addTag}></Button>
                         <TextInput  placeholder='Ask a Question' value={question} onChangeText={(text: string) => setQuestion(text)} style={tw(' my-4 py-2 px-4 w-full bg-gray-200 text-base  rounded-lg')}></TextInput>
 
                         <View style={tw('w-full px-2 my-2 py-2 rounded-lg border border-gray-300')}>
                             {choices && choices.length > 0 && choices.map((choice, index) => <PollChoice removeChoice={removeChoice} handleChoiceChange={handleChoiceChange} key={index} choice={choice} index={index}></PollChoice>)}
-                            <Button title="More Choice" containerStyle={tw('w-1/3 mb-4')} buttonStyle={tw('rounded-lg')} onPress={addChoice}></Button>
+                            <Button title="More Choice" containerStyle={tw('w-1/3 mb-4')} buttonStyle={tw('rounded-lg bg-[#03b1fc]')} onPress={addChoice}></Button>
                             <Text style={tw('text-gray-300 mb-2')}>Max 5 choices And Min 2 choices</Text>
                             <View style={tw('flex-row items-center justify-start my-2')}>
                                 <Text style={tw('text-lg mr-10')}>Voting Time:</Text>
@@ -264,12 +265,12 @@ const CreatePostForm = () => {
                                     onValueChange={(itemValue) => setDayExpire(itemValue)}
                                     style={tw('w-1/3 bg-gray-200 rounded-lg')}
                                     >
-                                    {[1, 2, 3, 4, 5].map(day => <Picker.Item value={day} label={day != 1 ? day + " days" : day + " day"}></Picker.Item>)}
+                                    {[1, 2, 3, 4, 5].map(day => <Picker.Item key={day} value={day} label={day != 1 ? day + " days" : day + " day"}></Picker.Item>)}
                                 </Picker>
                             </View>
                         </View>
 
-                        <Button onPress={createPollSubmit} title="Create Poll" containerStyle={tw('w-full  mt-4 my-4')} buttonStyle={tw('rounded-lg')}></Button>
+                        <Button onPress={createPollSubmit} title="Create Poll" containerStyle={tw('w-full  mt-4 my-4')} buttonStyle={tw('rounded-lg bg-[#03b1fc]')}></Button>
                     </View>
                     )}
                     

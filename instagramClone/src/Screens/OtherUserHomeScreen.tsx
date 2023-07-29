@@ -51,7 +51,7 @@ const OtherUserHomeScreen = () => {
 
     const backToMainPageNavigation = () => {
         if(isSearch) {
-            navigation.navigate('UserBottomStack', {screen: "SearchScreen"});
+            navigation.navigate('Home');
         } else {
             navigation.goBack();
         }
